@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты анализов - LabHome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: #28a745;
+            color: white;
+            border: 2px solid #28a745;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: 2px solid #6c757d;
+        }
+
+        /* Основной контент */
+        .results-detail {
+            padding: 2rem 0;
+        }
+
+        .back-button {
+            margin-bottom: 1rem;
+        }
+
+        .patient-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .patient-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+        }
+
+        .analysis-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table th {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .results-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .results-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .parameter-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .parameter-value {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .parameter-value.normal {
+            color: #28a745;
+        }
+
+        .parameter-value.warning {
+            color: #ffc107;
+        }
+
+        .parameter-value.critical {
+            color: #dc3545;
+        }
+
+        .parameter-ref {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .parameter-units {
+            color: #666;
+            text-align: center;
+        }
+
+        .interpretation {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            border-left: 4px solid #007bff;
+        }
+
+        .interpretation.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .interpretation.critical {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .demo-banner {
+            background: #ffc107;
+            color: #856404;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">LabHome</div>
+                <div class="user-menu">
+                    <span>Иванов Иван</span>
+                    <a href="cabinet.html" class="btn btn-outline">← В кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Демо-баннер -->
+    <div class="container">
+        <div class="demo-banner">
+            🚀 <strong>Демо-режим</strong> - Детальные результаты анализов с нормами и интерпретацией
+        </div>
+    </div>
+
+    <!-- Детальные результаты -->
+    <div class="container">
+        <div class="results-detail">
+            <div class="back-button">
+                <a href="cabinet.html" class="btn btn-secondary">← Назад к заказам</a>
+            </div>
+
+            <!-- Информация о пациенте -->
+            <div class="patient-info">
+                <h2 style="margin-bottom: 1rem;">Результаты анализов #001</h2>
+                <div class="patient-info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Пациент:</span>
+                        <span class="info-value">Иванов Иван Иванович</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Дата рождения:</span>
+                        <span class="info-value">15.03.1985 (38 лет)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Дата забора:</span>
+                        <span class="info-value">15.01.2024</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Дата готовности:</span>
+                        <span class="info-value">16.01.2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Биохимический анализ крови -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <h2>🧪 Биохимический анализ крови</h2>
+                    <span class="btn btn-primary">В норме</span>
+                </div>
+                
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Результат</th>
+                            <th>Единицы</th>
+                            <th>Референсные значения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="parameter-name">Глюкоза</td>
+                            <td class="parameter-value normal">5.2</td>
+                            <td class="parameter-units">ммоль/л</td>
+                            <td class="parameter-ref">3.3 - 6.1</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Общий белок</td>
+                            <td class="parameter-value normal">72</td>
+                            <td class="parameter-units">г/л</td>
+                            <td class="parameter-ref">64 - 83</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">АЛТ (аланинаминотрансфераза)</td>
+                            <td class="parameter-value normal">28</td>
+                            <td class="parameter-units">Ед/л</td>
+                            <td class="parameter-ref">до 41</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">АСТ (аспартатаминотрансфераза)</td>
+                            <td class="parameter-value normal">25</td>
+                            <td class="parameter-units">Ед/л</td>
+                            <td class="parameter-ref">до 37</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Креатинин</td>
+                            <td class="parameter-value normal">88</td>
+                            <td class="parameter-units">мкмоль/л</td>
+                            <td class="parameter-ref">62 - 106</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Мочевина</td>
+                            <td class="parameter-value normal">5.8</td>
+                            <td class="parameter-units">ммоль/л</td>
+                            <td class="parameter-ref">2.8 - 7.2</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Общий холестерин</td>
+                            <td class="parameter-value warning">5.8</td>
+                            <td class="parameter-units">ммоль/л</td>
+                            <td class="parameter-ref">3.2 - 5.2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="interpretation">
+                    <strong>💡 Интерпретация:</strong> Показатели биохимического анализа в пределах нормы, за исключением незначительного повышения уровня общего холестерина. Рекомендуется контроль питания.
+                </div>
+            </div>
+
+            <!-- Общий анализ крови -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <h2>🩸 Общий анализ крови</h2>
+                    <span class="btn btn-primary">В норме</span>
+                </div>
+                
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Результат</th>
+                            <th>Единицы</th>
+                            <th>Референсные значения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="parameter-name">Гемоглобин (Hb)</td>
+                            <td class="parameter-value normal">145</td>
+                            <td class="parameter-units">г/л</td>
+                            <td class="parameter-ref">130 - 160</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Эритроциты (RBC)</td>
+                            <td class="parameter-value normal">4.8</td>
+                            <td class="parameter-units">×10¹²/л</td>
+                            <td class="parameter-ref">4.3 - 5.7</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Лейкоциты (WBC)</td>
+                            <td class="parameter-value normal">6.2</td>
+                            <td class="parameter-units">×10⁹/л</td>
+                            <td class="parameter-ref">4.0 - 9.0</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Тромбоциты (PLT)</td>
+                            <td class="parameter-value normal">250</td>
+                            <td class="parameter-units">×10⁹/л</td>
+                            <td class="parameter-ref">180 - 320</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">СОЭ</td>
+                            <td class="parameter-value normal">8</td>
+                            <td class="parameter-units">мм/ч</td>
+                            <td class="parameter-ref">2 - 15</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Гематокрит (HCT)</td>
+                            <td class="parameter-value normal">42</td>
+                            <td class="parameter-units">%</td>
+                            <td class="parameter-ref">39 - 49</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="interpretation">
+                    <strong>💡 Интерпретация:</strong> Показатели общего анализа крови соответствуют норме. Клеточный состав крови в пределах референсных значений.
+                </div>
+            </div>
+
+            <!-- Общий анализ мочи -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <h2>💧 Общий анализ мочи</h2>
+                    <span class="btn btn-primary">В норме</span>
+                </div>
+                
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Результат</th>
+                            <th>Единицы</th>
+                            <th>Референсные значения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="parameter-name">Цвет</td>
+                            <td class="parameter-value normal">Соломенно-желтый</td>
+                            <td class="parameter-units">-</td>
+                            <td class="parameter-ref">Соломенно-желтый</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Прозрачность</td>
+                            <td class="parameter-value normal">Прозрачная</td>
+                            <td class="parameter-units">-</td>
+                            <td class="parameter-ref">Прозрачная</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Удельный вес</td>
+                            <td class="parameter-value normal">1.015</td>
+                            <td class="parameter-units">г/л</td>
+                            <td class="parameter-ref">1.010 - 1.025</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Белок</td>
+                            <td class="parameter-value normal">Отсутствует</td>
+                            <td class="parameter-units">г/л</td>
+                            <td class="parameter-ref">до 0.033</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Глюкоза</td>
+                            <td class="parameter-value normal">Отсутствует</td>
+                            <td class="parameter-units">ммоль/л</td>
+                            <td class="parameter-ref">Отсутствует</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Лейкоциты</td>
+                            <td class="parameter-value normal">1-2</td>
+                            <td class="parameter-units">в поле зрения</td>
+                            <td class="parameter-ref">0 - 3</td>
+                        </tr>
+                        <tr>
+                            <td class="parameter-name">Эритроциты</td>
+                            <td class="parameter-value normal">0-1</td>
+                            <td class="parameter-units">в поле зрения</td>
+                            <td class="parameter-ref">0 - 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="interpretation">
+                    <strong>💡 Интерпретация:</strong> Показатели общего анализа мочи в пределах нормы. Признаков патологии почек и мочевыводящих путей не выявлено.
+                </div>
+            </div>
+
+            <!-- Действия -->
+            <div class="footer-actions">
+                <button class="btn btn-primary" onclick="downloadPDF()">📥 Скачать PDF отчет</button>
+                <button class="btn btn-secondary" onclick="printResults()">🖨️ Распечатать</button>
+                <button class="btn btn-secondary" onclick="shareResults()">📤 Поделиться с врачом</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 LabHome. Все права защищены.</p>
+            <p>📞 8 (800) 123-45-67 | ✉️ info@labhome.ru</p>
+        </div>
+    </footer>
+
+    <script>
+        function downloadPDF() {
+            alert('📥 В реальной системе здесь бы скачался PDF файл с полными результатами анализов');
+        }
+
+        function printResults() {
+            alert('🖨️ В реальной системе здесь открылся бы диалог печати с оптимизированным форматированием');
+        }
+
+        function shareResults() {
+            alert('📤 В реальной системе здесь можно было бы отправить результаты врачу по email или сгенерировать ссылку для доступа');
+        }
+
+        // Автоматическая подсветка отклонений от нормы
+        document.addEventListener('DOMContentLoaded', function() {
+            const values = document.querySelectorAll('.parameter-value');
+            values.forEach(value => {
+                if (value.classList.contains('warning')) {
+                    value.innerHTML = '⚠️ ' + value.textContent;
+                } else if (value.classList.contains('critical')) {
+                    value.innerHTML = '🚨 ' + value.textContent;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
