@@ -73,6 +73,12 @@ function initBurgerMenu() {
     
     if (!burgerMenu || !navMenu) return;
     
+    // Защита от повторной инициализации
+    if (burgerMenu.hasAttribute('data-initialized')) {
+        return;
+    }
+    burgerMenu.setAttribute('data-initialized', 'true');
+    
     // Открытие/закрытие меню
     burgerMenu.addEventListener('click', function(e) {
         e.stopPropagation();

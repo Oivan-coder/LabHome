@@ -355,19 +355,6 @@
     <script src="js/common.js"></script>
     
     <script>
-        // Инициализация бургер-меню сразу после загрузки common.js
-        (function() {
-            function initBurgerMenuWhenReady() {
-                if (window.initBurgerMenu) {
-                    window.initBurgerMenu();
-                } else {
-                    // Если функция еще не загружена, повторим попытку через 100мс
-                    setTimeout(initBurgerMenuWhenReady, 100);
-                }
-            }
-            initBurgerMenuWhenReady();
-        })();
-        
         // Инициализация для страницы конференции
         document.addEventListener('DOMContentLoaded', function() {
             if (window.debugLog) {
@@ -411,5 +398,23 @@
     <script src="script.js" defer></script>
     <!-- Cookies и аналитика -->
     <script src="cookies.js" defer></script>
+    
+    <!-- Явная инициализация бургер-меню после загрузки всех скриптов -->
+    <script>
+        // Дополнительная инициализация на случай, если script.js не сработал
+        window.addEventListener('load', function() {
+            if (window.initBurgerMenu) {
+                const burgerMenu = document.getElementById('burgerMenu');
+                const navMenu = document.getElementById('navMenu');
+                if (burgerMenu && navMenu) {
+                    // Проверяем, не инициализировано ли уже меню
+                    if (!burgerMenu.hasAttribute('data-initialized')) {
+                        window.initBurgerMenu();
+                        burgerMenu.setAttribute('data-initialized', 'true');
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
