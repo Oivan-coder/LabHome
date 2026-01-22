@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 🔥 SEO МЕТА-ТЕГИ -->
+    <title>Регистрация - Форум лабораторных инноваций 2025</title>
+    <meta name="description" content="Регистрация на Форум лабораторных инноваций 2025. Заполните форму для участия в мероприятии по лабораторной диагностике.">
+    <meta name="keywords" content="регистрация на форум, Форум лабораторных инноваций 2025, заявка на участие, медицинский форум">
+    <link rel="canonical" href="https://rclsmo.ru/registration.html" />
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:title" content="Регистрация - Форум лабораторных инноваций 2025">
+    <meta property="og:description" content="Зарегистрируйтесь на Форум лабораторных инноваций 2025">
+    <meta property="og:url" content="https://rclsmo.ru/registration.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Яндекс.Карты API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
+
+    <style>
+        /* Стили модального окна */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 21, 37, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-right: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .modal-header h3 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .modal-subtitle {
+            color: #00e5ff;
+            font-size: 1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            color: white;
+        }
+
+        .parking-benefits {
+            background: rgba(0, 229, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #00e5ff;
+        }
+
+        .parking-benefits h4 {
+            margin-top: 0;
+            color: #00e5ff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .requirements-list {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .requirements-list h4 {
+            color: #4fc3f7;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .requirements-list ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .requirements-list li {
+            margin-bottom: 0.6rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin: 2rem 0 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+
+        .car-data-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .car-data-form h4 {
+            color: #4fc3f7;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .form-grid-modal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group-modal {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-modal.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group-modal label {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group-modal input {
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-modal input:focus {
+            outline: none;
+            border-color: #00e5ff;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
+        }
+
+        .form-group-modal input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .required-field::after {
+            content: " *";
+            color: #ff6b6b;
+        }
+
+        .modal-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-note small {
+            opacity: 0.8;
+            color: #4fc3f7;
+        }
+
+        .confirm-button {
+            background: linear-gradient(135deg, #00c853 0%, #64dd17 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 200, 83, 0.3);
+        }
+
+        /* Анимации */
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .notification-close:hover {
+            opacity: 1;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .notification-message {
+            flex: 1;
+        }
+
+        /* Стили для активного селекта */
+        .select-items.active {
+            max-height: 300px !important;
+            overflow-y: auto !important;
+            display: block !important;
+        }
+        
+        .select-selected.active .select-arrow {
+            transform: rotate(180deg) !important;
+        }
+        
+        .select-items div.selected {
+            background: linear-gradient(135deg, #00e5ff 0%, #4fc3f7 100%) !important;
+            color: #0a1525 !important;
+            font-weight: 600 !important;
+        }
+        
+        .qr-info {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .qr-info h4 {
+            color: #ff8f00;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .qr-info ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .qr-info li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-reminder {
+            background: rgba(33, 150, 243, 0.1);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        .contact-reminder p {
+            margin: 0.5rem 0;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .unique-data-warning {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
+            border: 2px solid #ff9800;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .warning-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .warning-content h4 {
+            color: #e65100;
+            margin: 0 0 0.8rem 0;
+            font-size: 1.2rem;
+        }
+
+        .warning-content p {
+            margin: 0.5rem 0;
+            color: #5d4037;
+        }
+
+        .warning-content ul {
+            margin: 0.8rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .warning-content li {
+            margin-bottom: 0.5rem;
+            color: #5d4037;
+        }
+
+        .warning-content strong {
+            color: #e65100;
+        }
+
+        /* Стили для заблокированной кнопки */
+        .submit-btn.disabled {
+            background: #95a5a6 !important;
+            cursor: not-allowed !important;
+            opacity: 0.7;
+        }
+
+        .submit-btn.disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .event-ended-notice {
+            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+            border-left: 4px solid #00e5ff;
+            box-shadow: 0 4px 15px rgba(26, 42, 79, 0.2);
+        }
+
+        .event-ended-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            .unique-data-warning {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .warning-icon {
+                align-self: center;
+            }
+        }
+    </style>
+</head>
+<body class="registration-page">
+    <!-- Хедер из основного стиля -->
+    <header class="photo-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" class="logo-image">
+                    <div>Форум лабораторных инноваций 2025</div>
+                </a>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <ul class="nav-links">
+                        <li><a href="about.html">О нас</a></li>
+                        <li class="menu-dropdown">
+                            <a href="index.html#about" class="dropdown-toggle">Форум</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#about">О событии</a></li>
+                                <li><a href="index.html#program">Программа</a></li>
+                                <li><a href="index.html#speakers">Эксперты</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#location">Место</a></li>
+                        <li><a href="index.html#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="registration-main">
+        <div class="container">
+            <div class="registration-header">
+                <div class="logo-section">
+                    <h1>Форум лабораторных инноваций 2025</h1>
+                </div>
+                
+                <h2 class="section-title">Регистрация на конференцию</h2>
+                <p class="section-content">Заполните форму для участия в мероприятии</p>
+                
+                <!-- 🔥 СООБЩЕНИЕ О ЗАВЕРШЕНИИ МЕРОПРИЯТИЯ -->
+                <div class="event-ended-notice">
+                    <div class="event-ended-icon">⏰</div>
+                    <h3>Мероприятие завершено</h3>
+                    <p><strong>Форум лабораторных инноваций успешно состоялся 21 ноября 2025 года</strong></p>
+                    <p>Регистрация на мероприятие больше недоступна</p>
+                </div>
+            </div>
+            
+            <div class="registration-content">
+                <form id="visible-form" class="registration-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Электронная почта *</label>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">ФИО *</label>
+                            <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">Должность *</label>
+                            <div class="custom-select">
+                                <div class="select-selected">
+                                    <span class="select-text">-- Выберите должность --</span>
+                                    <span class="select-arrow">▼</span>
+                                </div>
+                                <div class="select-items">
+                                    <div data-value="Генеральный директор/Медицинский директор">Генеральный директор/Медицинский директор</div>
+                                    <div data-value="Главный врач">Главный врач</div>
+                                    <div data-value="Заведующий лабораторией">Заведующий лабораторией</div>
+                                    <div data-value="Врач-лаборант/Врач КЛД">Врач-лаборант/Врач КЛД</div>
+                                    <div data-value="Врач-клиницист">Врач-клиницист</div>
+                                    <div data-value="Старший лаборант/Старшая сестра">Старший лаборант/Старшая медицинская сестра</div>
+                                    <div data-value="Медицинская сестра/Лаборант/Лабораторный техник">Медицинская сестра/Лаборант/Лабораторный техник</div>
+                                    <div data-value="Специалист по качеству">Специалист по качеству</div>
+                                    <div data-value="Гость/Технический специалист">Гость/Технический специалист</div>
+                                    <div data-value="Научный сотрудник">Научный сотрудник</div>
+                                </div>
+                                <input type="hidden" id="position" name="position" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="organization">Организация *</label>
+                            <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="agreement" required>
+                                <label for="agreement">
+                                    Даю согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 🔥 ЗАБЛОКИРОВАННАЯ КНОПКА -->
+                    <button type="submit" class="cta-button primary submit-btn disabled" disabled>
+                        Регистрация завершена
+                    </button>
+                </form>
+
+                <div id="success-message" class="success-message">
+                    <div class="success-icon">✅</div>
+                    <h3>Спасибо за регистрацию!</h3>
+                    <p><strong>Ваша заявка принята!</strong></p>
+                    <p>На указанную вами почту отправлен QR-код для регистрации на мероприятие.</p>
+                    
+                    <div class="qr-info">
+                        <h4>⚠️ Важная информация:</h4>
+                        <ul>
+                            <li><strong>Только по QR-коду</strong> вы сможете пройти очную регистрацию</li>
+                            <li>Сохраните письмо с QR-кодом до дня мероприятия</li>
+                            <li>Покажите QR-код на стойке регистрации для получения бейджа</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-reminder">
+                        <p><strong>Если письмо с QR-кодом не пришло в течение 15 минут:</strong></p>
+                        <p>Проверьте папку "Спам" или свяжитесь с организаторами:</p>
+                        <p>📞 <strong> Анна Валерьевна:</strong> +79637516163 </p>
+                    </div>
+                    
+                    <p><strong>Ждем вас на Форуме лабораторных инноваций 2025!</strong></p>
+                    <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
+                </div>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Вернуться на главную страницу</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно для парковки -->
+    <div id="parkingModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            
+            <div class="modal-header">
+                <div class="modal-icon">🚗</div>
+                <h3>Бесплатная парковка</h3>
+                <p class="modal-subtitle">Для главных врачей</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="parking-benefits">
+                    <h4>🎁 Специальное предложение</h4>
+                    <p>Вам доступна бесплатная парковка в бизнес-центре на время форума!</p>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>📋 Для получения пропуска предоставьте данные:</h4>
+                    <ul>
+                        <li><strong>ФИО водителя</strong> (только паспорт РФ)</li>
+                        <li><strong>Марка и модель автомобиля</strong></li>
+                        <li><strong>Государственный номер</strong></li>
+                    </ul>
+                </div>
+
+                <div class="car-data-form">
+                    <h4>🚗 Заполните данные для парковки</h4>
+                    <div class="form-grid-modal">
+                        <div class="form-group-modal full-width">
+                            <label for="applicantName" class="required-field">ФИО заявителя</label>
+                            <input type="text" id="applicantName" placeholder="Иванов Иван Иванович" required readonly>
+                        </div>
+                        
+                        <div class="form-group-modal full-width">
+                            <label for="driverName" class="required-field">
+                                ФИО водителя
+                                <span style="color: #ff6b6b; font-weight: 600; font-size: 0.9em;">(только паспорт РФ)</span>
+                            </label>
+                            <input type="text" id="driverName" placeholder="Петров Петр Петрович" required>
+                        </div>
+                        
+                        <div class="form-group-modal">
+                            <label for="carBrand" class="required-field">Марка автомобиля</label>
+                            <input type="text" id="carBrand" placeholder="Toyota" required>
+                        </div>
+                        
+                        <div class="form-group-modal">
+                            <label for="carModel" class="required-field">Модель автомобиля</label>
+                            <input type="text" id="carModel" placeholder="Camry" required>
+                        </div>
+                        
+                        <div class="form-group-modal full-width">
+                            <label for="carNumber" class="required-field">Гос. номер</label>
+                            <input type="text" id="carNumber" placeholder="A123BC777" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <p>✅ Данные о парковке будут отправлены автоматически</p>
+                    <p><small>Пожалуйста, заполните все поля формы и нажмите "Подтвердить"</small></p>
+                </div>
+                
+                <button class="confirm-button" id="confirmParking">
+                    Подтвердить данные о парковке
+                </button>
+                
+                <div class="modal-note">
+                    <small>✅ Все данные будут сохранены в отдельной форме</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top">↑</button>
+
+    <script>
+    // ==================== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Инициализация страницы регистрации');
+        
+        initBurgerMenu();
+        initBackToTop();
+        initCustomSelects();
+        initRegistrationForm();
+        initParkingModal();
+        initNameValidation();
+        
+        // Скрываем успешное сообщение по умолчанию
+        document.getElementById('success-message').style.display = 'none';
+        
+        // 🔥 БЛОКИРУЕМ ФОРМУ ПРИ ЗАГРУЗКЕ
+        disableRegistrationForm();
+    });
+
+    // ==================== БЛОКИРОВКА ФОРМЫ РЕГИСТРАЦИИ ====================
+    function disableRegistrationForm() {
+        console.log('🔒 Блокировка формы регистрации');
+        
+        const form = document.getElementById('visible-form');
+        const submitBtn = form.querySelector('.submit-btn');
+        
+        // Блокируем кнопку
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled');
+        
+        // Блокируем все поля ввода
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.disabled = true;
+        });
+        
+        // Блокируем кастомные селекты
+        const customSelects = document.querySelectorAll('.custom-select');
+        customSelects.forEach(select => {
+            select.style.pointerEvents = 'none';
+            select.style.opacity = '0.6';
+        });
+        
+        // Блокируем чекбокс
+        const agreementCheckbox = document.getElementById('agreement');
+        if (agreementCheckbox) {
+            agreementCheckbox.disabled = true;
+        }
+    }
+
+    // ==================== БУРГЕР-МЕНЮ ====================
+    function initBurgerMenu() {
+        const burgerMenu = document.getElementById('burgerMenu');
+        const navMenu = document.getElementById('navMenu');
+        const body = document.body;
+        
+        if (!burgerMenu || !navMenu) return;
+        
+        burgerMenu.addEventListener('click', function() {
+            burgerMenu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            body.classList.toggle('menu-open');
+            
+            const isExpanded = burgerMenu.classList.contains('active');
+            burgerMenu.setAttribute('aria-expanded', isExpanded);
+            navMenu.setAttribute('aria-hidden', !isExpanded);
+        });
+        
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                burgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+                burgerMenu.setAttribute('aria-expanded', 'false');
+                navMenu.setAttribute('aria-hidden', 'true');
+            });
+        });
+    }
+
+    // ==================== КНОПКА "НАВЕРХ" ====================
+    function initBackToTop() {
+        const backToTop = document.getElementById('backToTop');
+        
+        if (!backToTop) return;
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // ==================== ВЫПАДАЮЩИЙ СПИСОК ДОЛЖНОСТЕЙ ====================
+    function initCustomSelects() {
+        console.log('🔄 Инициализация кастомных селектов...');
+        
+        const customSelects = document.querySelectorAll('.custom-select');
+        
+        if (customSelects.length === 0) {
+            console.error('❌ Не найдены кастомные селекты');
+            return;
+        }
+        
+        console.log(`✅ Найдено ${customSelects.length} кастомных селектов`);
+        
+        customSelects.forEach((select, index) => {
+            const selected = select.querySelector('.select-selected');
+            const items = select.querySelector('.select-items');
+            const hiddenInput = select.querySelector('input[type="hidden"]');
+            const options = items.querySelectorAll('div');
+            
+            if (!selected || !items || !hiddenInput) {
+                console.error('❌ Не найдены необходимые элементы в селекте:', select);
+                return;
+            }
+            
+            console.log(`✅ Инициализация селекта ${index + 1}`);
+
+            // Обработчик клика по выбранному элементу
+            selected.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('🔄 Клик по селекту');
+                
+                // Закрываем другие открытые select
+                document.querySelectorAll('.select-items.active').forEach(other => {
+                    if (other !== items) other.classList.remove('active');
+                });
+                document.querySelectorAll('.select-selected.active').forEach(other => {
+                    if (other !== selected) other.classList.remove('active');
+                });
+                
+                // Переключаем текущий
+                items.classList.toggle('active');
+                selected.classList.toggle('active');
+            });
+            
+            // Обработчик выбора опции
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    
+                    console.log(`✅ Выбрана опция: ${text} (${value})`);
+                    
+                    // Обновляем отображаемый текст
+                    selected.querySelector('.select-text').textContent = text;
+                    hiddenInput.value = value;
+                    
+                    // Помечаем выбранную опцию
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Закрываем список
+                    items.classList.remove('active');
+                    selected.classList.remove('active');
+                    
+                    // Валидация
+                    if (value) {
+                        hiddenInput.setCustomValidity('');
+                        console.log('✅ Значение установлено в hidden input');
+                    }
+                });
+            });
+            
+            // Закрытие при клике вне select
+            document.addEventListener('click', function() {
+                items.classList.remove('active');
+                selected.classList.remove('active');
+            });
+            
+            // Предотвращаем закрытие при клике внутри select
+            select.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+        
+        console.log('✅ Кастомные select инициализированы');
+    }
+
+    // ==================== ФОРМА РЕГИСТРАЦИИ ====================
+    function initRegistrationForm() {
+        const form = document.getElementById('visible-form');
+        
+        if (!form) {
+            console.error('❌ Форма не найдена');
+            return;
+        }
+
+        // 🔥 ПЕРЕХВАТЫВАЕМ ОТПРАВКУ ФОРМЫ И БЛОКИРУЕМ
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('❌ Регистрация на мероприятие завершена', 'error');
+            return false;
+        });
+    }
+
+    // ==================== МОДАЛЬНОЕ ОКНО ДЛЯ ПАРКОВКИ ====================
+    function initParkingModal() {
+        const modal = document.getElementById('parkingModal');
+        const closeBtn = document.getElementById('modalClose');
+        const confirmBtn = document.getElementById('confirmParking');
+        
+        console.log('🔍 Инициализация модального окна:', modal);
+        
+        if (!modal) {
+            console.error('❌ Модальное окно не найдено');
+            return;
+        }
+        
+        closeBtn.addEventListener('click', function() {
+            hideParkingModal();
+        });
+        
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                hideParkingModal();
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                hideParkingModal();
+            }
+        });
+        
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function() {
+                showNotification('❌ Регистрация на мероприятие завершена', 'error');
+                hideParkingModal();
+            });
+        }
+    }
+    
+    function showParkingModal() {
+        const modal = document.getElementById('parkingModal');
+        console.log('🔄 Функция showParkingModal вызвана');
+        
+        if (modal) {
+            console.log('✅ Показываем модальное окно');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            const userName = document.getElementById('name').value;
+            const applicantNameInput = document.getElementById('applicantName');
+            if (userName && applicantNameInput) {
+                applicantNameInput.value = userName;
+            }
+        } else {
+            console.error('❌ Модальное окно не найдено!');
+        }
+    }
+    
+    function hideParkingModal() {
+        const modal = document.getElementById('parkingModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // ==================== УВЕДОМЛЕНИЯ ====================
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <button class="notification-close" aria-label="Закрыть уведомление">×</button>
+            </div>
+        `;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#0d47a1'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            z-index: 10001;
+            animation: slideInRight 0.3s ease;
+            max-width: 400px;
+            min-width: 300px;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        });
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 5000);
+    }
+
+    // ==================== ПРОВЕРКА ФИО ====================
+    function validateFullName(name) {
+        const trimmedName = name.trim().replace(/\s+/g, ' ');
+        const words = trimmedName.split(' ');
+        
+        if (words.length < 2) {
+            return {
+                isValid: false,
+                message: '❌ Введите полное ФИО (минимум Фамилию и Имя)'
+            };
+        }
+        
+        for (let word of words) {
+            if (word.length === 1) {
+                return {
+                    isValid: false,
+                    message: '❌ Используйте полные фамилию, имя и отчество, а не инициалы'
+                };
+            }
+        }
+        
+        const invalidPatterns = [
+            /\s[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/,
+            /^[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/,
+            /\s[А-ЯЁ]\s/,
+            /[А-ЯЁ]{1}\./,
+        ];
+        
+        for (let pattern of invalidPatterns) {
+            if (pattern.test(name)) {
+                return {
+                    isValid: false,
+                    message: '❌ Используйте полные фамилию, имя и отчество'
+                };
+            }
+        }
+        
+        return {
+            isValid: true,
+            message: '✅ Корректное ФИО'
+        };
+    }
+
+    // ==================== ИНИЦИАЛИЗАЦИЯ ПРОВЕРКИ ФИО ====================
+    function initNameValidation() {
+        const nameInput = document.getElementById('name');
+        if (!nameInput) return;
+        
+        const errorMessage = document.createElement('div');
+        errorMessage.style.cssText = `
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            display: none;
+        `;
+        nameInput.parentNode.appendChild(errorMessage);
+        
+        nameInput.addEventListener('blur', function() {
+            const value = this.value.trim();
+            if (value === '') return;
+            
+            const validation = validateFullName(value);
+            
+            if (!validation.isValid) {
+                errorMessage.textContent = validation.message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.background = '#ffebee';
+                errorMessage.style.color = '#c62828';
+                errorMessage.style.border = '1px solid #ffcdd2';
+                this.style.borderColor = '#f44336';
+            } else {
+                errorMessage.style.display = 'none';
+                this.style.borderColor = '#4caf50';
+            }
+        });
+        
+        nameInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+            this.style.borderColor = '';
+        });
+    }
+    </script>
+    
+    <!-- Подключение скрипта cookies -->
+    <script src="cookies.js"></script>
+</body>
+</html>

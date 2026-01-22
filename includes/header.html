@@ -1,0 +1,60 @@
+<!-- includes/header.html -->
+<!-- Единый хедер для всех страниц -->
+<header class="photo-header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <img src="images/logo.png" alt="РЦЛСМО" class="logo-image">
+                <span>Референс-центр лабораторной службы МО</span>
+            </a>
+            
+            <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="/" data-page="index">Главная</a></li>
+                    <li><a href="/about" data-page="about">О нас</a></li>
+                    <li class="menu-dropdown">
+                        <a href="#" class="dropdown-toggle">Мероприятия</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/conf_nov2025">Форум ноябрь 2025</a></li>
+                            <li><a href="/conf_sen2025">Форум сентябрь 2025</a></li>
+                            <li><a href="/conf_mart2026">Форум март 2026</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/registration" data-page="registration">Регистрация</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!-- Скрипт для активной ссылки и меню -->
+<script>
+(function() {
+    // Устанавливаем активную ссылку на основе текущей страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = document.body.className || '';
+        const navLinks = document.querySelectorAll('.nav-links a[data-page]');
+        
+        navLinks.forEach(link => {
+            const pageName = link.getAttribute('data-page');
+            if (currentPage.includes(pageName + '-page') || 
+                (pageName === 'index' && currentPage === 'home-page')) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Для страниц конференций
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('conf_nov2025')) {
+            document.querySelector('.menu-dropdown .dropdown-toggle')?.classList.add('active');
+        }
+    });
+})();
+</script>

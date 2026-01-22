@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO МЕТА-ТЕГИ -->
+    <title>Референс-центр лабораторной службы Московской области | Главная</title>
+    <meta name="description" content="Официальный сайт Референс-центра лабораторной службы МО. Организация медицинских конференций, форумов и образовательных мероприятий в сфере лабораторной диагностики.">
+    <meta name="keywords" content="референс-центр московская область, лабораторная диагностика, медицинские конференции, форум лабораторных инноваций, лабораторная служба МО">
+    <link rel="canonical" href="https://rclsmo.ru/" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Референс-центр лабораторной службы Московской области">
+    <meta property="og:description" content="Организация научно-практических мероприятий в сфере лабораторной медицины">
+    <meta property="og:url" content="https://rclsmo.ru/">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Яндекс.Карты API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body class="home-page">
+    <!-- Хедер -->
+    <header class="photo-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="РЦЛСМО" class="logo-image">
+                    <span>Референс-центр лабораторной службы МО</span>
+                </a>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <ul class="nav-links">
+                        <li><a href="/" class="active">Главная</a></li>
+                        <li><a href="/about">О нас</a></li>
+                        <li class="menu-dropdown">
+                            <a href="#" class="dropdown-toggle">Мероприятия</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/conf_nov2025">Форум ноябрь 2025</a></li>
+                                <li><a href="/conf_sen2025">Форум сентябрь 2025</a></li>
+                                <li><a href="/conf_mart2026">Форум март 2026</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/registration">Регистрация</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- ВИДЕО ГЕРОЙ (используем ту же структуру что в conf-nov2025.html) -->
+    <section class="video-hero">
+        <!-- Видео фон -->
+        <div class="video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="videos/hero-video.mp4" type="video/mp4">
+                <!-- Фолбэк на изображение если видео не поддерживается -->
+                <img src="images/hero-fallback.jpg" alt="Форум лабораторных инноваций">
+            </video>
+            <!-- Затемнение фона для лучшей читаемости текста -->
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- Информационная плашка поверх видео -->
+        <div class="hero-content">
+            <div class="hero-info-card">
+                <h1>Референс-центр лабораторной службы МО</h1>
+                <div class="hero-subtitle">Организация научно-практических мероприятий в сфере лабораторной медицины</div>
+                
+                <div class="hero-buttons">
+                    <a href="/conf_mart2026" class="cta-button primary">
+                        Ближайший форум
+                    </a>
+                    <a href="/registration" class="cta-button secondary">
+                        Регистрация
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">мероприятия ежегодно</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">участников на форумах</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">экспертов в базе</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">практическая польза</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок с проектами -->
+    <section class="projects-preview">
+        <div class="container">
+            <h2 class="section-title">Наши проекты</h2>
+            <p class="section-subtitle">Ключевые мероприятия и конференции</p>
+            
+            <div class="projects-grid">
+                <!-- БУДУЩИЙ проект -->
+                <div class="project-card upcoming">
+                    <div class="project-badge">Ближайший</div>
+                    <div class="project-image">
+                        <img src="images/hero/1.jpg" alt="Форум 2026">
+                    </div>
+                    <div class="project-content">
+                        <h3>Форум лабораторных инноваций 2026</h3>
+                        <p class="project-date">Март 2026 | Москва</p>
+                        <p>Новейшие технологии в лабораторной диагностике. Регистрация закрыта.</p>
+                        <div class="project-features">
+                            <span class="feature">🎤 15+ спикеров</span>
+                            <span class="feature">⏱️ 4 тематических блока</span>
+                        </div>
+                        <a href="/conf_mart2026" class="project-link">Подробнее →</a>
+                    </div>
+                </div>
+                
+                <!-- ПРОШЕДШИЙ проект -->
+                <div class="project-card past">
+                    <div class="project-badge">Завершен</div>
+                    <div class="project-image">
+                        <img src="images/hero/2026-01-13 14.19.52.jpg" alt="Форум лабораторных инноваций 2025"
+                                     loading="lazy">
+                    </div>
+                    <div class="project-content">
+                        <h3>Форум лабораторных инноваций 2025</h3>
+                        <p class="project-date">21 ноября 2025 | Красногорск</p>
+                        <p>Лабораторная служба будущего: практика и перспективы. Материалы доступны.</p>
+                        <div class="project-features">
+                            <span class="feature">📊 14 экспертов</span>
+                            <span class="feature">📁 Материалы доступны</span>
+                        </div>
+                        <a href="/conf_nov2025" class="project-link">Смотреть материалы →</a>
+                    </div>
+                </div>
+                <!-- ПРОШЕДШИЙ проект -->
+                <div class="project-card past">
+                    <div class="project-badge">Завершен</div>
+                    <div class="project-image">
+                        <img src="images/hero/2026-01-13 16.26.46.jpg" alt="Форум лабораторных инноваций 2025"
+                                     loading="lazy">
+                    </div>
+                    <div class="project-content">
+                        <h3>Лабораторная медицина Подмосковья 2025</h3>
+                        <p class="project-date">25 сентября 2025 | Красногорск</p>
+                        <p>Этапы, инновации, перспективы.</p>
+                        <div class="project-features">
+                            <span class="feature">📊 14 экспертов</span>
+                            <span class="feature">📁 Материалы доступны</span>
+                        </div>
+                        <a href="/conf_nov2025" class="project-link">Смотреть материалы →</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Регистрация -->
+    <section class="registration-cta">
+        <div class="container">
+            <div class="registration-card">
+                <div class="registration-content">
+                    <h2>Регистрация на мероприятия</h2>
+                    <p>Участвуйте в наших конференциях и форумах. Заполните единую форму регистрации.</p>
+                    <ul class="registration-features">
+                        <li>✓ Быстрая онлайн-регистрация</li>
+                        <li>✓ Подтверждение на email</li>
+                        <li>✓ Доступ к материалам</li>
+                        <li>✓ Сертификат участника</li>
+                    </ul>
+                </div>
+                <div class="registration-action">
+                    <a href="/registration" class="cta-button large primary">
+                        Зарегистрироваться
+                    </a>
+                    <p class="registration-note">Регистрация открыта для всех мероприятий</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О нас (кратко) -->
+    <section class="about-preview">
+        <div class="container">
+            <div class="about-preview-content">
+                <div class="about-text">
+                    <h2>Референс-центр лабораторной службы МО</h2>
+                    <p>Ведущее учреждение в системе здравоохранения региона, осуществляющее методическое руководство, контроль качества и координацию деятельности лабораторной службы.</p>
+                    <p>Наш центр функционирует в структуре <strong>Министерства здравоохранения Московской области</strong> и является ключевым звеном в обеспечении качества лабораторных исследований.</p>
+                    <a href="/about" class="cta-button secondary">Узнать больше о нас</a>
+                </div>
+                <div class="about-image">
+                    <img src="images/hero/2026-01-13 14.34.19.jpg" alt="Наша команда">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="main-footer" id="contacts">
+        <!-- Копируем футер из conf-nov2025.html -->
+        <div class="container">
+            <div class="footer-main">
+                <!-- Организатор -->
+                <div class="footer-block">
+                    <div class="footer-info">
+                        <span class="footer-label">Организатор</span>
+                        <div class="footer-logo-wrapper">
+                            <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
+                                <img src="images/mz-mosreg-logo.png" alt="Министерство здравоохранения Московской области" class="footer-logo">
+                                <span class="footer-org-name">Министерство здравоохранения Московской области</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Партнер -->
+                <div class="footer-block">
+                    <div class="footer-info">
+                        <span class="footer-label">Партнёр проекта</span>
+                        <div class="footer-logo-wrapper">
+                            <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
+                                <img src="images/cvimz-logo.png" alt="ГКУ МО «Центр внедрения изменений»" class="footer-logo">
+                                <span class="footer-org-name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контакты -->
+                <div class="footer-block footer-contacts">
+                    <div class="footer-info">
+                        <span class="footer-label">Контакты для связи</span>
+                        <div class="contact-items-wrapper">
+                            <!-- Контакт 1: Каплина Анна -->
+                            <div class="contact-person-group">
+                                <div class="contact-header">
+                                    <span class="contact-person">Анна Валерьевна - координатор конференции</span>
+                                    <div class="contact-actions">
+                                        <a href="tel:+79637516163" class="contact-phone-button" aria-label="Позвонить Анне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/Annkey" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать Анне в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79637516163" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать Анне в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Контакт 2: Ирина Владимировна -->
+                            <div class="contact-person-group">
+                                <div class="contact-header">
+                                    <span class="contact-person">Ирина Владимировна - куратор конференции</span>
+                                    <div class="contact-actions">
+                                        <a href="tel:+79958832336" class="contact-phone-button" aria-label="Позвонить Ирине Владимировне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/doc_kld" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79958832336" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-copyright">
+                <p>© 2026 Референс-центр лабораторной службы Московской области.</p>
+                <p class="copyright-secondary">
+                    Все права защищены |
+                    <a href="/privacy">Политика конфиденциальности</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top">↑</button>
+
+    <script src="js/url-cleaner.js"></script>
+    <script src="js/main.js"></script>
+    <script src="cookies.js"></script>
+</body>
+</html>
