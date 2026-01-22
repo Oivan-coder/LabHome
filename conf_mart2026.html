@@ -351,21 +351,39 @@
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
-    <script src="js/main.js"></script>
-    <script src="cookies.js"></script>
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
     
     <script>
+        // Инициализация бургер-меню сразу после загрузки common.js
+        (function() {
+            function initBurgerMenuWhenReady() {
+                if (window.initBurgerMenu) {
+                    window.initBurgerMenu();
+                } else {
+                    // Если функция еще не загружена, повторим попытку через 100мс
+                    setTimeout(initBurgerMenuWhenReady, 100);
+                }
+            }
+            initBurgerMenuWhenReady();
+        })();
+        
         // Инициализация для страницы конференции
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Страница конференции 2026 загружена');
+            if (window.debugLog) {
+                window.debugLog('🎯 Страница конференции 2026 загружена');
+            }
             
             // Инициализация карты (можно оставить пустую или показать Москву)
-            if (ymaps) {
+            if (typeof ymaps !== 'undefined' && ymaps) {
                 ymaps.ready(function() {
-                    var map = new ymaps.Map('yandexMapFull', {
-                        center: [55.7558, 37.6176], // Москва
-                        zoom: 10
-                    });
+                    const mapContainer = document.getElementById('yandexMapFull');
+                    if (mapContainer) {
+                        var map = new ymaps.Map('yandexMapFull', {
+                            center: [55.7558, 37.6176], // Москва
+                            zoom: 10
+                        });
+                    }
                 });
             }
             
@@ -383,9 +401,6 @@
             });
         });
     </script>
-    
-    <!-- Общий модуль (загружается первым) -->
-    <script src="js/common.js"></script>
     <!-- Модули -->
     <script src="js/modules/speakers.js" defer></script>
     <script src="js/modules/slider.js" defer></script>
