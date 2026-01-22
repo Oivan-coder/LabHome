@@ -122,7 +122,22 @@
     }
     
     /* Улучшенные изображения в карточках */
-    .project-image,
+    .project-image {
+        width: 100% !important;
+        height: 200px !important;
+        min-height: 200px !important;
+        display: block !important;
+    }
+    
+    .project-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
     .speaker-photo,
     .feature-icon {
         width: 100% !important;

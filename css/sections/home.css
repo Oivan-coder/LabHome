@@ -139,6 +139,8 @@
 .project-image {
     height: 200px;
     overflow: hidden;
+    position: relative;
+    background: var(--bg-secondary);
 }
 
 .project-image img {
@@ -146,6 +148,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    display: block;
 }
 
 .project-card:hover .project-image img {
@@ -444,7 +447,33 @@
     }
     
     .project-image {
-        height: 180px;
+        height: 200px;
+        min-height: 200px;
+        width: 100%;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        background: var(--bg-secondary);
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .project-card.past .project-image,
+    .project-card.upcoming .project-image {
+        display: block !important;
+    }
+    
+    .project-card.past .project-image img,
+    .project-card.upcoming .project-image img {
+        display: block !important;
+        visibility: visible !important;
     }
     
     .project-content {

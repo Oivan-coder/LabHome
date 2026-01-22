@@ -445,13 +445,17 @@
         max-height: 500px;
     }
     
-    /* Скрываем плашку регистрации на мобильных */
-    .video-hero .hero-info-card {
+    /* Скрываем плашку регистрации на мобильных (для всех hero-info-card) */
+    .video-hero .hero-info-card,
+    .photo-hero .hero-info-card,
+    .hero-info-card,
+    .past-hero-card {
         display: none !important;
     }
     
     /* Показываем только кнопки */
-    .video-hero .hero-content {
+    .video-hero .hero-content,
+    .photo-hero .hero-content {
         align-items: center;
         justify-content: center;
         padding: var(--space-lg);

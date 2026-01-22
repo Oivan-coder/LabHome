@@ -696,8 +696,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('🚀 Инициализация страницы регистрации');
         
-        initBurgerMenu();
-        initBackToTop();
+        // Используем функции из common.js
+        if (window.initBurgerMenu) window.initBurgerMenu();
+        if (window.initBackToTop) window.initBackToTop();
         initCustomSelects();
         initRegistrationForm();
         initParkingModal();
@@ -742,34 +743,7 @@
     }
 
     // ==================== БУРГЕР-МЕНЮ ====================
-    function initBurgerMenu() {
-        const burgerMenu = document.getElementById('burgerMenu');
-        const navMenu = document.getElementById('navMenu');
-        const body = document.body;
-        
-        if (!burgerMenu || !navMenu) return;
-        
-        burgerMenu.addEventListener('click', function() {
-            burgerMenu.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            body.classList.toggle('menu-open');
-            
-            const isExpanded = burgerMenu.classList.contains('active');
-            burgerMenu.setAttribute('aria-expanded', isExpanded);
-            navMenu.setAttribute('aria-hidden', !isExpanded);
-        });
-        
-        const navLinks = document.querySelectorAll('.nav-links a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                burgerMenu.classList.remove('active');
-                navMenu.classList.remove('active');
-                body.classList.remove('menu-open');
-                burgerMenu.setAttribute('aria-expanded', 'false');
-                navMenu.setAttribute('aria-hidden', 'true');
-            });
-        });
-    }
+    // Используем функцию из common.js, не дублируем код
 
     // ==================== КНОПКА "НАВЕРХ" ====================
     function initBackToTop() {
