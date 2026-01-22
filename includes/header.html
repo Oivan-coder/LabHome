@@ -21,9 +21,9 @@
                     <li class="menu-dropdown">
                         <a href="#" class="dropdown-toggle">Мероприятия</a>
                         <ul class="dropdown-menu">
+                            <li><a href="conf_mart2026.html">Форум март 2026</a></li>
                             <li><a href="conf_nov2025.html">Форум ноябрь 2025</a></li>
                             <li><a href="conf_sen2025.html">Форум сентябрь 2025</a></li>
-                            <li><a href="conf_mart2026.html">Форум март 2026</a></li>
                         </ul>
                     </li>
                     <li><a href="registration.html" data-page="registration">Регистрация</a></li>
@@ -52,7 +52,9 @@
         
         // Для страниц конференций
         const currentPath = window.location.pathname;
-        if (currentPath.includes('conf_nov2025')) {
+        if (currentPath.includes('conf_nov2025') || 
+            currentPath.includes('conf_sen2025') || 
+            currentPath.includes('conf_mart2026')) {
             document.querySelector('.menu-dropdown .dropdown-toggle')?.classList.add('active');
         }
     });
