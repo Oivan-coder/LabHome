@@ -6,9 +6,12 @@ permalink: pretty
 plugins:
   - jekyll-redirect-from
 
-# Редиректы для старых URL с .html
+# Настройки по умолчанию для всех HTML файлов
 defaults:
   - scope:
       path: ""
+      type: "pages"
     values:
       permalink: pretty
+      layout: null
+
