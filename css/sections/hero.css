@@ -445,38 +445,18 @@
         max-height: 500px;
     }
     
+    /* Скрываем плашку регистрации на мобильных */
     .video-hero .hero-info-card {
-        max-width: 95%;
-        margin: 0 auto;
-        background: rgba(10, 21, 37, 0.85);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 229, 255, 0.2);
-        box-shadow: var(--shadow-md);
-        padding: var(--space-lg);
-        border-radius: var(--radius-lg);
+        display: none !important;
     }
     
-    .video-hero .hero-info-card h1 {
-        font-size: 1.5rem !important;
-        margin-bottom: var(--space-sm);
-        display: block;
-    }
-    
-    .video-hero .hero-subtitle {
-        font-size: 0.9rem !important;
-        margin-bottom: var(--space-md);
-        display: block;
-    }
-    
-    .video-hero .event-details {
-        display: none;
-    }
-    
-    /* Кнопки по центру */
+    /* Показываем только кнопки */
     .video-hero .hero-content {
         align-items: center;
         justify-content: center;
         padding: var(--space-lg);
+        flex-direction: column;
+        gap: var(--space-md);
     }
     
     .hero-buttons {
@@ -491,19 +471,14 @@
         min-width: auto;
         padding: 0.875rem 1.5rem;
         font-size: 0.95rem;
+        background: rgba(0, 229, 255, 0.9);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
     }
 
   /* Отложенная загрузка для мобильных */
   .hero-video {
     loading: lazy;
-  }
-  
-  .hero-info-card h1 {
-    font-size: 1.75rem !important;
-  }
-  
-  .hero-subtitle {
-    font-size: 1rem !important;
   }
 }
 

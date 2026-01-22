@@ -73,14 +73,27 @@ function initBurgerMenu() {
     
     if (!burgerMenu || !navMenu) return;
     
-    burgerMenu.addEventListener('click', function() {
+    // Открытие/закрытие меню
+    burgerMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
         burgerMenu.classList.toggle('active');
         navMenu.classList.toggle('active');
         body.classList.toggle('menu-open');
     });
     
-    // Закрытие при клике на ссылку
-    const navLinks = navMenu.querySelectorAll('a');
+    // Закрытие при клике вне меню
+    document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            !burgerMenu.contains(e.target)) {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+        }
+    });
+    
+    // Закрытие при клике на ссылку (кроме dropdown-toggle)
+    const navLinks = navMenu.querySelectorAll('a:not(.dropdown-toggle)');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             burgerMenu.classList.remove('active');
@@ -88,6 +101,32 @@ function initBurgerMenu() {
             body.classList.remove('menu-open');
         });
     });
+    
+    // Обработка выпадающего списка конференций на мобильных
+    const dropdownToggle = navMenu.querySelector('.dropdown-toggle');
+    const dropdownMenu = navMenu.querySelector('.dropdown-menu');
+    const menuDropdown = navMenu.querySelector('.menu-dropdown');
+    
+    if (dropdownToggle && dropdownMenu && menuDropdown) {
+        dropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Переключаем активное состояние
+            menuDropdown.classList.toggle('active');
+        });
+        
+        // Закрытие dropdown при клике на ссылку внутри
+        const dropdownLinks = dropdownMenu.querySelectorAll('a');
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuDropdown.classList.remove('active');
+                burgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            });
+        });
+    }
 }
 
 /**

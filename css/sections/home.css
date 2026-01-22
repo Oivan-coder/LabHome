@@ -392,13 +392,9 @@
         grid-template-columns: 1fr;
     }
     
-    .registration-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    
-    .registration-features {
-        grid-template-columns: 1fr;
+    /* Скрываем плашку регистрации на мобильных */
+    .registration-cta {
+        display: none !important;
     }
     
     .about-preview-content {
