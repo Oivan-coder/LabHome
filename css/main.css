@@ -23,6 +23,7 @@
 @import url('sections/footer.css');  
 @import url('sections/speaker-materials.css');
 @import url('sections/home.css');
+@import url('mobile.css'); /* Мобильная оптимизация */
 
 /* ===== RESPONSIVE DESIGN ===== */
 /* Global responsive styles that don't fit elsewhere */

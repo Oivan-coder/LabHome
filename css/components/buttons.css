@@ -170,3 +170,102 @@
   transform: translateY(-5px) scale(1.1);
   box-shadow: var(--shadow-hover), var(--glow-primary);
 }
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+  .cta-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .cta-button.primary:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+  
+  .cta-button.secondary:hover {
+    transform: translateY(-1px);
+  }
+  
+  .map-btn {
+    padding: 0.875rem var(--space-md);
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+  
+  .contacts-button {
+    padding: 0.875rem var(--space-lg);
+    font-size: 0.9rem;
+    min-height: 44px;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .cta-button.large {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .map-btn {
+    padding: 0.75rem var(--space-sm);
+    font-size: 0.85rem;
+  }
+  
+  .contacts-button {
+    padding: 0.75rem var(--space-md);
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+  
+  .back-to-top {
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Touch-friendly для кнопок */
+@media (hover: none) and (pointer: coarse) {
+  .cta-button:active,
+  .map-btn:active,
+  .contacts-button:active,
+  .back-to-top:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  .cta-button:hover,
+  .map-btn:hover,
+  .contacts-button:hover {
+    transform: none;
+  }
+}

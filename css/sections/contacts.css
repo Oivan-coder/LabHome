@@ -486,38 +486,69 @@ footer .contact-link {
   .partners-logos {
     flex-direction: column;
     align-items: center;
+    gap: var(--space-md);
   }
   
   .partner-logo {
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
+    min-height: 60px;
+    padding: var(--space-sm);
   }
   
   .location-overlay-card {
     padding: var(--space-md);
+    width: calc(100% - 2rem);
+    max-width: 100%;
   }
   
   .location-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: var(--space-sm);
   }
   
   .feature-item {
     padding: var(--space-sm);
-  }
-  
-  .map-btn {
-    padding: var(--space-md);
     font-size: 0.9rem;
   }
   
+  .map-btn {
+    padding: 0.875rem var(--space-md);
+    font-size: 0.9rem;
+    min-height: 44px;
+    width: 100%;
+  }
+  
   .department-card {
-    padding: var(--space-lg);
-    margin: 0 var(--space-sm);
+    padding: var(--space-md);
+    margin: 0 var(--space-xs);
   }
   
   .mission-text {
-    font-size: 1.1rem;
-    padding: var(--space-lg);
+    font-size: 1rem;
+    padding: var(--space-md);
+    line-height: 1.6;
+  }
+  
+  .contact-items-wrapper {
+    gap: var(--space-sm);
+  }
+  
+  .contact-person-group {
+    padding: var(--space-md);
+  }
+  
+  .contact-person {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .contact-phone-button,
+  .messenger-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 /* Для мобильных - компактная плашка поверх */

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- 🔥 SEO МЕТА-ТЕГИ -->
     <title>Регистрация - Форум лабораторных инноваций 2025</title>
@@ -23,8 +23,24 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
     
-    <!-- Яндекс.Карты API -->
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
+    <!-- Яндекс.Карты API - загружается только если нужна карта -->
+    <script>
+        // Условная загрузка Яндекс.Карт только если есть контейнер карты
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('yandexMapFull')) {
+                const script = document.createElement('script');
+                script.src = 'https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU';
+                script.async = true;
+                script.onload = function() {
+                    // Инициализация карты после загрузки API
+                    if (window.initYandexMap) {
+                        window.initYandexMap();
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    </script>
 
     <style>
         /* Стили модального окна */
@@ -1075,7 +1091,13 @@
     }
     </script>
     
-    <!-- Подключение скрипта cookies -->
-    <script src="cookies.js"></script>
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- Модули -->
+    <script src="js/modules/map.js" defer></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

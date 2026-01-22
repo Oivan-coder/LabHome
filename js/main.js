@@ -1,72 +1,5 @@
 // js/main.js (упрощенная версия для главной)
-// Условный console.log (только в development)
-const DEBUG = false; // Установить в true для отладки
-function debugLog(...args) {
-    if (DEBUG) {
-        console.log(...args);
-    }
-}
-
-// ===== ОСНОВНЫЕ ФУНКЦИИ =====
-function initBurgerMenu() {
-    const burgerMenu = document.getElementById('burgerMenu');
-    const navMenu = document.getElementById('navMenu');
-    const body = document.body;
-    
-    if (!burgerMenu || !navMenu) return;
-    
-    burgerMenu.addEventListener('click', function() {
-        burgerMenu.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        body.classList.toggle('menu-open');
-    });
-    
-    // Закрытие при клике на ссылку
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            burgerMenu.classList.remove('active');
-            navMenu.classList.remove('active');
-            body.classList.remove('menu-open');
-        });
-    });
-}
-
-function initBackToTop() {
-    const backToTop = document.getElementById('backToTop');
-    if (!backToTop) return;
-    
-    window.addEventListener('scroll', () => {
-        backToTop.classList.toggle('visible', window.pageYOffset > 300);
-    });
-    
-    backToTop.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href === '#') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
-            
-            const targetElement = document.querySelector(href);
-            if (targetElement && href !== '#contacts') {
-                e.preventDefault();
-                const headerHeight = document.querySelector('.photo-header')?.offsetHeight || 80;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-            }
-        });
-    });
-}
+// Использует общий модуль common.js для общих функций
 
 // ===== АНИМАЦИИ ДЛЯ ГЛАВНОЙ =====
 function initHomeAnimations() {
@@ -105,31 +38,35 @@ function initHomeAnimations() {
 
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 document.addEventListener('DOMContentLoaded', function() {
-    debugLog('🎯 Инициализация главной страницы...');
+    if (window.debugLog) {
+        window.debugLog('🎯 Инициализация главной страницы...');
+    }
     
     // Проверяем тип страницы
     const isHomePage = document.body.classList.contains('home-page');
     const isAboutPage = document.body.classList.contains('about-page');
     const isRegistrationPage = document.body.classList.contains('registration-page');
     
-    // Общие функции
-    initBurgerMenu();
-    initBackToTop();
-    initSmoothScroll();
+    // Общие функции (из common.js)
+    if (window.initBurgerMenu) window.initBurgerMenu();
+    if (window.initBackToTop) window.initBackToTop();
+    if (window.initSmoothScroll) window.initSmoothScroll();
     
     // Специфичные для страниц
     if (isHomePage) {
-        debugLog('🏠 Главная страница');
+        if (window.debugLog) window.debugLog('🏠 Главная страница');
         initHomeAnimations();
     } else if (isAboutPage) {
-        debugLog('👥 Страница "О нас"');
-        // Можно добавить функции для about.html позже
+        if (window.debugLog) window.debugLog('👥 Страница "О нас"');
+        // Функции для about.html в modal.js
     } else if (isRegistrationPage) {
-        debugLog('📝 Страница регистрации');
+        if (window.debugLog) window.debugLog('📝 Страница регистрации');
         // Функции регистрации
     }
     
-    debugLog('✅ Главная страница инициализирована');
+    if (window.debugLog) {
+        window.debugLog('✅ Главная страница инициализирована');
+    }
 });
 
 // ===== УТИЛИТЫ =====
@@ -142,76 +79,4 @@ window.addEventListener('resize', function() {
     }, 250);
 });
 
-// Глобальные функции
-window.showNotification = function(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    const content = document.createElement('div');
-    content.className = 'notification-content';
-    
-    const messageSpan = document.createElement('span');
-    messageSpan.className = 'notification-message';
-    messageSpan.textContent = message;
-    
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'notification-close';
-    closeBtn.textContent = '×';
-    closeBtn.setAttribute('aria-label', 'Закрыть уведомление');
-    
-    content.appendChild(messageSpan);
-    content.appendChild(closeBtn);
-    notification.appendChild(content);
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#0d47a1'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        z-index: 10000;
-        animation: slideInRight 0.3s ease;
-        max-width: 400px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    });
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 5000);
-};
-
-// Добавляем стили для анимаций
-if (!document.getElementById('custom-styles')) {
-    const styles = document.createElement('style');
-    styles.id = 'custom-styles';
-    styles.textContent = `
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOutRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 1rem;
-        }
-    `;
-    document.head.appendChild(styles);
-}
+// Функция showNotification теперь в common.js

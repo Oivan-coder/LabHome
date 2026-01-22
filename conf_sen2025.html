@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- SEO МЕТА-ТЕГИ -->
     <title>Конференция "Лабораторная медицина Подмосковья" - сентябрь 2025 | РЦЛСМО</title>
@@ -358,5 +358,18 @@
             });
         });
     </script>
+    
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- Модули -->
+    <script src="js/modules/speakers.js" defer></script>
+    <script src="js/modules/slider.js" defer></script>
+    <script src="js/modules/map.js" defer></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Основной скрипт -->
+    <script src="script.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

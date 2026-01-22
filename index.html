@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- SEO МЕТА-ТЕГИ -->
     <title>Референс-центр лабораторной службы Московской области | Главная</title>
@@ -323,8 +323,13 @@
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
-    <script src="js/url-cleaner.js"></script>
-    <script src="js/main.js"></script>
-    <script src="cookies.js"></script>
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Основной скрипт для главной страницы -->
+    <script src="js/main.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- 🔥 SEO МЕТА-ТЕГИ -->
     <title>Политика конфиденциальности - Форум лабораторных инноваций</title>
@@ -427,7 +427,11 @@
     <!-- Подключение скрипта cookies -->
     <script src="cookies.js"></script>
     
-    <!-- Основной скрипт -->
-    <script src="script.js"></script>
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

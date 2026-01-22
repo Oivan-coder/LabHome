@@ -190,3 +190,107 @@
   position: relative;
   z-index: 2;
 }
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+  .program-block {
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-md);
+  }
+  
+  .block-header {
+    padding: var(--space-md) var(--space-lg);
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-xs);
+  }
+  
+  .block-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .block-content {
+    padding: var(--space-lg);
+  }
+  
+  .session-item {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .session-speaker {
+    font-size: 1rem;
+  }
+  
+  .session-topic {
+    font-size: 1rem;
+  }
+  
+  .session-desc {
+    font-size: 0.9rem;
+  }
+  
+  .partner-card,
+  .department-card {
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+  
+  .partner-name,
+  .department-title {
+    font-size: 1.1rem;
+  }
+  
+  .partner-desc,
+  .department-desc {
+    font-size: 0.9rem;
+  }
+  
+  .department-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+  }
+  
+  /* Упрощаем hover-эффекты на мобильных */
+  .program-block:hover,
+  .session-item:hover,
+  .partner-card:hover,
+  .department-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .block-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .block-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .block-content {
+    padding: var(--space-md);
+  }
+  
+  .session-item {
+    padding: var(--space-sm);
+  }
+  
+  .session-speaker {
+    font-size: 0.95rem;
+  }
+  
+  .session-topic {
+    font-size: 0.95rem;
+  }
+  
+  .partner-card,
+  .department-card {
+    padding: var(--space-md);
+  }
+  
+  .department-icon {
+    font-size: 2rem;
+  }
+}

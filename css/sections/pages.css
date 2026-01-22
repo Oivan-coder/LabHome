@@ -176,41 +176,81 @@
     .registration-form {
         padding: var(--space-md);
         margin: 0 var(--space-sm);
+        border-radius: var(--radius-md);
     }
 
     .logo-section h1 {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+        margin-bottom: var(--space-sm);
     }
 
     .success-message {
         padding: var(--space-md);
         margin: 0 var(--space-sm);
+        border-radius: var(--radius-md);
+    }
+    
+    .success-icon {
+        font-size: 2.5rem;
+        margin-bottom: var(--space-sm);
     }
     
     .about-hero h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
     
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
     .specialist-card {
-        padding: var(--space-lg);
-        margin: 0 var(--space-sm);
+        padding: var(--space-md);
+        margin: 0 var(--space-xs);
     }
     
     .contact-link {
-        padding: var(--space-sm) var(--space-md);
+        padding: 0.75rem var(--space-md);
         font-size: 0.9rem;
+        min-height: 44px;
+        width: 100%;
     }
     
     .contacts-button {
-        padding: var(--space-sm) var(--space-lg);
+        padding: 0.75rem var(--space-md);
         font-size: 0.9rem;
         width: 100%;
+        max-width: 100%;
         text-align: center;
         justify-content: center;
+        min-height: 44px;
+    }
+    
+    .text-content h2,
+    .org-structure h3,
+    .mission-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .text-content p,
+    .mission-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    .direction-card {
+        padding: var(--space-md);
+    }
+    
+    .direction-number {
+        font-size: 1.8rem;
+    }
+    
+    .direction-icon {
+        font-size: 1.8rem;
+    }
+    
+    .direction-card h4 {
+        font-size: 1.2rem;
     }
 }
 

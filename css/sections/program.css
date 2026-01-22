@@ -974,8 +974,36 @@
         margin-top: var(--space-lg);
     }
     
+    .presentations-archive .block-header {
+        padding: var(--space-md);
+    }
+    
+    .presentations-archive .block-header h3 {
+        font-size: 1.1rem;
+    }
+    
     .archive-grid {
         padding: var(--space-md);
+        gap: var(--space-sm);
+    }
+    
+    .main-archive {
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .archive-icon {
+        font-size: 2.5rem;
+    }
+    
+    .archive-content h4 {
+        font-size: 1.1rem;
+    }
+    
+    .download-btn {
+        padding: 0.75rem var(--space-md);
+        font-size: 0.9rem;
+        min-height: 44px;
     }
     
     .main-archive {

@@ -475,16 +475,23 @@
 /* Mobile adaptations for forms */
 @media (max-width: 768px) {
     .contact-link {
-        padding: 0.75rem 1rem;
-        font-size: 0.8rem;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
         justify-content: center;
         text-align: center;
+        min-height: 48px;
+        width: 100%;
+    }
+    
+    .contact-link:hover {
+        transform: none;
     }
     
     .contacts-grid-2x2,
     .contacts-grid-2plus1,
     .contacts-grid-2 {
         grid-template-columns: 1fr;
+        gap: var(--space-sm);
     }
     
     .contacts-grid-2plus1 .contact-link:last-child {
@@ -492,37 +499,124 @@
     }
     
     .form-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-sm);
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md);
     }
     
-    .notification {
-        right: 10px;
-        left: 10px;
-        max-width: none;
-        min-width: auto;
+    .form-group {
+        margin-bottom: var(--space-md);
     }
-}
-
-@media (max-width: 480px) {
-    .contact-link {
-        padding: 0.625rem 0.875rem;
-        font-size: 0.75rem;
-        min-height: 40px;
+    
+    .form-group label {
+        font-size: 0.95rem;
+        margin-bottom: var(--space-xs);
+        display: block;
     }
     
     .form-group input,
     .form-group select,
     .form-group textarea {
-        padding: 10px 12px;
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 16px !important; /* Предотвращает zoom в iOS */
+        min-height: 48px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+        min-width: auto;
+        padding: var(--space-md);
         font-size: 0.9rem;
+    }
+    
+    /* Custom select для мобильных */
+    .custom-select {
+        width: 100%;
+    }
+    
+    .select-selected {
+        padding: 0.875rem 1rem;
+        font-size: 16px !important;
+        min-height: 48px;
+    }
+    
+    .select-items {
+        max-height: 200px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .select-items div {
+        padding: 0.875rem 1rem;
+        min-height: 44px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        min-height: 44px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.75rem 0.875rem;
+        font-size: 16px !important;
+        min-height: 44px;
+    }
+    
+    .form-group textarea {
+        min-height: 100px;
     }
     
     .success-message {
         padding: var(--space-md);
+        margin: 0 var(--space-sm);
     }
     
     .success-icon {
-        font-size: 3rem;
+        font-size: 2.5rem;
+    }
+    
+    .select-selected {
+        padding: 0.75rem 0.875rem;
+        font-size: 16px !important;
+        min-height: 44px;
+    }
+    
+    .select-items div {
+        padding: 0.75rem 0.875rem;
+        min-height: 44px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Touch-friendly для форм */
+@media (hover: none) and (pointer: coarse) {
+    .contact-link:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+    
+    .contact-link:hover {
+        transform: none;
+    }
+    
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: 2px solid var(--accent-primary);
+        outline-offset: 2px;
     }
 }
