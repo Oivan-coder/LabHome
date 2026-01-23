@@ -87,11 +87,20 @@ function initBurgerMenu() {
         body.classList.toggle('menu-open');
     });
     
-    // Закрытие при клике вне меню
+    // Закрытие при клике вне меню (на затемнение)
     document.addEventListener('click', function(e) {
         if (navMenu.classList.contains('active') && 
             !navMenu.contains(e.target) && 
             !burgerMenu.contains(e.target)) {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+        }
+    });
+    
+    // Закрытие при нажатии Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
             burgerMenu.classList.remove('active');
             navMenu.classList.remove('active');
             body.classList.remove('menu-open');
