@@ -116,6 +116,90 @@
   text-align: left;
 }
 
+.past-hero-card {
+  background: rgba(26, 42, 64, 0.95);
+  backdrop-filter: blur(25px);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  max-width: 560px;
+  box-shadow: var(--shadow-lg), var(--glow-card);
+  border: 1px solid rgba(0, 229, 255, 0.26);
+  margin: 0;
+  text-align: left;
+}
+
+.completion-badge {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(245, 158, 11, 0.18));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  margin-bottom: var(--space-md);
+}
+
+.completion-badge .badge-icon {
+  font-size: 1.1rem;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
+.completion-badge .badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.completion-badge .badge-title {
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.completion-badge .badge-subtitle {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.past-hero-card h1 {
+  font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  margin-bottom: var(--space-sm);
+  line-height: 1.1;
+}
+
+.past-hero-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.past-event-details {
+  margin-bottom: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.past-hero-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.past-hero-buttons .cta-button {
+  padding: 0.875rem 1.5rem;
+  font-size: 0.95rem;
+  flex: 1;
+  min-width: 160px;
+}
+
 .hero-info-card h1 {
   font-size: 2rem;
   margin-bottom: var(--space-sm);
@@ -448,9 +532,34 @@
     /* Скрываем плашку регистрации на мобильных (для всех hero-info-card) */
     .video-hero .hero-info-card,
     .photo-hero .hero-info-card,
-    .hero-info-card,
-    .past-hero-card {
+    .hero-info-card {
         display: none !important;
+    }
+
+    /* Прошедшие конференции: карточку НЕ скрываем, а делаем компактной */
+    .past-conference-page .past-hero-card {
+        display: block !important;
+        width: 100%;
+        max-width: 520px;
+        padding: 14px;
+        border-radius: var(--radius-xl);
+    }
+
+    .past-conference-page .completion-badge {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        border-radius: 16px;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+    }
+
+    .past-conference-page .completion-badge .badge-text {
+        align-items: center;
+    }
+
+    .past-conference-page .past-event-details .detail-item {
+        font-size: 0.95rem;
     }
     
     /* Показываем только кнопки */

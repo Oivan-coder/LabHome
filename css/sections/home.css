@@ -120,7 +120,7 @@
     top: var(--space-md);
     right: var(--space-md);
     padding: var(--space-xs) var(--space-md);
-    border-radius: 20px;
+    border-radius: var(--radius-pill);
     font-size: 0.8rem;
     font-weight: 600;
     z-index: 2;

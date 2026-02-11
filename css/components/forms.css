@@ -109,6 +109,94 @@
     font-size: 1rem;
 }
 
+.registration-form[aria-disabled="true"] {
+    opacity: 0.98;
+    position: relative;
+    overflow: hidden;
+}
+
+.registration-form[aria-disabled="true"]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 21, 37, 0.00) 0%, rgba(10, 21, 37, 0.20) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.form-locked-hint {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    margin-bottom: var(--space-md);
+    border-radius: var(--radius-md);
+    background: rgba(0, 229, 255, 0.06);
+    border: 1px solid rgba(0, 229, 255, 0.18);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.form-locked-icon {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.16);
+    flex-shrink: 0;
+}
+
+.form-locked-copy {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.form-locked-subcopy {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.registration-form[aria-disabled="true"] input,
+.registration-form[aria-disabled="true"] select,
+.registration-form[aria-disabled="true"] textarea {
+    cursor: not-allowed;
+}
+
+.registration-form[aria-disabled="true"] .form-grid,
+.registration-form[aria-disabled="true"] .submit-btn {
+    position: relative;
+    z-index: 2;
+}
+
+.registration-form[aria-disabled="true"] input:disabled,
+.registration-form[aria-disabled="true"] select:disabled,
+.registration-form[aria-disabled="true"] textarea:disabled {
+    opacity: 0.85;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: none;
+}
+
+.registration-form[aria-disabled="true"] input:disabled::placeholder,
+.registration-form[aria-disabled="true"] textarea:disabled::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.registration-form[aria-disabled="true"] .select-selected {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.78);
+}
+
 .select-selected:hover {
     border-color: var(--accent-primary);
     background: var(--bg-glass-hover);
@@ -380,11 +468,17 @@
     padding: 1rem 1.5rem;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-hover);
-    z-index: 10000;
+    z-index: 10001;
     animation: slideInRight 0.3s ease;
     max-width: 400px;
     min-width: 300px;
     backdrop-filter: blur(10px);
+}
+
+.notification-info {
+    background: rgba(0, 229, 255, 0.14);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 229, 255, 0.28);
 }
 
 .notification-success {

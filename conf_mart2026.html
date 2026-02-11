@@ -42,7 +42,7 @@
         });
     </script>
 </head>
-<body class="conference-page">
+<body class="conference-page conf-mart-2026">
     <!-- Photo Hero Section (без видео, только фото) -->
     <section class="photo-hero">
         <!-- Фото фон -->
@@ -106,12 +106,12 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-icon">🎯</span>
-                        <span class="detail-text">Регистрация открыта</span>
+                        <span class="detail-text">Регистрация откроется позже</span>
                     </div>
                 </div>
                 
                 <div class="hero-buttons">
-                    <a href="registration.html" class="cta-button primary">Зарегистрироваться</a>
+                    <a href="#contacts" class="cta-button primary">Связаться с организаторами</a>
                 </div>
             </div>
         </div>
@@ -122,10 +122,10 @@
         <div class="container">
             <div class="about-header">
                 <h2 class="section-title">О событии</h2>
-                <div class="about-subtitle">
+                <p class="section-subtitle about-subtitle">
                     <strong>Референс-центр лабораторной службы Московской области</strong> при поддержке
                     <strong>Министерства здравоохранения Московской области</strong> готовит научно-практическую конференцию
-                </div>
+                </p>
             </div>
 
             <!-- Draft Notice -->
@@ -145,10 +145,10 @@
                         </div>
                         <div class="draft-feature-item">
                             <span class="feature-icon">🎯</span>
-                            <span>Регистрация уже открыта</span>
+                            <span>Регистрация откроется позже</span>
                         </div>
                     </div>
-                    <a href="registration.html" class="cta-button primary">Зарегистрироваться</a>
+                    <a href="#contacts" class="cta-button primary">Связаться с организаторами</a>
                 </div>
             </div>
         </div>
@@ -165,89 +165,77 @@
                 <div class="placeholder-icon">📋</div>
                 <h3>Программа готовится</h3>
                 <p>Мы работаем над формированием насыщенной и актуальной программы.<br>Информация будет доступна ближе к дате мероприятия.</p>
-                <a href="registration.html" class="cta-button outline">Зарегистрироваться, чтобы получить программу первыми</a>
+                <a href="#contacts" class="cta-button secondary">Получить уведомление о программе</a>
             </div>
         </div>
     </section>
 
-    <!-- Speakers Section - Draft -->
-    <section id="speakers" class="speakers-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Наши эксперты</h2>
-                <p class="section-subtitle">Информация о спикерах будет опубликована позже</p>
-            </div>
-            
-            <!-- Заглушка для спикеров -->
-            <div class="speakers-placeholder">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">👨‍⚕️👩‍⚕️</div>
-                    <h3>Состав спикеров формируется</h3>
-                    <p>Мы приглашаем лучших экспертов отрасли.<br>Информация о спикерах будет опубликована позже.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Speakers Section removed for March 2026 (announcement only) -->
 
     <!-- Location & Map -->
     <section id="location" class="location-section full-width">
-        <div class="map-container-full">
-            <div id="yandexMapFull" class="interactive-map-full"></div>
-            
-            <!-- КОМПАКТНАЯ ИНФОРМАЦИОННАЯ ПЛАШКА -->
-            <div class="location-overlay-card">
-                <div class="location-header">
-                    <div class="location-icon-wrapper">
-                        <div class="location-icon">🏢</div>
+        <div class="container">
+            <div class="location-section-header">
+                <h2 class="section-title">Место проведения</h2>
+                <p class="section-subtitle">БЦ «Новатор», б-р Строителей, 7, Красногорск</p>
+            </div>
+        </div>
+
+        <div class="location-map-wrap">
+            <div class="map-container-full map-container-full--premium">
+                <div id="yandexMapFull" class="interactive-map-full"></div>
+
+                <!-- КОМПАКТНАЯ ИНФОРМАЦИОННАЯ ПЛАШКА -->
+                <div class="location-overlay-card">
+                    <div class="loc-card">
+                        <div class="loc-head">
+                            <div class="loc-mark">🏢</div>
+                            <div class="loc-head-main">
+                                <div class="loc-title-row">
+                                    <h3 class="loc-title">БЦ «Новатор»</h3>
+                                    <span class="loc-pill">Конференц-центр</span>
+                                </div>
+                                <div class="loc-address">
+                                    <div class="loc-address-main">б-р Строителей, 7, Красногорск</div>
+                                    <div class="loc-address-sub">Московская область · м. Мякинино</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="loc-chips" aria-label="Как добраться">
+                            <span class="loc-chip"><span class="chip-ic">🚇</span> м. Мякинино</span>
+                            <span class="loc-chip"><span class="chip-ic">🚶</span> пешком / автобус</span>
+                        </div>
                     </div>
-                    <div class="location-title-block">
-                        <h3 class="location-title">Место проведения</h3>
-                        <div class="location-badge">Уточняется</div>
+
+                    <div class="location-actions multi">
+                        <button class="map-btn" id="openNavigationMap" type="button">
+                            <span class="btn-icon">🚗</span>
+                            <span class="btn-text">Маршрут</span>
+                        </button>
+                        <a class="map-btn secondary" id="openExternalMap" href="#" target="_blank" rel="noopener noreferrer">
+                            <span class="btn-icon">🗺️</span>
+                            <span class="btn-text">Карта</span>
+                        </a>
+                        <button class="map-btn ghost" id="copyMapAddress" type="button">
+                            <span class="btn-icon">📋</span>
+                            <span class="btn-text">Адрес</span>
+                        </button>
                     </div>
-                </div>
-                
-                <div class="location-address-block">
-                    <div class="address-icon">📍</div>
-                    <div class="address-content">
-                        <p class="location-address">Москва, Московская область</p>
-                        <p class="location-subtitle">Точный адрес будет объявлен позже</p>
-                    </div>
-                </div>
-                
-                <div class="location-notice">
-                    <p>📍 Информация о месте проведения будет опубликована позже</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Registration CTA -->
-    <section class="registration-cta-simple">
+    <!-- Updates CTA (announcement only) -->
+    <section class="updates-cta">
         <div class="container">
-            <div class="registration-card-simple">
-                <div class="registration-content">
-                    <h2>Успейте зарегистрироваться!</h2>
-                    <p>Количество мест ограничено. Зарегистрируйтесь сейчас, чтобы гарантировать свое участие.</p>
-                    <div class="registration-features">
-                        <div class="feature">
-                            <span class="feature-icon">✅</span>
-                            <span class="feature-text">Ранняя регистрация</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">📧</span>
-                            <span class="feature-text">Подтверждение на email</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">🎫</span>
-                            <span class="feature-text">Электронный билет</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="registration-action">
-                    <a href="registration.html" class="cta-button large primary">
-                        Зарегистрироваться
-                    </a>
-                    <p class="registration-note">Регистрация открыта</p>
+            <div class="draft-notice">
+                <div class="draft-content">
+                    <div class="draft-icon">🔔</div>
+                    <h3>Следите за обновлениями</h3>
+                    <p>Мы опубликуем программу, состав спикеров и место проведения ближе к дате мероприятия.</p>
+                    <a href="#contacts" class="cta-button primary">Связаться с организаторами</a>
                 </div>
             </div>
         </div>
@@ -361,19 +349,6 @@
                 window.debugLog('🎯 Страница конференции 2026 загружена');
             }
             
-            // Инициализация карты (можно оставить пустую или показать Москву)
-            if (typeof ymaps !== 'undefined' && ymaps) {
-                ymaps.ready(function() {
-                    const mapContainer = document.getElementById('yandexMapFull');
-                    if (mapContainer) {
-                        var map = new ymaps.Map('yandexMapFull', {
-                            center: [55.7558, 37.6176], // Москва
-                            zoom: 10
-                        });
-                    }
-                });
-            }
-            
             // Анимация для placeholder
             const placeholders = document.querySelectorAll('.program-placeholder, .speakers-placeholder');
             placeholders.forEach(placeholder => {
@@ -388,9 +363,25 @@
             });
         });
     </script>
+
+    <!-- Конфигурация карты для этой страницы (используется js/modules/map.js) -->
+    <script>
+        window.PAGE_MAP_CONFIG = {
+            location: {
+                coordinates: [55.817062, 37.383687],
+                address: 'б-р Строителей, 7, Красногорск, Московская область, 143407',
+                name: 'БЦ "Новатор"'
+            },
+            event: {
+                title: 'Форум лабораторных инноваций 2026',
+                description: 'Передовые технологии в медицинской лабораторной диагностике',
+                date: 'Март 2026',
+                time: '11:00',
+                duration: 7
+            }
+        };
+    </script>
     <!-- Модули -->
-    <script src="js/modules/speakers.js" defer></script>
-    <script src="js/modules/slider.js" defer></script>
     <script src="js/modules/map.js" defer></script>
     <!-- URL cleaner -->
     <script src="js/url-cleaner.js" defer></script>

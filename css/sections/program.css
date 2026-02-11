@@ -156,6 +156,65 @@
   margin: 0 auto;
 }
 
+/* ===== SIMPLE TIMELINE (used on past conference pages) ===== */
+.program-timeline--simple .time-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.program-timeline--simple .time-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  color: var(--text-primary);
+}
+
+.program-timeline--simple .time-range {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.program-timeline--simple .session-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.program-timeline--simple .session-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  align-items: start;
+}
+
+.program-timeline--simple .session-item .session-time {
+  align-self: start;
+}
+
+.program-timeline--simple .session-item .session-title {
+  display: block;
+}
+
+.program-timeline--simple .session-item .session-details {
+  grid-column: 2;
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin-top: -2px;
+}
+
 /* Закомментированный код удален */
 
 .time-block {
@@ -550,6 +609,14 @@
   
   .session-speaker {
     font-size: 0.9rem;
+  }
+
+  .program-timeline--simple .session-item {
+    grid-template-columns: 1fr;
+  }
+
+  .program-timeline--simple .session-item .session-details {
+    grid-column: auto;
   }
 }
 

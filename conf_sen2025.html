@@ -75,8 +75,11 @@
         <div class="hero-content">
             <div class="past-hero-card">
                 <div class="completion-badge">
-                    <span class="badge-icon">🏁</span>
-                    <span>Мероприятие завершено</span>
+                    <span class="badge-icon" aria-hidden="true">🏁</span>
+                    <span class="badge-text">
+                        <span class="badge-title">Мероприятие завершено</span>
+                        <span class="badge-subtitle">Архив материалов готовится</span>
+                    </span>
                 </div>
                 
                 <h1>Лабораторная медицина Подмосковья</h1>
@@ -95,39 +98,6 @@
                         <span class="detail-icon">📍</span>
                         <span class="detail-text">БЦ «Новатор», Красногорск</span>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon">👥</span>
-                        <span class="detail-text">200+ участников</span>
-                    </div>
-                </div>
-                
-                <div class="past-hero-buttons">
-                    <a href="#gallery" class="cta-button primary">Смотреть фотоотчёт</a>
-                    <a href="#materials" class="cta-button secondary">Материалы конференции</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Статистика мероприятия -->
-    <section class="stats-section compact">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">200+</div>
-                    <div class="stat-label">участников</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">выступлений</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">часов работы</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">удовлетворённости</div>
                 </div>
             </div>
         </div>
@@ -148,17 +118,11 @@
                             <p>Рост качества лабораторной диагностики и оказания медицинской помощи, стратегические идеи для будущего развития</p>
                         </div>
                         <div class="highlight-card">
-                            <div class="highlight-icon">🤝</div>
-                            <h4>Участники</h4>
-                            <p>Руководители и специалисты лабораторной службы, эксперты федерального уровня, представители Минздрава МО</p>
+                            <div class="highlight-icon">🧪</div>
+                            <h4>Темы</h4>
+                            <p>Централизация, цитологические исследования, организация и логистика лабораторных процессов</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="about-image">
-                    <img src="images/past-conferences/september-about.jpg"
-                         alt="Участники конференции"
-                         loading="lazy">
                 </div>
             </div>
         </div>
@@ -168,68 +132,92 @@
     <section id="program" class="program-section past">
         <div class="container">
             <h2 class="section-title">Программа мероприятия</h2>
-            
-            <div class="past-program-timeline">
-                <!-- Утро -->
-                <div class="time-block morning">
-                    <div class="time-header">
-                        <span class="time-label">УТРО</span>
-                        <span class="time-range">11:00–14:30</span>
+            <p class="section-subtitle">25 сентября 2025 | 11:00–18:00</p>
+
+            <!-- Компактный вид программы -->
+            <div class="program-compact">
+                <div class="compact-header">
+                    <div class="compact-summary">
+                        <div class="summary-item">
+                            <span class="summary-icon">📅</span>
+                            <span class="summary-text">25 сентября 2025</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">⏰</span>
+                            <span class="summary-text">11:00–18:00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">📍</span>
+                            <span class="summary-text">Красногорск</span>
+                        </div>
                     </div>
-                    <div class="session-items">
-                        <div class="session-item">
-                            <span class="session-time">11:00–12:30</span>
-                            <span class="session-title">Регистрация участников</span>
+                    <button class="cta-button primary" id="toggleProgram" type="button">
+                        <span class="btn-text">Показать программу</span>
+                        <span class="btn-icon">▼</span>
+                    </button>
+                </div>
+
+                <!-- Полная программа (скрыта по умолчанию) -->
+                <div class="program-full" id="programFull" style="display: none;">
+                    <div class="program-timeline program-timeline--simple">
+                        <!-- Утро -->
+                        <div class="time-block morning">
+                            <div class="time-header">
+                                <span class="time-label">УТРО</span>
+                                <span class="time-range">11:00–14:30</span>
+                            </div>
+                            <div class="session-items">
+                                <div class="session-item">
+                                    <span class="session-time">11:00–12:30</span>
+                                    <span class="session-title">Регистрация участников</span>
+                                </div>
+                                <div class="session-item">
+                                    <span class="session-time">12:30–13:00</span>
+                                    <span class="session-title">Открытие конференции</span>
+                                </div>
+                                <div class="session-item">
+                                    <span class="session-time">13:00–14:30</span>
+                                    <span class="session-title">Секционные доклады</span>
+                                    <span class="session-details">Централизация, цитология, логистика проб</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="session-item">
-                            <span class="session-time">12:30–13:00</span>
-                            <span class="session-title">Открытие конференции</span>
+
+                        <!-- День -->
+                        <div class="time-block day">
+                            <div class="time-header">
+                                <span class="time-label">ДЕНЬ</span>
+                                <span class="time-range">14:30–17:00</span>
+                            </div>
+                            <div class="session-items">
+                                <div class="session-item">
+                                    <span class="session-time">14:30–15:30</span>
+                                    <span class="session-title">Перерыв</span>
+                                </div>
+                                <div class="session-item">
+                                    <span class="session-time">15:30–17:00</span>
+                                    <span class="session-title">Пленарное заседание</span>
+                                    <span class="session-details">Экспертные выступления и дискуссия</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="session-item">
-                            <span class="session-time">13:00–14:30</span>
-                            <span class="session-title">Секционные доклады</span>
-                            <span class="session-details">Централизация, цитология, логистика проб</span>
+
+                        <!-- Вечер -->
+                        <div class="time-block evening">
+                            <div class="time-header">
+                                <span class="time-label">ВЕЧЕР</span>
+                                <span class="time-range">17:00–18:00</span>
+                            </div>
+                            <div class="session-items">
+                                <div class="session-item">
+                                    <span class="session-time">17:00–18:00</span>
+                                    <span class="session-title">Нетворкинг</span>
+                                    <span class="session-details">Неформальное общение экспертов</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- День -->
-                <div class="time-block day">
-                    <div class="time-header">
-                        <span class="time-label">ДЕНЬ</span>
-                        <span class="time-range">14:30–17:00</span>
-                    </div>
-                    <div class="session-items">
-                        <div class="session-item">
-                            <span class="session-time">14:30–15:30</span>
-                            <span class="session-title">Перерыв</span>
-                        </div>
-                        <div class="session-item">
-                            <span class="session-time">15:30–17:00</span>
-                            <span class="session-title">Пленарное заседание</span>
-                            <span class="session-details">Экспертные выступления и дискуссия</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Вечер -->
-                <div class="time-block evening">
-                    <div class="time-header">
-                        <span class="time-label">ВЕЧЕР</span>
-                        <span class="time-range">17:00–18:00</span>
-                    </div>
-                    <div class="session-items">
-                        <div class="session-item">
-                            <span class="session-time">17:00–18:00</span>
-                            <span class="session-title">Нетворкинг</span>
-                            <span class="session-details">Неформальное общение экспертов</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="program-cta">
-                <a href="#materials" class="cta-button outline">Смотреть презентации</a>
             </div>
         </div>
     </section>
@@ -352,18 +340,9 @@
                     link.classList.add('active');
                 }
             });
-            
-            // Анимация галереи
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            galleryItems.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.1}s`;
-            });
         });
     </script>
     <!-- Модули -->
-    <script src="js/modules/speakers.js" defer></script>
-    <script src="js/modules/slider.js" defer></script>
-    <script src="js/modules/map.js" defer></script>
     <!-- URL cleaner -->
     <script src="js/url-cleaner.js" defer></script>
     <!-- Основной скрипт -->

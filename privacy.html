@@ -23,222 +23,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
     
-    <style>
-        /* Дополнительные стили для страницы политики */
-        .privacy-hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 100px 0 80px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .privacy-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 25, 47, 0.9);
-        }
-
-        .privacy-hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .privacy-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .privacy-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 0;
-        }
-
-        .privacy-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            line-height: 1.7;
-        }
-
-        .privacy-section {
-            margin-bottom: 3rem;
-            padding: 2.5rem;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            border-left: 4px solid var(--accent-primary);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .privacy-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .privacy-section h2 {
-            color: var(--accent-primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            font-weight: 600;
-            border-bottom: 2px solid rgba(100, 255, 218, 0.3);
-            padding-bottom: 0.5rem;
-        }
-
-        .privacy-section h3 {
-            color: var(--text-primary);
-            margin: 2rem 0 1rem;
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-
-        .cookie-types {
-            background: var(--bg-primary);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        .cookie-type {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        .cookie-type:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .cookie-type h4 {
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .cookie-status {
-            display: inline-block;
-            background: var(--success-color);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .cookie-status.required {
-            background: var(--accent-primary);
-        }
-
-        .cookie-status.optional {
-            background: var(--warning-color);
-        }
-
-        .back-to-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 3rem;
-            padding: 1rem 2rem;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .back-to-home:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
-        }
-
-        .privacy-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .privacy-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .privacy-list li::before {
-            content: '▸';
-            color: var(--accent-primary);
-            position: absolute;
-            left: 0;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .privacy-hero {
-                padding: 80px 0 60px;
-            }
-
-            .privacy-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .privacy-container {
-                padding: 40px 20px;
-            }
-
-            .privacy-section {
-                padding: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .cookie-types {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .privacy-hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .privacy-hero p {
-                font-size: 1rem;
-            }
-
-            .privacy-section {
-                padding: 1.2rem;
-            }
-
-            .cookie-types {
-                padding: 1rem;
-            }
-        }
-    </style>
+    <!-- NOTE: styles were migrated to css/sections/pages.css to keep css/ as single source of truth -->
 </head>
-<body>
+<body class="privacy-page">
     <!-- Header -->
     <header class="photo-header">
         <div class="container">
@@ -376,7 +163,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="main-footer" id="contacts">
         <div class="container">
             <div class="footer-main">
                 <!-- Организатор -->
@@ -392,17 +179,63 @@
                     </div>
                 </div>
 
+                <!-- Партнер -->
+                <div class="footer-block">
+                    <div class="footer-info">
+                        <span class="footer-label">Партнёр проекта</span>
+                        <div class="footer-logo-wrapper">
+                            <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
+                                <img src="images/cvimz-logo.png" alt="ГКУ МО «Центр внедрения изменений»" class="footer-logo">
+                                <span class="footer-org-name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Контакты -->
                 <div class="footer-block footer-contacts">
                     <div class="footer-info">
-                        <span class="footer-label">Контакты</span>
+                        <span class="footer-label">Контакты для связи</span>
                         <div class="contact-items-wrapper">
+                            <!-- Контакт 1 -->
                             <div class="contact-person-group">
                                 <div class="contact-header">
-                                    <span class="contact-person">По вопросам конфиденциальности</span>
+                                    <span class="contact-person">Анна Валерьевна - координатор конференции</span>
                                     <div class="contact-actions">
-                                        <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-phone-button" aria-label="Написать email">
-                                            <span class="phone-icon">📧</span>
+                                        <a href="tel:+79637516163" class="contact-phone-button" aria-label="Позвонить Анне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/Annkey" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать Анне в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79637516163" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать Анне в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Контакт 2 -->
+                            <div class="contact-person-group">
+                                <div class="contact-header">
+                                    <span class="contact-person">Ирина Владимировна - куратор конференции</span>
+                                    <div class="contact-actions">
+                                        <a href="tel:+79958832336" class="contact-phone-button" aria-label="Позвонить Ирине Владимировне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/doc_kld" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79958832336" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
                                         </a>
                                     </div>
                                 </div>
@@ -415,8 +248,8 @@
             <div class="footer-divider"></div>
 
             <div class="footer-copyright">
-                <p>© 2025 Референс-центр лабораторной службы Московской области.</p>
-                <p class="copyright-secondary">Все права защищены | <a href="privacy.html" style="color: inherit;">Политика конфиденциальности</a></p>
+                <p>© 2026 Референс-центр лабораторной службы Московской области.</p>
+                <p class="copyright-secondary">Все права защищены | <a href="privacy.html">Политика конфиденциальности</a></p>
             </div>
         </div>
     </footer>
@@ -424,9 +257,6 @@
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
-    <!-- Подключение скрипта cookies -->
-    <script src="cookies.js"></script>
-    
     <!-- Общий модуль (загружается первым) -->
     <script src="js/common.js"></script>
     <!-- URL cleaner -->

@@ -581,8 +581,8 @@
 @media (max-width: 768px) {
     #yandexMapFull,
     .map-container {
-        height: 300px !important;
-        min-height: 300px !important;
+        height: 420px !important;
+        min-height: 420px !important;
     }
     
     .map-fallback {

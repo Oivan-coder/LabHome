@@ -6,7 +6,7 @@
   gap: var(--space-xs);
   padding: 1rem 2rem;
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--button-radius);
   font-weight: 600;
   text-decoration: none;
   text-align: center;
@@ -87,6 +87,46 @@
   border-color: var(--accent-primary);
 }
 
+/* Additional variants used across pages */
+.cta-button.outline,
+.cta-button.ghost {
+  background: transparent;
+  color: var(--accent-primary);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  box-shadow: none;
+}
+
+.cta-button.outline:hover,
+.cta-button.ghost:hover {
+  background: rgba(0, 229, 255, 0.08);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.55);
+}
+
+.cta-button.large {
+  padding: 1.125rem 2.25rem;
+  font-size: 1.05rem;
+}
+
+/* Pressed state (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .cta-button:active,
+  .map-btn:active,
+  .contacts-button:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button,
+  .map-btn,
+  .contacts-button,
+  .back-to-top {
+    transition: none !important;
+  }
+}
+
 /* Map Button */
 .map-btn {
   display: flex;
@@ -95,7 +135,7 @@
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--button-radius);
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -113,6 +153,39 @@
   box-shadow: var(--shadow-hover);
 }
 
+.map-btn.secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-btn.secondary:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.35);
+}
+
+.map-btn.ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
+.map-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+/* Focus states (accessibility) */
+.cta-button:focus-visible,
+.map-btn:focus-visible,
+.contacts-button:focus-visible,
+.back-to-top:focus-visible {
+  outline: 3px solid rgba(0, 229, 255, 0.35);
+  outline-offset: 3px;
+}
+
 /* Contacts Button */
 .contacts-button {
   display: inline-flex;
@@ -122,7 +195,7 @@
   background: var(--gradient-medical);
   color: var(--bg-primary) !important;
   text-decoration: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--button-radius);
   font-weight: 600;
   transition: all 0.3s ease;
   border: none;

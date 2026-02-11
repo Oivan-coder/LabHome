@@ -3,8 +3,8 @@
 .glass-card {
   background: var(--bg-glass);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 229, 255, 0.1);
-  border-radius: var(--radius-lg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
   transition: all 0.3s ease;
 }
 
@@ -15,17 +15,26 @@
   box-shadow: var(--shadow-lg), var(--glow-card);
 }
 
+/* Focus ring when card contains a focused interactive element */
+.glass-card:focus-within,
+.program-block:focus-within,
+.partner-card:focus-within,
+.department-card:focus-within {
+  outline: 3px solid rgba(0, 229, 255, 0.25);
+  outline-offset: 4px;
+}
+
 /* Стили для статистики перенесены в sections/hero.css */
 
 /* Program Blocks */
 .program-block {
   background: var(--bg-card);
   margin-bottom: var(--space-lg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
   text-align: left;
-  border: 1px solid rgba(0, 229, 255, 0.1);
+  border: var(--card-border);
   transition: all 0.3s ease;
 }
 
@@ -98,10 +107,10 @@
 .partner-card {
   background: var(--bg-card);
   padding: var(--space-xl);
-  border-radius: var(--radius-lg);
+  border-radius: var(--card-radius);
   text-align: center;
   transition: all 0.4s ease;
-  border: 1px solid rgba(0, 229, 255, 0.1);
+  border: var(--card-border);
   backdrop-filter: blur(10px);
 }
 
@@ -128,10 +137,10 @@
 .department-card {
   background: var(--bg-card);
   padding: var(--space-xl);
-  border-radius: var(--radius-lg);
+  border-radius: var(--card-radius);
   text-align: center;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 1px solid rgba(0, 229, 255, 0.1);
+  border: var(--card-border);
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-md);

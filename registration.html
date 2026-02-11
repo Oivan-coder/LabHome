@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- 🔥 SEO МЕТА-ТЕГИ -->
-    <title>Регистрация - Форум лабораторных инноваций 2025</title>
-    <meta name="description" content="Регистрация на Форум лабораторных инноваций 2025. Заполните форму для участия в мероприятии по лабораторной диагностике.">
-    <meta name="keywords" content="регистрация на форум, Форум лабораторных инноваций 2025, заявка на участие, медицинский форум">
+    <title>Регистрация — Форум лабораторных инноваций 2026 (март)</title>
+    <meta name="description" content="Регистрация на Форум лабораторных инноваций 2026 (март). Заполните форму для участия в мероприятии по лабораторной диагностике.">
+    <meta name="keywords" content="регистрация на форум, Форум лабораторных инноваций 2026 (март), заявка на участие, медицинский форум">
     <link rel="canonical" href="https://rclsmo.ru/registration.html" />
     
     <!-- Open Graph для соцсетей -->
-    <meta property="og:title" content="Регистрация - Форум лабораторных инноваций 2025">
-    <meta property="og:description" content="Зарегистрируйтесь на Форум лабораторных инноваций 2025">
+    <meta property="og:title" content="Регистрация — Форум лабораторных инноваций 2026 (март)">
+    <meta property="og:description" content="Зарегистрируйтесь на Форум лабораторных инноваций 2026 (март)">
     <meta property="og:url" content="https://rclsmo.ru/registration.html">
     <meta property="og:type" content="website">
     
@@ -42,428 +42,7 @@
         });
     </script>
 
-    <style>
-        /* Стили модального окна */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 21, 37, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
-            transform: translateY(30px);
-            transition: transform 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 1;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-right: 2rem;
-        }
-
-        .modal-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .modal-header h3 {
-            color: white;
-            margin: 0 0 0.5rem 0;
-            font-size: 1.6rem;
-            font-weight: 600;
-        }
-
-        .modal-subtitle {
-            color: #00e5ff;
-            font-size: 1rem;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        .modal-body {
-            color: white;
-        }
-
-        .parking-benefits {
-            background: rgba(0, 229, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-            border-left: 4px solid #00e5ff;
-        }
-
-        .parking-benefits h4 {
-            margin-top: 0;
-            color: #00e5ff;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .requirements-list {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-        }
-
-        .requirements-list h4 {
-            color: #4fc3f7;
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .requirements-list ul {
-            margin: 0;
-            padding-left: 1.2rem;
-        }
-
-        .requirements-list li {
-            margin-bottom: 0.6rem;
-            position: relative;
-            padding-left: 0.5rem;
-        }
-
-        .contact-info {
-            text-align: center;
-            margin: 2rem 0 1.5rem 0;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-        }
-
-        .car-data-form {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-        }
-
-        .car-data-form h4 {
-            color: #4fc3f7;
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            text-align: center;
-        }
-
-        .form-grid-modal {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group-modal {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group-modal.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group-modal label {
-            color: white;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .form-group-modal input {
-            padding: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group-modal input:focus {
-            outline: none;
-            border-color: #00e5ff;
-            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
-        }
-
-        .form-group-modal input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .required-field::after {
-            content: " *";
-            color: #ff6b6b;
-        }
-
-        .modal-note {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-note small {
-            opacity: 0.8;
-            color: #4fc3f7;
-        }
-
-        .confirm-button {
-            background: linear-gradient(135deg, #00c853 0%, #64dd17 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            width: 100%;
-        }
-
-        .confirm-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 200, 83, 0.3);
-        }
-
-        /* Анимации */
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOutRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 1rem;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        
-        .notification-close:hover {
-            opacity: 1;
-        }
-        
-        .notification-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .notification-message {
-            flex: 1;
-        }
-
-        /* Стили для активного селекта */
-        .select-items.active {
-            max-height: 300px !important;
-            overflow-y: auto !important;
-            display: block !important;
-        }
-        
-        .select-selected.active .select-arrow {
-            transform: rotate(180deg) !important;
-        }
-        
-        .select-items div.selected {
-            background: linear-gradient(135deg, #00e5ff 0%, #4fc3f7 100%) !important;
-            color: #0a1525 !important;
-            font-weight: 600 !important;
-        }
-        
-        .qr-info {
-            background: rgba(255, 193, 7, 0.1);
-            padding: 1.2rem;
-            border-radius: 10px;
-            margin: 1.2rem 0;
-            border-left: 4px solid #ffc107;
-        }
-
-        .qr-info h4 {
-            color: #ff8f00;
-            margin-top: 0;
-            margin-bottom: 0.8rem;
-            font-size: 1.1rem;
-        }
-
-        .qr-info ul {
-            margin: 0;
-            padding-left: 1.2rem;
-        }
-
-        .qr-info li {
-            margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .contact-reminder {
-            background: rgba(33, 150, 243, 0.1);
-            padding: 1.2rem;
-            border-radius: 10px;
-            margin: 1.2rem 0;
-            border-left: 4px solid #2196f3;
-        }
-
-        .contact-reminder p {
-            margin: 0.5rem 0;
-        }
-
-        .success-message {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .success-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .unique-data-warning {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
-            border: 2px solid #ff9800;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .warning-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-
-        .warning-content h4 {
-            color: #e65100;
-            margin: 0 0 0.8rem 0;
-            font-size: 1.2rem;
-        }
-
-        .warning-content p {
-            margin: 0.5rem 0;
-            color: #5d4037;
-        }
-
-        .warning-content ul {
-            margin: 0.8rem 0;
-            padding-left: 1.2rem;
-        }
-
-        .warning-content li {
-            margin-bottom: 0.5rem;
-            color: #5d4037;
-        }
-
-        .warning-content strong {
-            color: #e65100;
-        }
-
-        /* Стили для заблокированной кнопки */
-        .submit-btn.disabled {
-            background: #95a5a6 !important;
-            cursor: not-allowed !important;
-            opacity: 0.7;
-        }
-
-        .submit-btn.disabled:hover {
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .event-ended-notice {
-            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            text-align: center;
-            border-left: 4px solid #00e5ff;
-            box-shadow: 0 4px 15px rgba(26, 42, 79, 0.2);
-        }
-
-        .event-ended-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Адаптивность для мобильных */
-        @media (max-width: 768px) {
-            .unique-data-warning {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .warning-icon {
-                align-self: center;
-            }
-        }
-    </style>
+    <!-- NOTE: styles were migrated to css/sections/pages.css to keep css/ as single source of truth -->
 </head>
 <body class="registration-page">
     <!-- Хедер из основного стиля -->
@@ -471,8 +50,8 @@
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo">
-                    <img src="images/logo.png" class="logo-image">
-                    <div>Форум лабораторных инноваций 2025</div>
+                    <img src="images/logo.png" alt="РЦЛСМО" class="logo-image">
+                    <span>Референс-центр лабораторной службы МО</span>
                 </a>
                 
                 <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
@@ -483,17 +62,18 @@
                 
                 <nav class="nav-menu" id="navMenu">
                     <ul class="nav-links">
+                        <li><a href="index.html">Главная</a></li>
                         <li><a href="about.html">О нас</a></li>
                         <li class="menu-dropdown">
-                            <a href="index.html#about" class="dropdown-toggle">Форум</a>
+                            <a href="#" class="dropdown-toggle">Мероприятия</a>
                             <ul class="dropdown-menu">
-                                <li><a href="index.html#about">О событии</a></li>
-                                <li><a href="index.html#program">Программа</a></li>
-                                <li><a href="index.html#speakers">Эксперты</a></li>
+                                <li><a href="conf_mart2026.html">Форум март 2026</a></li>
+                                <li><a href="conf_nov2025.html">Форум ноябрь 2025</a></li>
+                                <li><a href="conf_sen2025.html">Форум сентябрь 2025</a></li>
                             </ul>
                         </li>
-                        <li><a href="index.html#location">Место</a></li>
-                        <li><a href="index.html#contacts">Контакты</a></li>
+                        <li><a href="registration.html">Регистрация</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
                     </ul>
                 </nav>
             </div>
@@ -504,32 +84,66 @@
         <div class="container">
             <div class="registration-header">
                 <div class="logo-section">
-                    <h1>Форум лабораторных инноваций 2025</h1>
+                    <h1>Форум лабораторных инноваций 2026 (март)</h1>
                 </div>
                 
                 <h2 class="section-title">Регистрация на конференцию</h2>
                 <p class="section-content">Заполните форму для участия в мероприятии</p>
                 
-                <!-- 🔥 СООБЩЕНИЕ О ЗАВЕРШЕНИИ МЕРОПРИЯТИЯ -->
-                <div class="event-ended-notice">
-                    <div class="event-ended-icon">⏰</div>
-                    <h3>Мероприятие завершено</h3>
-                    <p><strong>Форум лабораторных инноваций успешно состоялся 21 ноября 2025 года</strong></p>
-                    <p>Регистрация на мероприятие больше недоступна</p>
+                <!-- Статус регистрации -->
+                <div class="event-ended-notice status-card" role="status" aria-live="polite">
+                    <div class="status-card-header">
+                        <div class="status-card-icon" aria-hidden="true">🔒</div>
+                        <div class="status-card-heading">
+                            <h3 class="status-card-title">Регистрация ещё не открыта</h3>
+                            <p class="status-card-subtitle">Форум — март 2026</p>
+                        </div>
+                    </div>
+
+                    <p class="status-card-text">Дату старта опубликуем позже. Если нужно — свяжитесь с организаторами в разделе «Контакты».</p>
+
+                    <ol class="status-stepper" aria-label="Этапы подготовки">
+                        <li class="status-step is-active">
+                            <span class="status-step-dot" aria-hidden="true"></span>
+                            <span class="status-step-label">Подготовка</span>
+                            <span class="status-step-state" aria-label="Статус шага: активен">Сейчас</span>
+                        </li>
+                        <li class="status-step is-upcoming">
+                            <span class="status-step-dot" aria-hidden="true"></span>
+                            <span class="status-step-label">Открытие регистрации</span>
+                            <span class="status-step-state">Далее</span>
+                        </li>
+                        <li class="status-step is-upcoming">
+                            <span class="status-step-dot" aria-hidden="true"></span>
+                            <span class="status-step-label">Мероприятие</span>
+                            <span class="status-step-state">Позже</span>
+                        </li>
+                    </ol>
+
+                    <div class="status-card-actions">
+                        <a href="#contacts" class="cta-button secondary">Связаться с организаторами</a>
+                    </div>
                 </div>
             </div>
             
             <div class="registration-content">
-                <form id="visible-form" class="registration-form">
+                <form id="visible-form" class="registration-form" aria-disabled="true">
+                    <div class="form-locked-hint" role="note">
+                        <span class="form-locked-icon" aria-hidden="true">⏳</span>
+                        <span class="form-locked-copy">
+                            <strong>Регистрация откроется позже.</strong>
+                            <span class="form-locked-subcopy">Дату старта опубликуем дополнительно.</span>
+                        </span>
+                    </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="email">Электронная почта *</label>
-                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="name">ФИО *</label>
-                            <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
+                            <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required disabled>
                         </div>
                         
                         <div class="form-group">
@@ -551,23 +165,23 @@
                                     <div data-value="Гость/Технический специалист">Гость/Технический специалист</div>
                                     <div data-value="Научный сотрудник">Научный сотрудник</div>
                                 </div>
-                                <input type="hidden" id="position" name="position" required>
+                                <input type="hidden" id="position" name="position" required disabled>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="organization">Организация *</label>
-                            <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
+                            <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required disabled>
                         </div>
                         
                         <div class="form-group">
                             <label for="phone">Телефон *</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required disabled>
                         </div>
 
                         <div class="form-group full-width">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="agreement" required>
+                                <input type="checkbox" id="agreement" required disabled>
                                 <label for="agreement">
                                     Даю согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ
                                 </label>
@@ -577,7 +191,7 @@
                     
                     <!-- 🔥 ЗАБЛОКИРОВАННАЯ КНОПКА -->
                     <button type="submit" class="cta-button primary submit-btn disabled" disabled>
-                        Регистрация завершена
+                        Регистрация закрыта
                     </button>
                 </form>
 
@@ -602,7 +216,7 @@
                         <p>📞 <strong> Анна Валерьевна:</strong> +79637516163 </p>
                     </div>
                     
-                    <p><strong>Ждем вас на Форуме лабораторных инноваций 2025!</strong></p>
+                    <p><strong>Ждем вас на Форуме лабораторных инноваций 2026 (март)!</strong></p>
                     <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
                 </div>
             </div>
@@ -688,6 +302,101 @@
         </div>
     </div>
 
+    <!-- Футер -->
+    <footer class="main-footer" id="contacts">
+        <div class="container">
+            <div class="footer-main">
+                <!-- Организатор -->
+                <div class="footer-block">
+                    <div class="footer-info">
+                        <span class="footer-label">Организатор</span>
+                        <div class="footer-logo-wrapper">
+                            <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
+                                <img src="images/mz-mosreg-logo.png" alt="Министерство здравоохранения Московской области" class="footer-logo">
+                                <span class="footer-org-name">Министерство здравоохранения Московской области</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Партнер -->
+                <div class="footer-block">
+                    <div class="footer-info">
+                        <span class="footer-label">Партнёр проекта</span>
+                        <div class="footer-logo-wrapper">
+                            <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
+                                <img src="images/cvimz-logo.png" alt="ГКУ МО «Центр внедрения изменений»" class="footer-logo">
+                                <span class="footer-org-name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контакты -->
+                <div class="footer-block footer-contacts">
+                    <div class="footer-info">
+                        <span class="footer-label">Контакты для связи</span>
+                        <div class="contact-items-wrapper">
+                            <!-- Контакт 1 -->
+                            <div class="contact-person-group">
+                                <div class="contact-header">
+                                    <span class="contact-person">Анна Валерьевна - координатор конференции</span>
+                                    <div class="contact-actions">
+                                        <a href="tel:+79637516163" class="contact-phone-button" aria-label="Позвонить Анне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/Annkey" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать Анне в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79637516163" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать Анне в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Контакт 2 -->
+                            <div class="contact-person-group">
+                                <div class="contact-header">
+                                    <span class="contact-person">Ирина Владимировна - куратор конференции</span>
+                                    <div class="contact-actions">
+                                        <a href="tel:+79958832336" class="contact-phone-button" aria-label="Позвонить Ирине Владимировне">
+                                            <span class="phone-icon">📞</span>
+                                        </a>
+                                        <a href="https://t.me/doc_kld" target="_blank" rel="noopener noreferrer" class="messenger-button tg-button" aria-label="Написать в Telegram">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.654-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="https://wa.me/79958832336" target="_blank" rel="noopener noreferrer" class="messenger-button wa-button" aria-label="Написать в WhatsApp">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-copyright">
+                <p>© 2026 Референс-центр лабораторной службы Московской области.</p>
+                <p class="copyright-secondary">
+                    Все права защищены |
+                    <a href="privacy.html">Политика конфиденциальности</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
@@ -740,6 +449,10 @@
         if (agreementCheckbox) {
             agreementCheckbox.disabled = true;
         }
+
+        // Убираем required, чтобы браузер не показывал подсказки на disabled/закрытой форме
+        const requiredFields = form.querySelectorAll('[required]');
+        requiredFields.forEach(el => el.removeAttribute('required'));
     }
 
     // ==================== БУРГЕР-МЕНЮ ====================
@@ -864,7 +577,7 @@
         // 🔥 ПЕРЕХВАТЫВАЕМ ОТПРАВКУ ФОРМЫ И БЛОКИРУЕМ
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            showNotification('❌ Регистрация на мероприятие завершена', 'error');
+            showNotification('🔒 Регистрация сейчас закрыта. Дата открытия будет объявлена позже.', 'info');
             return false;
         });
     }
@@ -900,7 +613,7 @@
         
         if (confirmBtn) {
             confirmBtn.addEventListener('click', function() {
-                showNotification('❌ Регистрация на мероприятие завершена', 'error');
+                showNotification('🔒 Регистрация сейчас закрыта. Дата открытия будет объявлена позже.', 'info');
                 hideParkingModal();
             });
         }
@@ -942,21 +655,6 @@
                 <span class="notification-message">${message}</span>
                 <button class="notification-close" aria-label="Закрыть уведомление">×</button>
             </div>
-        `;
-        
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#0d47a1'};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-            z-index: 10001;
-            animation: slideInRight 0.3s ease;
-            max-width: 400px;
-            min-width: 300px;
         `;
         
         document.body.appendChild(notification);
