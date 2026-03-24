@@ -1,0 +1,472 @@
+/* components/forms.css */
+body.ask-page {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+  min-height: 100vh;
+}
+
+body.ask-page .form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  padding: var(--space-xl);
+  border-radius: var(--card-radius-lg);
+  box-shadow: 0 26px 75px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Научный фон для формы */
+body.ask-page .form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(0, 229, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 55%),
+    linear-gradient(45deg, transparent 48%, rgba(0, 229, 255, 0.035) 50%, transparent 52%);
+  background-size: 100% 100%, 100% 100%, 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body.ask-page .form-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+}
+
+body.ask-page .form-header h1 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(0, 229, 255, 0.92) 55%, rgba(79, 195, 247, 0.9) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-md);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+body.ask-page .form-header p {
+  color: #b0b8c5; /* Светло-серый для лучшей читаемости на темном фоне */
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+body.ask-page .form-section {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+body.ask-page .form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.08), transparent);
+  transition: left 0.6s ease;
+}
+
+body.ask-page .form-section:hover::before {
+  left: 100%;
+}
+
+body.ask-page .form-section:hover {
+  transform: translateY(-1px);
+  border-color: rgba(0, 229, 255, 0.22);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.ask-page .form-section h3 {
+  color: rgba(227, 242, 253, 0.96);
+  margin-bottom: var(--space-lg);
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.3;
+  position: relative;
+  display: inline-block;
+}
+
+body.ask-page .form-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--gradient-medical);
+  border-radius: 1px;
+  opacity: 0.85;
+}
+
+body.ask-page .question-group {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+body.ask-page .question-group label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+  color: #e2e8f0; /* Яркий белый для текста */
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.4;
+}
+
+body.ask-page .required::after {
+  content: " *";
+  color: #ff6b6b; /* Яркий красный для обязательных полей */
+  font-weight: bold;
+}
+
+/* Стили для полей ввода */
+body.ask-page input[type="text"],
+body.ask-page input[type="email"],
+body.ask-page textarea,
+body.ask-page select {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: inherit;
+}
+
+body.ask-page input[type="text"]::placeholder,
+body.ask-page input[type="email"]::placeholder,
+body.ask-page textarea::placeholder,
+body.ask-page select::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Полупрозрачный плейсхолдер */
+}
+
+body.ask-page input[type="text"]:focus,
+body.ask-page input[type="email"]:focus,
+body.ask-page textarea:focus,
+body.ask-page select:focus {
+  outline: none;
+  border-color: #00e5ff;
+  box-shadow:
+    0 0 0 4px rgba(0, 229, 255, 0.2),
+    0 4px 15px rgba(0, 229, 255, 0.3);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+body.ask-page textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+/* Улучшенные стили для радио-кнопок и рейтингов */
+body.ask-page .rating-scale,
+body.ask-page .radio-group {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+body.ask-page .rating-scale input[type="radio"],
+body.ask-page .radio-group input[type="radio"] {
+  display: none;
+}
+
+body.ask-page .rating-scale label,
+body.ask-page .radio-group label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff; /* Белый текст */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  min-width: 50px;
+  min-height: 50px;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+body.ask-page .rating-scale label {
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+/* Яркие стили для выбранных элементов */
+body.ask-page .rating-scale input[type="radio"]:checked + label,
+body.ask-page .radio-group input[type="radio"]:checked + label {
+  background: var(--gradient-medical);
+  color: var(--bg-primary);
+  border-color: transparent;
+  transform: scale(1.03);
+  box-shadow:
+    0 14px 30px rgba(0, 229, 255, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.35);
+  text-shadow: none;
+}
+
+/* Индикатор выбора */
+body.ask-page .rating-scale input[type="radio"]:checked + label::after,
+body.ask-page .radio-group input[type="radio"]:checked + label::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.8rem;
+  background: rgba(10, 25, 47, 0.9);
+  color: #00ff88;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body.ask-page .rating-scale label:hover,
+body.ask-page .radio-group label:hover {
+  border-color: rgba(0, 229, 255, 0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Кнопки формы */
+body.ask-page .form-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
+}
+
+/* Ask page uses shared .cta-button variants for actions */
+body.ask-page .form-actions .cta-button {
+  min-height: 56px;
+  min-width: 160px;
+}
+
+body.ask-page .form-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.ask-page .form-footer p {
+  color: #b0b8c5;
+  font-size: clamp(0.85rem, 2vw, 0.9rem);
+  line-height: 1.4;
+}
+
+/* Анимации */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.ask-page .form-section {
+  animation: slideIn 0.6s ease-out;
+}
+
+body.ask-page .form-section:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+body.ask-page .form-section:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+body.ask-page .form-section:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  body.ask-page .form-container {
+    padding: var(--space-md);
+    margin: var(--space-sm);
+    border-radius: 16px;
+  }
+  
+  body.ask-page .form-header {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+  }
+
+  /* Override global mobile.css `h1/h2/h3 { ... !important }` for ask page typography */
+  body.ask-page .form-header h1 {
+    font-size: clamp(2rem, 6vw, 2.35rem) !important;
+    line-height: 1.12;
+    margin-bottom: var(--space-sm);
+  }
+
+  body.ask-page .form-section h3 {
+    font-size: clamp(1.15rem, 4vw, 1.4rem) !important;
+  }
+
+  body.ask-page .success-content h2 {
+    font-size: clamp(1.4rem, 5vw, 2rem) !important;
+    line-height: 1.2;
+  }
+  
+  body.ask-page .form-section {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+  
+  body.ask-page .rating-scale,
+  body.ask-page .radio-group {
+    gap: var(--space-xs);
+    justify-content: space-between;
+  }
+  
+  body.ask-page .rating-scale label,
+  body.ask-page .radio-group label {
+    min-width: 44px;
+    min-height: 44px;
+    padding: var(--space-xs);
+    font-size: 1rem;
+    flex: 0 1 calc(20% - 6px);
+  }
+  
+  body.ask-page .form-actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  body.ask-page .form-actions .cta-button {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  body.ask-page .form-container {
+    padding: var(--space-sm);
+    margin: var(--space-xs);
+    border-radius: 14px;
+  }
+
+  body.ask-page .form-header h1 {
+    font-size: 1.85rem !important;
+  }
+
+  body.ask-page .success-message {
+    padding: var(--space-lg);
+    border-radius: 14px;
+  }
+
+  body.ask-page .success-content p {
+    font-size: 1rem;
+  }
+
+  body.ask-page .form-section {
+    padding: var(--space-sm);
+  }
+
+  body.ask-page .rating-scale label,
+  body.ask-page .radio-group label {
+    min-width: 42px;
+    min-height: 42px;
+    flex: 0 1 calc(20% - 4px);
+  }
+}
+
+@media (max-width: 360px) {
+  body.ask-page .form-header h1 {
+    font-size: 1.65rem !important;
+  }
+
+  body.ask-page .rating-scale label,
+  body.ask-page .radio-group label {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+/* Улучшение доступности для тач-устройств */
+@media (hover: none) and (pointer: coarse) {
+  body.ask-page .rating-scale label:hover,
+  body.ask-page .radio-group label:hover,
+  body.ask-page .form-actions .cta-button:hover {
+    transform: none;
+  }
+  
+  body.ask-page .rating-scale label:active,
+  body.ask-page .radio-group label:active,
+  body.ask-page .form-actions .cta-button:active {
+    transform: scale(0.95);
+  }
+  
+  body.ask-page .rating-scale input[type="radio"]:checked + label,
+  body.ask-page .radio-group input[type="radio"]:checked + label {
+    transform: scale(1.02);
+  }
+}
+
+/* Ask page: success message (moved from inline ask.html) */
+body.ask-page .success-message {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: var(--space-xl);
+  text-align: center;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  margin-bottom: var(--space-xl);
+}
+
+body.ask-page .success-content h2 {
+  color: var(--success);
+  margin-bottom: var(--space-md);
+}
+
+body.ask-page .success-content p {
+  color: #b0b8c5;
+  margin-bottom: var(--space-lg);
+  font-size: 1.1rem;
+}
