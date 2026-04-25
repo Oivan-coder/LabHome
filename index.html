@@ -3,42 +3,44 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Health ID — личный кабинет пациента</title>
+  <title>Health ID — расширенный MVP</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-mark">✦</div>
+        <div class="brand-mark">
+          <span>✦</span>
+        </div>
         <div>
           <div class="brand-title">Health ID</div>
-          <div class="brand-subtitle">личный кабинет</div>
+          <div class="brand-subtitle">patient cabinet</div>
         </div>
       </div>
 
       <nav class="nav">
-        <button class="nav-item active" data-section="home">
-          <span>⌁</span><span>Главная</span>
-        </button>
-        <button class="nav-item" data-section="labs">
-          <span>◌</span><span>Лаборатория</span>
-        </button>
-        <button class="nav-item" data-section="visits">
-          <span>⌘</span><span>Приемы</span>
-        </button>
-        <button class="nav-item" data-section="reports">
-          <span>□</span><span>Заключения</span>
-        </button>
-        <button class="nav-item" data-section="profile">
-          <span>☉</span><span>Профиль</span>
-        </button>
+        <button class="nav-item active" data-section="home"><span class="nav-icon">⌁</span><span>Главная</span></button>
+        <button class="nav-item" data-section="labs"><span class="nav-icon">◌</span><span>Лаборатория</span></button>
+        <button class="nav-item" data-section="labFull"><span class="nav-icon">▦</span><span>Полная история</span></button>
+        <button class="nav-item" data-section="appointments"><span class="nav-icon">＋</span><span>Запись</span></button>
+        <button class="nav-item" data-section="visits"><span class="nav-icon">⌘</span><span>Приемы</span></button>
+        <button class="nav-item" data-section="reports"><span class="nav-icon">□</span><span>Заключения</span></button>
+        <button class="nav-item" data-section="documents"><span class="nav-icon">☷</span><span>Документы</span></button>
+        <button class="nav-item" data-section="profile"><span class="nav-icon">☉</span><span>Профиль</span></button>
       </nav>
 
       <div class="sidebar-card">
-        <div class="tiny-label">Статус профиля</div>
-        <div class="sync-status"><span class="pulse"></span>Данные МИС подключены</div>
+        <div class="tiny-label">Статус подключения</div>
+        <div class="sync-status"><span class="pulse"></span>МИС синхронизирована</div>
         <div class="muted">Карта № <span id="sidebarCardNumber">—</span></div>
+        <div class="side-progress">
+          <span style="width: 86%"></span>
+        </div>
+        <div class="muted small">86% профиля заполнено</div>
       </div>
     </aside>
 
@@ -46,23 +48,41 @@
       <section id="loginScreen" class="login-screen">
         <div class="login-card glass">
           <div class="login-hero">
-            <div class="hero-orb"></div>
-            <div class="hero-badge">MVP preview</div>
-            <h1>Ваше здоровье — в понятной динамике</h1>
-            <p>Вход по телефону, привязка номера карты МИС и красивая пациентская витрина: приемы, заключения и лабораторные показатели с графиками.</p>
+            <div class="hero-grid-bg"></div>
+            <div class="hero-badge">Расширенный MVP</div>
+            <h1>Личный кабинет, который пациенту хочется открыть</h1>
+            <p>Вход по телефону, привязка карты МИС, лента событий, лабораторная динамика, заключения и запись на прием в одном интерфейсе.</p>
+
+            <div class="hero-preview">
+              <div class="hero-chip"><b>12</b><span>анализов</span></div>
+              <div class="hero-chip"><b>3</b><span>приема</span></div>
+              <div class="hero-chip"><b>4</b><span>заключения</span></div>
+            </div>
           </div>
 
           <form id="loginForm" class="login-form">
+            <div class="login-steps">
+              <div class="step active">1<span>Телефон</span></div>
+              <div class="step active">2<span>Карта МИС</span></div>
+              <div class="step">3<span>Готово</span></div>
+            </div>
+
             <label>
-              Телефон
+              Номер телефона
               <input id="phoneInput" value="+7 900 123-45-67" autocomplete="tel" />
             </label>
             <label>
-              Номер карты из МИС
+              Код из SMS
+              <input id="smsInput" value="2480" autocomplete="one-time-code" />
+            </label>
+            <label>
+              Номер карты пациента из МИС
               <input id="cardInput" value="MIS-248019" autocomplete="off" />
             </label>
-            <button class="primary-btn" type="submit">Войти в личный кабинет</button>
-            <div class="form-note">Для MVP проверка условная. Можно нажать сразу.</div>
+
+            <button class="primary-btn" type="submit">Открыть личный кабинет</button>
+            <button class="secondary-btn" type="button" id="demoFill">Заполнить демо-данными</button>
+            <div class="form-note">Демо-версия: проверки условные, данные синтетические.</div>
           </form>
         </div>
       </section>
@@ -75,13 +95,14 @@
             <h2 id="patientName">—</h2>
           </div>
           <div class="top-actions">
-            <button class="ghost-btn" id="demoRefresh">Обновить данные</button>
+            <button class="ghost-btn" id="openQuickActions">Быстрые действия</button>
+            <button class="ghost-btn" id="demoRefresh">Обновить</button>
             <div class="avatar" id="avatar">АП</div>
           </div>
         </header>
 
         <div class="section active" id="section-home">
-          <div class="hero-grid">
+          <div class="home-hero">
             <article class="summary-card gradient-card">
               <div class="card-topline">
                 <span>Сводка здоровья</span>
@@ -89,31 +110,43 @@
               </div>
               <h3 id="healthSummary">Есть показатели вне референса</h3>
               <p id="healthSummaryText">Последние результаты лаборатории требуют внимания, но критических значений нет.</p>
+
               <div class="summary-actions">
                 <button class="light-btn" data-go="labs">Открыть лабораторию</button>
-                <button class="text-btn" data-go="reports">Заключения</button>
+                <button class="dark-ghost-btn" data-go="appointments">Записаться</button>
+              </div>
+
+              <div class="mini-metrics">
+                <div><b id="normalCount">—</b><span>в норме</span></div>
+                <div><b id="warnCount">—</b><span>отклонения</span></div>
+                <div><b>0</b><span>критично</span></div>
               </div>
             </article>
 
-            <article class="metric-ring-card glass">
-              <div class="ring" id="healthRing">
-                <span>82</span>
-              </div>
-              <div>
-                <div class="tiny-label">Индекс стабильности</div>
-                <h3>82 / 100</h3>
-                <p class="muted">Расчетный демо-индекс по последним лабораторным данным и визитам.</p>
-              </div>
-            </article>
+            <aside class="wellness-card glass">
+              <div class="ring" id="healthRing"><span>82</span></div>
+              <div class="tiny-label">Индекс стабильности</div>
+              <h3>82 / 100</h3>
+              <p class="muted">Демо-индекс по последним анализам, приемам и рекомендациям.</p>
+              <div class="insight-pill">↗ улучшение по ОАК</div>
+            </aside>
+          </div>
+
+          <div class="quick-grid">
+            <button class="quick-tile" data-go="labs"><span>◌</span><b>Анализы</b><small>графики и динамика</small></button>
+            <button class="quick-tile" data-go="appointments"><span>＋</span><b>Запись</b><small>выбрать врача и слот</small></button>
+            <button class="quick-tile" data-go="reports"><span>□</span><b>Заключения</b><small>врачебные документы</small></button>
+            <button class="quick-tile" data-go="documents"><span>☷</span><b>Файлы</b><small>PDF, справки, выписки</small></button>
           </div>
 
           <div class="feed-layout">
-            <section class="feed">
+            <section class="feed glass-soft">
               <div class="block-header">
                 <div>
                   <div class="eyebrow">Лента пациента</div>
                   <h3>Последние события</h3>
                 </div>
+                <button class="text-btn" data-go="labFull">Вся история</button>
               </div>
               <div id="activityFeed" class="activity-feed"></div>
             </section>
@@ -130,6 +163,7 @@
               <div class="mini-card">
                 <div class="block-header compact">
                   <h3>Ближайший прием</h3>
+                  <button class="text-btn" data-go="appointments">Изменить</button>
                 </div>
                 <div id="nextVisit"></div>
               </div>
@@ -140,10 +174,40 @@
         <div class="section" id="section-labs">
           <div class="page-title">
             <div>
-              <div class="eyebrow">Лабораторные исследования</div>
+              <div class="eyebrow">Лабораторная диагностика</div>
               <h2>Показатели, группы и динамика</h2>
             </div>
-            <button class="ghost-btn" id="downloadMock">Экспорт JSON</button>
+            <div class="title-actions">
+              <button class="ghost-btn" data-go="labFull">Полная история</button>
+              <button class="ghost-btn" id="downloadMock">Экспорт JSON</button>
+            </div>
+          </div>
+
+          <div class="lab-dashboard">
+            <div class="lab-stat-card good">
+              <span>Норма</span><b id="labStatNormal">0</b><small>показателей</small>
+            </div>
+            <div class="lab-stat-card warn">
+              <span>Внимание</span><b id="labStatWarn">0</b><small>выше/ниже референса</small>
+            </div>
+            <div class="lab-stat-card info">
+              <span>Группы</span><b>6</b><small>видов исследований</small>
+            </div>
+            <div class="lab-stat-card purple">
+              <span>Динамика</span><b>5</b><small>точек на графике</small>
+            </div>
+          </div>
+
+          <div class="toolbar glass-soft">
+            <div class="search-box">
+              <span>⌕</span>
+              <input id="labSearch" placeholder="Поиск показателя: глюкоза, гемоглобин, ТТГ..." />
+            </div>
+            <select id="periodSelect">
+              <option value="6">6 месяцев</option>
+              <option value="12">12 месяцев</option>
+              <option value="24">2 года</option>
+            </select>
           </div>
 
           <div class="tabs" id="labTabs"></div>
@@ -159,11 +223,64 @@
 
             <section class="lab-detail glass">
               <div id="labDetail"></div>
-              <canvas id="labChart" width="760" height="320"></canvas>
+              <canvas id="labChart" width="860" height="340"></canvas>
               <div class="chart-legend">
                 <span><i class="legend-dot normal"></i> значение</span>
                 <span><i class="legend-line"></i> референс</span>
+                <span><i class="legend-area"></i> зона нормы</span>
               </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="section" id="section-labFull">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Полная лабораторная история</div>
+              <h2>Все исследования по датам</h2>
+            </div>
+            <button class="ghost-btn" data-go="labs">К графикам</button>
+          </div>
+
+          <div class="timeline-filters glass-soft">
+            <button class="filter-chip active" data-history-filter="all">Все</button>
+            <button class="filter-chip" data-history-filter="abnormal">Только отклонения</button>
+            <button class="filter-chip" data-history-filter="ОАК">ОАК</button>
+            <button class="filter-chip" data-history-filter="Биохимия">Биохимия</button>
+            <button class="filter-chip" data-history-filter="Липидный профиль">Липиды</button>
+            <button class="filter-chip" data-history-filter="Гормоны">Гормоны</button>
+          </div>
+
+          <div id="labTimeline" class="lab-timeline"></div>
+        </div>
+
+        <div class="section" id="section-appointments">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Запись к врачу</div>
+              <h2>Выберите специалиста и удобное время</h2>
+            </div>
+          </div>
+
+          <div class="appointment-layout">
+            <section class="glass appointment-panel">
+              <div class="block-header compact">
+                <h3>Специализация</h3>
+                <span class="pill">6 направлений</span>
+              </div>
+              <div id="specialtyList" class="specialty-list"></div>
+            </section>
+
+            <section class="glass appointment-panel">
+              <div class="block-header compact">
+                <h3>Врач</h3>
+                <span class="pill" id="doctorCount">0</span>
+              </div>
+              <div id="doctorList" class="doctor-list"></div>
+            </section>
+
+            <section class="glass appointment-panel booking-panel">
+              <div id="bookingDetail"></div>
             </section>
           </div>
         </div>
@@ -174,6 +291,7 @@
               <div class="eyebrow">Медицинские события</div>
               <h2>Приемы и маршрутизация</h2>
             </div>
+            <button class="ghost-btn" data-go="appointments">Новая запись</button>
           </div>
           <div id="visitsList" class="cards-grid"></div>
         </div>
@@ -181,29 +299,47 @@
         <div class="section" id="section-reports">
           <div class="page-title">
             <div>
-              <div class="eyebrow">Документы</div>
-              <h2>Заключения врачей</h2>
+              <div class="eyebrow">Заключения</div>
+              <h2>Врачебные заключения и рекомендации</h2>
             </div>
           </div>
+          <div class="report-tabs">
+            <button class="filter-chip active" data-report-filter="all">Все</button>
+            <button class="filter-chip" data-report-filter="Новое">Новые</button>
+            <button class="filter-chip" data-report-filter="Подписано">Подписанные</button>
+          </div>
           <div id="reportsList" class="cards-grid"></div>
+        </div>
+
+        <div class="section" id="section-documents">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Документы</div>
+              <h2>Справки, выписки и файлы</h2>
+            </div>
+            <button class="ghost-btn">Загрузить документ</button>
+          </div>
+          <div id="documentsList" class="document-grid"></div>
         </div>
 
         <div class="section" id="section-profile">
           <div class="page-title">
             <div>
-              <div class="eyebrow">Профиль</div>
-              <h2>Данные пациента и подключение МИС</h2>
+              <div class="eyebrow">Профиль пациента</div>
+              <h2>Данные и подключение МИС</h2>
             </div>
           </div>
           <div class="profile-grid">
             <article class="glass profile-card" id="profileCard"></article>
             <article class="glass profile-card">
-              <h3>Как это заменить на реальную интеграцию</h3>
-              <p class="muted">Сейчас данные лежат в файле app.js. В боевой версии этот слой заменяется на REST/FHIR API: пациент, приемы, заключения, DiagnosticReport и Observation для лаборатории.</p>
+              <h3>Интеграционная модель</h3>
+              <p class="muted">В MVP данные лежат в app.js. В боевой версии этот слой заменяется backend API и синхронизацией с МИС/ЛИС.</p>
               <pre class="api-box">GET /patients/{mis_card}/summary
 GET /patients/{mis_card}/visits
 GET /patients/{mis_card}/reports
-GET /patients/{mis_card}/lab-results</pre>
+GET /patients/{mis_card}/documents
+GET /patients/{mis_card}/lab-results
+POST /appointments/book</pre>
             </article>
           </div>
         </div>
@@ -211,7 +347,29 @@ GET /patients/{mis_card}/lab-results</pre>
     </main>
   </div>
 
-  <div class="toast" id="toast">Данные обновлены</div>
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="quickDrawer">
+    <div class="drawer-head">
+      <h3>Быстрые действия</h3>
+      <button id="closeDrawer">×</button>
+    </div>
+    <button class="drawer-action" data-go="appointments">＋ Записаться к врачу</button>
+    <button class="drawer-action" data-go="labs">◌ Посмотреть анализы</button>
+    <button class="drawer-action" data-go="reports">□ Открыть заключения</button>
+    <button class="drawer-action" id="drawerRefresh">↻ Обновить данные</button>
+  </aside>
+
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal" id="bookingModal">
+    <div class="modal-head">
+      <h3>Запись создана</h3>
+      <button id="closeModal">×</button>
+    </div>
+    <div id="bookingResult"></div>
+    <button class="primary-btn full" id="modalToVisits">Перейти в приемы</button>
+  </div>
+
+  <div class="toast" id="toast">Готово</div>
 
   <script src="./app.js"></script>
 </body>
