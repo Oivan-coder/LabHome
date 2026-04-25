@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Health ID — личный кабинет пациента</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <div>
+          <div class="brand-title">Health ID</div>
+          <div class="brand-subtitle">личный кабинет</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-section="home">
+          <span>⌁</span><span>Главная</span>
+        </button>
+        <button class="nav-item" data-section="labs">
+          <span>◌</span><span>Лаборатория</span>
+        </button>
+        <button class="nav-item" data-section="visits">
+          <span>⌘</span><span>Приемы</span>
+        </button>
+        <button class="nav-item" data-section="reports">
+          <span>□</span><span>Заключения</span>
+        </button>
+        <button class="nav-item" data-section="profile">
+          <span>☉</span><span>Профиль</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="tiny-label">Статус профиля</div>
+        <div class="sync-status"><span class="pulse"></span>Данные МИС подключены</div>
+        <div class="muted">Карта № <span id="sidebarCardNumber">—</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="loginScreen" class="login-screen">
+        <div class="login-card glass">
+          <div class="login-hero">
+            <div class="hero-orb"></div>
+            <div class="hero-badge">MVP preview</div>
+            <h1>Ваше здоровье — в понятной динамике</h1>
+            <p>Вход по телефону, привязка номера карты МИС и красивая пациентская витрина: приемы, заключения и лабораторные показатели с графиками.</p>
+          </div>
+
+          <form id="loginForm" class="login-form">
+            <label>
+              Телефон
+              <input id="phoneInput" value="+7 900 123-45-67" autocomplete="tel" />
+            </label>
+            <label>
+              Номер карты из МИС
+              <input id="cardInput" value="MIS-248019" autocomplete="off" />
+            </label>
+            <button class="primary-btn" type="submit">Войти в личный кабинет</button>
+            <div class="form-note">Для MVP проверка условная. Можно нажать сразу.</div>
+          </form>
+        </div>
+      </section>
+
+      <section id="dashboard" class="dashboard hidden">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobileMenu">☰</button>
+          <div>
+            <div class="eyebrow">Добро пожаловать</div>
+            <h2 id="patientName">—</h2>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-btn" id="demoRefresh">Обновить данные</button>
+            <div class="avatar" id="avatar">АП</div>
+          </div>
+        </header>
+
+        <div class="section active" id="section-home">
+          <div class="hero-grid">
+            <article class="summary-card gradient-card">
+              <div class="card-topline">
+                <span>Сводка здоровья</span>
+                <span id="lastUpdated">сегодня</span>
+              </div>
+              <h3 id="healthSummary">Есть показатели вне референса</h3>
+              <p id="healthSummaryText">Последние результаты лаборатории требуют внимания, но критических значений нет.</p>
+              <div class="summary-actions">
+                <button class="light-btn" data-go="labs">Открыть лабораторию</button>
+                <button class="text-btn" data-go="reports">Заключения</button>
+              </div>
+            </article>
+
+            <article class="metric-ring-card glass">
+              <div class="ring" id="healthRing">
+                <span>82</span>
+              </div>
+              <div>
+                <div class="tiny-label">Индекс стабильности</div>
+                <h3>82 / 100</h3>
+                <p class="muted">Расчетный демо-индекс по последним лабораторным данным и визитам.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="feed-layout">
+            <section class="feed">
+              <div class="block-header">
+                <div>
+                  <div class="eyebrow">Лента пациента</div>
+                  <h3>Последние события</h3>
+                </div>
+              </div>
+              <div id="activityFeed" class="activity-feed"></div>
+            </section>
+
+            <aside class="right-column">
+              <div class="mini-card">
+                <div class="block-header compact">
+                  <h3>Последние анализы</h3>
+                  <button class="text-btn" data-go="labs">Все</button>
+                </div>
+                <div id="lastLabs" class="last-labs"></div>
+              </div>
+
+              <div class="mini-card">
+                <div class="block-header compact">
+                  <h3>Ближайший прием</h3>
+                </div>
+                <div id="nextVisit"></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div class="section" id="section-labs">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Лабораторные исследования</div>
+              <h2>Показатели, группы и динамика</h2>
+            </div>
+            <button class="ghost-btn" id="downloadMock">Экспорт JSON</button>
+          </div>
+
+          <div class="tabs" id="labTabs"></div>
+
+          <div class="labs-grid">
+            <section class="lab-list glass">
+              <div class="block-header compact">
+                <h3 id="labGroupTitle">Все показатели</h3>
+                <span class="pill" id="labCount">0</span>
+              </div>
+              <div id="labCards" class="lab-cards"></div>
+            </section>
+
+            <section class="lab-detail glass">
+              <div id="labDetail"></div>
+              <canvas id="labChart" width="760" height="320"></canvas>
+              <div class="chart-legend">
+                <span><i class="legend-dot normal"></i> значение</span>
+                <span><i class="legend-line"></i> референс</span>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="section" id="section-visits">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Медицинские события</div>
+              <h2>Приемы и маршрутизация</h2>
+            </div>
+          </div>
+          <div id="visitsList" class="cards-grid"></div>
+        </div>
+
+        <div class="section" id="section-reports">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Документы</div>
+              <h2>Заключения врачей</h2>
+            </div>
+          </div>
+          <div id="reportsList" class="cards-grid"></div>
+        </div>
+
+        <div class="section" id="section-profile">
+          <div class="page-title">
+            <div>
+              <div class="eyebrow">Профиль</div>
+              <h2>Данные пациента и подключение МИС</h2>
+            </div>
+          </div>
+          <div class="profile-grid">
+            <article class="glass profile-card" id="profileCard"></article>
+            <article class="glass profile-card">
+              <h3>Как это заменить на реальную интеграцию</h3>
+              <p class="muted">Сейчас данные лежат в файле app.js. В боевой версии этот слой заменяется на REST/FHIR API: пациент, приемы, заключения, DiagnosticReport и Observation для лаборатории.</p>
+              <pre class="api-box">GET /patients/{mis_card}/summary
+GET /patients/{mis_card}/visits
+GET /patients/{mis_card}/reports
+GET /patients/{mis_card}/lab-results</pre>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Данные обновлены</div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
