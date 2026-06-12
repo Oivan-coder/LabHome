@@ -4,7 +4,6 @@ import {
   answerMonthlyReviewInSheets,
   appendTransactionToSheets,
   fetchBootstrapFromSheets,
-  fetchTransactionsFromSheets,
   updateTransactionInSheets
 } from './sheets-api.js';
 
@@ -12,11 +11,19 @@ const STORAGE_KEY = 'atlas-finance-state-v2';
 const LEGACY_STORAGE_KEY = 'atlas-finance-state-v1';
 const QUEUE_KEY = 'atlas-finance-sync-queue-v1';
 const DEFAULT_TAB = 'today';
+const BUSY_SYNC_STATES = new Set(['loading', 'saving', 'refreshing']);
 
 let state = loadState();
 let selectedBudgetGroupId = state.settings.categories[0]?.id || state.settings.categories[0]?.name || 'other';
 let selectedCategoryId = null;
 let activeTab = DEFAULT_TAB;
+let syncState = {
+  status: 'idle',
+  firstBootstrapLoaded: false,
+  lastUpdatedAt: null,
+  message: 'Загружаю данные из Google Sheets…'
+};
+let savingTransaction = false;
 
 const els = {
   cycleCaption: document.getElementById('cycleCaption'),
@@ -38,6 +45,7 @@ const els = {
   form: document.getElementById('transactionForm'),
   amount: document.getElementById('amountInput'),
   description: document.getElementById('descriptionInput'),
+  addTransactionBtn: document.getElementById('addTransactionBtn'),
   reviewCount: document.getElementById('reviewCount'),
   reviewList: document.getElementById('reviewList'),
   goalsSummary: document.getElementById('goalsSummary'),
@@ -59,14 +67,13 @@ function init() {
   normalizeState();
   bindEvents();
   render();
-  syncFromSheets({ silent: true });
-  processSyncQueue();
+  syncFromSheets({ mode: 'loading' });
   if ('serviceWorker' in navigator) navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`).catch(() => {});
 }
 
 function bindEvents() {
   els.form.addEventListener('submit', onSubmitTransaction);
-  els.syncBtn.addEventListener('click', () => syncFromSheets());
+  els.syncBtn.addEventListener('click', () => syncFromSheets({ mode: syncState.firstBootstrapLoaded ? 'refreshing' : 'loading' }));
   els.exportBtn.addEventListener('click', exportJson);
   els.editForm.addEventListener('submit', onSubmitEdit);
   els.closeEditBtn.addEventListener('click', () => els.editDialog.close());
@@ -154,24 +161,35 @@ async function processSyncQueue() {
 }
 
 async function syncFromSheets(options = {}) {
-  if (!options.silent) setSyncing(true);
+  if (BUSY_SYNC_STATES.has(syncState.status)) return;
+
+  const mode = options.mode || (syncState.firstBootstrapLoaded ? 'refreshing' : 'loading');
+  setSyncState(mode, {
+    message: mode === 'refreshing' ? 'Обновляю данные из Google Sheets…' : 'Загружаю данные из Google Sheets…'
+  });
+  render();
+
   try {
     await processSyncQueue();
-    const bootstrap = await fetchBootstrapFromSheets();
-    if (bootstrap?.transactions) {
-      applyBootstrap(bootstrap);
-      saveState();
-    } else {
-      const transactions = await fetchTransactionsFromSheets();
-      if (Array.isArray(transactions)) state.transactions = transactions;
-    }
+    await reloadBootstrap();
+    setSyncState('success', {
+      firstBootstrapLoaded: true,
+      lastUpdatedAt: new Date(),
+      message: `Обновлено ${formatTime(new Date())}`
+    });
     render();
   } catch (error) {
-    if (!options.silent) alert(`Ошибка синхронизации: ${error.message}`);
-    renderSyncStatus('Работаем локально');
-  } finally {
-    setSyncing(false);
+    console.error('Bootstrap sync failed', error);
+    setSyncState('error', { message: userSyncError(error) });
+    render();
   }
+}
+
+async function reloadBootstrap() {
+  const bootstrap = await fetchBootstrapFromSheets();
+  if (!bootstrap?.transactions) throw new Error('Apps Script не вернул данные bootstrap');
+  applyBootstrap(bootstrap);
+  saveState();
 }
 
 function applyBootstrap(bootstrap) {
@@ -189,6 +207,8 @@ function applyBootstrap(bootstrap) {
 
 async function onSubmitTransaction(event) {
   event.preventDefault();
+  if (savingTransaction || !syncState.firstBootstrapLoaded) return;
+
   const amount = parseAmount(els.amount.value);
   if (!amount || amount <= 0) return;
 
@@ -211,20 +231,28 @@ async function onSubmitTransaction(event) {
     syncStatus: 'pending'
   };
 
-  state.transactions.unshift(tx);
-  saveState();
-  els.form.reset();
-  selectedCategoryId = detail?.category_id || null;
-  render();
+  savingTransaction = true;
+  let savedToSheets = false;
+  setSyncState('saving', { message: 'Сохраняю расход в Google Sheets…' });
+  renderTransactionFormState();
+  renderSyncStatus();
 
   try {
-    const result = await appendTransactionToSheets(tx);
-    if (result?.transaction) replaceTransaction(tx.id, result.transaction);
+    await appendTransactionToSheets(tx);
+    savedToSheets = true;
+    els.form.reset();
+    selectedCategoryId = detail?.category_id || null;
+    await reloadBootstrap();
+    setSyncState('success', {
+      firstBootstrapLoaded: true,
+      lastUpdatedAt: new Date(),
+      message: `Обновлено ${formatTime(new Date())}`
+    });
   } catch (error) {
-    enqueue({ action: 'appendTransaction', payload: tx });
-    console.warn('Sheets append failed', error);
+    console.error(savedToSheets ? 'Bootstrap after append failed' : 'Sheets append failed', error);
+    setSyncState('error', { message: savedToSheets ? userSavedButSyncError(error) : userSaveError(error) });
   } finally {
-    saveState();
+    savingTransaction = false;
     render();
   }
 }
@@ -259,6 +287,7 @@ async function onSubmitEdit(event) {
   } catch (error) {
     enqueue({ action: 'updateTransaction', payload: patch });
     console.warn('Sheets update failed', error);
+    setSyncState('error', { message: `Не удалось сохранить правку: ${error?.message || 'попробуйте еще раз'}` });
   } finally {
     saveState();
     render();
@@ -284,6 +313,8 @@ async function answerReview(item, input) {
   } catch (error) {
     enqueue({ action: 'answerMonthlyReview', payload });
     console.warn('Review sync failed', error);
+    setSyncState('error', { message: `Не удалось сохранить ответ: ${error?.message || 'попробуйте еще раз'}` });
+    renderSyncStatus();
   }
 }
 
@@ -323,6 +354,11 @@ function replaceTransaction(oldId, next) {
 
 function render() {
   normalizeState();
+  if (!syncState.firstBootstrapLoaded) {
+    renderLoadingState();
+    return;
+  }
+
   const model = calculateDashboard(state.transactions, state.settings, new Date());
   renderTabs();
   renderDashboard(model);
@@ -332,6 +368,34 @@ function render() {
   renderGoals();
   renderTransactions();
   renderSyncStatus();
+  renderTransactionFormState();
+}
+
+function renderLoadingState() {
+  renderTabs();
+  els.cycleCaption.textContent = syncState.status === 'error' ? 'Синхронизация не завершена' : 'Финансовый цикл загружается';
+  els.dailyLimit.textContent = syncState.status === 'error' ? '—' : 'Загружаю…';
+  els.daysLeft.textContent = syncState.status === 'error' ? 'Нажмите «Повторить»' : 'Жду Google Sheets';
+  els.freeMoney.textContent = syncState.status === 'error' ? '—' : 'Загружаю…';
+  els.totalSpent.textContent = syncState.status === 'error' ? '—' : 'Загружаю…';
+  els.burnRate.textContent = syncState.status === 'error' ? '—' : 'Загружаю…';
+  els.forecastStatus.textContent = syncState.status === 'error' ? '—' : 'Загружаю…';
+  els.forecastStatus.classList.remove('danger');
+  els.limitPercent.textContent = syncState.status === 'error' ? '!' : '…';
+  els.limitRing.style.setProperty('--ring', '12%');
+  els.limitRing.classList.toggle('danger-ring', syncState.status === 'error');
+  els.quickSyncHint.textContent = syncState.status === 'error' ? 'ошибка синхронизации' : 'загружаю данные';
+  els.categorySummary.textContent = syncState.status === 'error' ? 'нет данных' : 'загружаю';
+  els.categoryList.innerHTML = loadingRows(3);
+  els.categoryChips.innerHTML = loadingChips(4);
+  els.detailChips.innerHTML = '';
+  els.reviewCount.textContent = '—';
+  els.reviewList.innerHTML = loadingRows(2);
+  els.goalsSummary.textContent = '—';
+  els.goalsList.innerHTML = loadingRows(2);
+  els.transactionList.innerHTML = loadingRows(4);
+  renderSyncStatus();
+  renderTransactionFormState();
 }
 
 function renderTabs() {
@@ -388,6 +452,7 @@ function renderQuickForm() {
   const details = detailCategoriesForGroup(selectedBudgetGroupId);
   if (!details.length) {
     els.detailChips.innerHTML = '';
+    renderTransactionFormState();
     return;
   }
   selectedCategoryId = selectedCategoryId || details[0]?.category_id;
@@ -399,8 +464,10 @@ function renderQuickForm() {
     button.addEventListener('click', () => {
       selectedCategoryId = button.dataset.detail;
       renderQuickForm();
+      renderTransactionFormState();
     });
   });
+  renderTransactionFormState();
 }
 
 function renderCategories(categories) {
@@ -485,21 +552,99 @@ function renderTransactions() {
   });
 }
 
-function renderSyncStatus(message) {
+function renderSyncStatus() {
   const pending = queueItems().length;
-  if (!pending && !message) {
-    els.syncStatus.hidden = true;
-    els.quickSyncHint.textContent = 'синхронизировано';
+  renderSyncButton();
+
+  if (syncState.status === 'error') {
+    els.syncStatus.hidden = false;
+    els.syncStatus.innerHTML = `<span>${escapeHtml(syncState.message || 'Ошибка синхронизации')}</span><button class="text-button" type="button" data-sync-retry>Повторить</button>`;
+    els.syncStatus.querySelector('[data-sync-retry]').addEventListener('click', () => syncFromSheets({ mode: syncState.firstBootstrapLoaded ? 'refreshing' : 'loading' }));
+    els.quickSyncHint.textContent = 'ошибка синхронизации';
     return;
   }
-  els.syncStatus.hidden = false;
-  els.syncStatus.textContent = message || `${pending} в очереди`;
-  els.quickSyncHint.textContent = pending ? `${pending} в очереди` : 'локально';
+
+  if (BUSY_SYNC_STATES.has(syncState.status)) {
+    els.syncStatus.hidden = false;
+    els.syncStatus.textContent = syncState.message || syncStatusText(syncState.status);
+    els.quickSyncHint.textContent = syncStatusText(syncState.status).toLowerCase();
+    return;
+  }
+
+  if (pending) {
+    els.syncStatus.hidden = false;
+    els.syncStatus.textContent = `${pending} в очереди`;
+    els.quickSyncHint.textContent = `${pending} в очереди`;
+    return;
+  }
+
+  els.syncStatus.hidden = true;
+  els.quickSyncHint.textContent = syncState.lastUpdatedAt ? `Обновлено ${formatTime(syncState.lastUpdatedAt)}` : 'синхронизировано';
 }
 
-function setSyncing(isSyncing) {
-  els.syncBtn.disabled = isSyncing;
-  els.syncBtn.textContent = isSyncing ? '…' : '↻';
+function renderSyncButton() {
+  const busy = BUSY_SYNC_STATES.has(syncState.status);
+  els.syncBtn.disabled = busy;
+  els.syncBtn.classList.toggle('is-loading', busy);
+
+  if (busy) {
+    const label = syncState.status === 'refreshing' ? 'Обновляю…' : syncStatusText(syncState.status);
+    els.syncBtn.innerHTML = `<span class="button-spinner" aria-hidden="true"></span><span>${escapeHtml(label)}</span>`;
+    els.syncBtn.title = label;
+    els.syncBtn.setAttribute('aria-label', label);
+    return;
+  }
+
+  if (syncState.status === 'error') {
+    els.syncBtn.textContent = 'Повторить';
+    els.syncBtn.title = syncState.message || 'Повторить синхронизацию';
+    els.syncBtn.setAttribute('aria-label', 'Повторить синхронизацию');
+    return;
+  }
+
+  if (syncState.lastUpdatedAt) {
+    const label = `Обновлено ${formatTime(syncState.lastUpdatedAt)}`;
+    els.syncBtn.textContent = label;
+    els.syncBtn.title = 'Обновить данные';
+    els.syncBtn.setAttribute('aria-label', 'Обновить данные');
+    return;
+  }
+
+  els.syncBtn.textContent = '↻';
+  els.syncBtn.title = 'Синхронизация';
+  els.syncBtn.setAttribute('aria-label', 'Синхронизация');
+}
+
+function renderTransactionFormState() {
+  const disabled = savingTransaction || !syncState.firstBootstrapLoaded;
+  [els.amount, els.description, els.addTransactionBtn].forEach((element) => {
+    element.disabled = disabled;
+    element.setAttribute('aria-disabled', String(disabled));
+  });
+  els.categoryChips.querySelectorAll('button').forEach((button) => {
+    button.disabled = disabled;
+    button.setAttribute('aria-disabled', String(disabled));
+  });
+  els.detailChips.querySelectorAll('button').forEach((button) => {
+    button.disabled = disabled;
+    button.setAttribute('aria-disabled', String(disabled));
+  });
+  els.addTransactionBtn.textContent = savingTransaction ? 'Сохраняю…' : 'Добавить';
+}
+
+function setSyncState(status, patch = {}) {
+  syncState = { ...syncState, status, ...patch };
+}
+
+function syncStatusText(status) {
+  return {
+    idle: 'Синхронизировано',
+    loading: 'Загружаю данные',
+    saving: 'Сохраняю расход',
+    refreshing: 'Обновляю данные',
+    success: 'Обновлено',
+    error: 'Ошибка синхронизации'
+  }[status] || 'Синхронизация';
 }
 
 function openEdit(id) {
@@ -566,6 +711,31 @@ function formatTransactionDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '';
   return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function formatTime(value) {
+  const date = value instanceof Date ? value : new Date(value);
+  return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
+
+function userSyncError(error) {
+  return `Ошибка синхронизации: ${error?.message || 'не удалось получить данные'}`;
+}
+
+function userSaveError(error) {
+  return `Не удалось сохранить расход: ${error?.message || 'попробуйте еще раз'}`;
+}
+
+function userSavedButSyncError(error) {
+  return `Расход сохранен, но данные не обновились: ${error?.message || 'нажмите «Повторить»'}`;
+}
+
+function loadingRows(count) {
+  return Array.from({ length: count }, () => '<div class="skeleton-row" aria-hidden="true"></div>').join('');
+}
+
+function loadingChips(count) {
+  return Array.from({ length: count }, () => '<span class="skeleton-chip" aria-hidden="true"></span>').join('');
 }
 
 function exportJson() {
