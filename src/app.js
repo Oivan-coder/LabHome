@@ -61,7 +61,7 @@ function init() {
   render();
   syncFromSheets({ silent: true });
   processSyncQueue();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`).catch(() => {});
 }
 
 function bindEvents() {
