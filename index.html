@@ -16,7 +16,7 @@
         <h1>Сегодня</h1>
         <p id="cycleCaption" class="muted">Финансовый цикл загружается</p>
       </div>
-      <button id="syncBtn" class="icon-button" type="button" aria-label="Синхронизация" title="Синхронизация">↻</button>
+      <button id="syncBtn" class="icon-button sync-button" type="button" aria-label="Синхронизация" title="Синхронизация">↻</button>
     </header>
 
     <section id="syncStatus" class="sync-strip" hidden></section>
@@ -71,7 +71,7 @@
           <div id="categoryChips" class="chip-grid" aria-label="Категории"></div>
           <div id="detailChips" class="chip-row" aria-label="Подкатегории"></div>
           <input id="descriptionInput" autocomplete="off" placeholder="Комментарий" />
-          <button class="primary-button" type="submit">Добавить</button>
+          <button id="addTransactionBtn" class="primary-button" type="submit">Добавить</button>
         </form>
       </section>
 
