@@ -82,6 +82,27 @@ function diffDays(a, b) {
   return Math.max(0, Math.ceil((b - a) / 86400000));
 }
 
+function nextDueDateInCycle(obligation, cycle, today, settings) {
+  if (!obligation?.dueDay) return null;
+  const todayStart = startOfDay(today);
+  const dates = [];
+  for (let m = cycle.start.getMonth() - 1; m <= cycle.end.getMonth() + 1; m += 1) {
+    const base = new Date(cycle.start.getFullYear(), m, 1);
+    const candidate = movePayday(new Date(base.getFullYear(), base.getMonth(), Number(obligation.dueDay)), settings.paydayMoveRule);
+    const due = startOfDay(candidate);
+    if (due >= todayStart && due < cycle.end) dates.push(due);
+  }
+  dates.sort((a, b) => a - b);
+  return dates[0] || null;
+}
+
+function unpaidObligationsInCycle(settings, cycle, today) {
+  return (settings.obligations || [])
+    .filter((o) => o.active && o.paid !== true && o.status !== 'paid')
+    .map((o) => ({ ...o, dueDate: nextDueDateInCycle(o, cycle, today, settings) }))
+    .filter((o) => o.dueDate);
+}
+
 export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, today = new Date()) {
   const cycle = getCycleBoundaries(today, settings);
   const cycleTx = transactions.filter((t) => {
@@ -99,18 +120,20 @@ export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, to
     ? baseAccountBalance
     : baseAccountBalance + totalIncome - totalSpent;
 
-  const futureObligations = settings.obligations
-    .filter((o) => o.active)
-    .reduce((sum, o) => sum + Number(o.amount || 0), 0);
-  const plannedGoals = settings.goals.reduce((sum, g) => sum + Number(g.monthlyPlan || 0), 0);
-  const freeMoney = accountBalance - futureObligations - plannedGoals;
+  // Для дневного лимита считаем только деньги, которыми реально можно жить до ближайшей выплаты.
+  // Накопления не вычитаются из дневного лимита: это план после зарплаты, а не текущий долг.
+  // Обязательства учитываются только если они явно не оплачены и их дата попадает в остаток текущего цикла.
+  const pendingObligations = unpaidObligationsInCycle(settings, cycle, today);
+  const futureObligations = pendingObligations.reduce((sum, o) => sum + Number(o.amount || 0), 0);
+  const plannedGoals = (settings.goals || []).reduce((sum, g) => sum + Number(g.monthlyPlan || 0), 0);
+  const freeMoney = accountBalance - futureObligations;
   const dailyLimit = freeMoney / cycle.daysLeft;
   const elapsedDays = Math.max(1, diffDays(cycle.start, startOfDay(today)) + 1);
   const burnRate = totalSpent / elapsedDays;
   const forecastBalance = freeMoney - burnRate * cycle.daysLeft;
 
   const byCategory = groupByCategory(expenses, settings.categories);
-  return { cycle, accountBalance, totalSpent, totalIncome, futureObligations, plannedGoals, freeMoney, dailyLimit, burnRate, forecastBalance, byCategory };
+  return { cycle, accountBalance, totalSpent, totalIncome, futureObligations, plannedGoals, freeMoney, dailyLimit, burnRate, forecastBalance, byCategory, pendingObligations };
 }
 
 function groupByCategory(expenses, categories) {
