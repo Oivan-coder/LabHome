@@ -1,9 +1,10 @@
 {
   "name": "Atlas Finance",
   "short_name": "Finance",
-  "start_url": "/",
+  "start_url": "/LabHome/",
+  "scope": "/LabHome/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#111827",
+  "background_color": "#f5f5f7",
+  "theme_color": "#f5f5f7",
   "icons": []
 }
