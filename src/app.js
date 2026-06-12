@@ -16,6 +16,8 @@ const BUSY_SYNC_STATES = new Set(['loading', 'saving', 'refreshing']);
 let state = loadState();
 let selectedBudgetGroupId = state.settings.categories[0]?.id || state.settings.categories[0]?.name || 'other';
 let selectedCategoryId = null;
+let selectedIncomeCategoryId = DEFAULT_SETTINGS.incomeCategories[0].id;
+let transactionType = 'expense';
 let activeTab = DEFAULT_TAB;
 let syncState = {
   status: 'idle',
@@ -38,6 +40,7 @@ const els = {
   burnRate: document.getElementById('burnRate'),
   forecastStatus: document.getElementById('forecastStatus'),
   quickSyncHint: document.getElementById('quickSyncHint'),
+  operationTitle: document.getElementById('operationTitle'),
   categorySummary: document.getElementById('categorySummary'),
   categoryList: document.getElementById('categoryList'),
   categoryChips: document.getElementById('categoryChips'),
@@ -81,6 +84,9 @@ function bindEvents() {
   document.querySelectorAll('[data-tab]').forEach((button) => {
     button.addEventListener('click', () => setActiveTab(button.dataset.tab));
   });
+  document.querySelectorAll('[data-transaction-type]').forEach((button) => {
+    button.addEventListener('click', () => setTransactionType(button.dataset.transactionType));
+  });
 }
 
 function loadState() {
@@ -99,12 +105,16 @@ function normalizeState() {
   state.settings = { ...DEFAULT_SETTINGS, ...(state.settings || {}) };
   state.settings.accounts = state.settings.accounts || DEFAULT_SETTINGS.accounts;
   state.settings.categories = state.settings.categories || DEFAULT_SETTINGS.categories;
+  state.settings.incomeCategories = state.settings.incomeCategories || DEFAULT_SETTINGS.incomeCategories;
   state.settings.obligations = state.settings.obligations || DEFAULT_SETTINGS.obligations;
   state.settings.goals = state.settings.goals || DEFAULT_SETTINGS.goals;
   state.transactions = Array.isArray(state.transactions) ? state.transactions : seedTransactions;
   state.tables = state.tables || {};
   if (!state.settings.categories.some((category) => category.id === selectedBudgetGroupId || category.name === selectedBudgetGroupId)) {
     selectedBudgetGroupId = state.settings.categories[0]?.id || state.settings.categories[0]?.name || 'other';
+  }
+  if (!state.settings.incomeCategories.some((category) => category.id === selectedIncomeCategoryId)) {
+    selectedIncomeCategoryId = state.settings.incomeCategories[0]?.id || 'income_other';
   }
 }
 
@@ -212,17 +222,19 @@ async function onSubmitTransaction(event) {
   const amount = parseAmount(els.amount.value);
   if (!amount || amount <= 0) return;
 
-  const group = selectedBudgetGroup();
-  const detail = selectedDetailCategory() || defaultDetailForGroup(group.id);
+  const currentType = transactionType;
   const account = defaultCashflowAccount();
+  const incomeCategory = selectedIncomeCategory();
+  const group = currentType === 'income' ? null : selectedBudgetGroup();
+  const detail = currentType === 'income' ? null : selectedDetailCategory() || defaultDetailForGroup(group.id);
   const tx = {
     id: crypto.randomUUID(),
     date: new Date().toISOString(),
-    type: 'expense',
-    category: group.name,
-    categoryId: detail?.category_id || group.defaultCategoryId || group.id,
-    categoryDetail: detail?.name || '',
-    budgetGroupId: group.id,
+    type: currentType,
+    category: currentType === 'income' ? incomeCategory.name : group.name,
+    categoryId: currentType === 'income' ? incomeCategory.id : detail?.category_id || group.defaultCategoryId || group.id,
+    categoryDetail: currentType === 'income' ? '' : detail?.name || '',
+    budgetGroupId: currentType === 'income' ? incomeCategory.budgetGroupId || 'income' : group.id,
     description: els.description.value.trim(),
     amount,
     account: account.name,
@@ -233,7 +245,7 @@ async function onSubmitTransaction(event) {
 
   savingTransaction = true;
   let savedToSheets = false;
-  setSyncState('saving', { message: 'Сохраняю расход в Google Sheets…' });
+  setSyncState('saving', { message: currentType === 'income' ? 'Сохраняю доход в Google Sheets…' : 'Сохраняю расход в Google Sheets…' });
   renderTransactionFormState();
   renderSyncStatus();
 
@@ -241,7 +253,7 @@ async function onSubmitTransaction(event) {
     await appendTransactionToSheets(tx);
     savedToSheets = true;
     els.form.reset();
-    selectedCategoryId = detail?.category_id || null;
+    if (currentType === 'expense') selectedCategoryId = detail?.category_id || null;
     await reloadBootstrap();
     setSyncState('success', {
       firstBootstrapLoaded: true,
@@ -250,7 +262,7 @@ async function onSubmitTransaction(event) {
     });
   } catch (error) {
     console.error(savedToSheets ? 'Bootstrap after append failed' : 'Sheets append failed', error);
-    setSyncState('error', { message: savedToSheets ? userSavedButSyncError(error) : userSaveError(error) });
+    setSyncState('error', { message: savedToSheets ? userSavedButSyncError(error, currentType) : userSaveError(error, currentType) });
   } finally {
     savingTransaction = false;
     render();
@@ -434,6 +446,26 @@ function renderDashboard(model) {
 }
 
 function renderQuickForm() {
+  renderTransactionTypeToggle();
+  els.operationTitle.textContent = transactionType === 'income' ? 'Доход' : 'Расход';
+
+  if (transactionType === 'income') {
+    const categories = state.settings.incomeCategories || DEFAULT_SETTINGS.incomeCategories;
+    els.categoryChips.innerHTML = categories.map((category) => {
+      const active = category.id === selectedIncomeCategoryId;
+      return `<button class="chip income-chip ${active ? 'active' : ''}" type="button" data-income-category="${escapeHtml(category.id)}">${escapeHtml(category.name)}</button>`;
+    }).join('');
+    els.detailChips.innerHTML = '';
+    els.categoryChips.querySelectorAll('[data-income-category]').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedIncomeCategoryId = button.dataset.incomeCategory;
+        renderQuickForm();
+      });
+    });
+    renderTransactionFormState();
+    return;
+  }
+
   const categories = state.settings.categories;
   els.categoryChips.innerHTML = categories.map((category) => {
     const id = category.id || category.name;
@@ -468,6 +500,12 @@ function renderQuickForm() {
     });
   });
   renderTransactionFormState();
+}
+
+function renderTransactionTypeToggle() {
+  document.querySelectorAll('[data-transaction-type]').forEach((button) => {
+    button.classList.toggle('active', button.dataset.transactionType === transactionType);
+  });
 }
 
 function renderCategories(categories) {
@@ -535,13 +573,14 @@ function renderTransactions() {
   const items = state.transactions.slice(0, 30);
   els.transactionList.innerHTML = items.map((transaction) => {
     const pending = transaction.syncStatus === 'pending';
-    return `<article class="tx-row ${transaction.reviewNeeded ? 'needs-review' : ''}" data-id="${escapeHtml(transaction.id)}">
+    const isIncome = transaction.type === 'income';
+    return `<article class="tx-row ${transaction.reviewNeeded ? 'needs-review' : ''} ${isIncome ? 'income' : ''}" data-id="${escapeHtml(transaction.id)}">
       <div>
         <strong>${escapeHtml(transaction.description || transaction.category)}</strong>
-        <small>${formatTransactionDate(transaction.date)} · ${escapeHtml(transaction.category)}${pending ? ' · очередь' : ''}</small>
+        <small>${formatTransactionDate(transaction.date)} · ${escapeHtml(transaction.category)}${isIncome ? ' · доход' : ''}${pending ? ' · очередь' : ''}</small>
       </div>
       <div class="tx-side">
-        <b>${toMoney(transaction.amount)}</b>
+        <b>${formatTransactionAmount(transaction)}</b>
         <button class="text-button" type="button">Править</button>
       </div>
     </article>`;
@@ -588,7 +627,7 @@ function renderSyncButton() {
   els.syncBtn.classList.toggle('is-loading', busy);
 
   if (busy) {
-    const label = syncState.status === 'refreshing' ? 'Обновляю…' : syncStatusText(syncState.status);
+    const label = syncState.status === 'refreshing' ? 'Обновляю…' : syncState.status === 'saving' ? 'Сохраняю…' : syncStatusText(syncState.status);
     els.syncBtn.innerHTML = `<span class="button-spinner" aria-hidden="true"></span><span>${escapeHtml(label)}</span>`;
     els.syncBtn.title = label;
     els.syncBtn.setAttribute('aria-label', label);
@@ -629,7 +668,11 @@ function renderTransactionFormState() {
     button.disabled = disabled;
     button.setAttribute('aria-disabled', String(disabled));
   });
-  els.addTransactionBtn.textContent = savingTransaction ? 'Сохраняю…' : 'Добавить';
+  document.querySelectorAll('[data-transaction-type]').forEach((button) => {
+    button.disabled = disabled;
+    button.setAttribute('aria-disabled', String(disabled));
+  });
+  els.addTransactionBtn.textContent = savingTransaction ? 'Сохраняю…' : transactionType === 'income' ? 'Добавить доход' : 'Добавить';
 }
 
 function setSyncState(status, patch = {}) {
@@ -645,6 +688,11 @@ function syncStatusText(status) {
     success: 'Обновлено',
     error: 'Ошибка синхронизации'
   }[status] || 'Синхронизация';
+}
+
+function setTransactionType(type) {
+  transactionType = type === 'income' ? 'income' : 'expense';
+  renderQuickForm();
 }
 
 function openEdit(id) {
@@ -663,6 +711,12 @@ function openEdit(id) {
 
 function selectedBudgetGroup() {
   return categoryById(selectedBudgetGroupId) || state.settings.categories[0] || { id: 'other', name: 'Прочее' };
+}
+
+function selectedIncomeCategory() {
+  return (state.settings.incomeCategories || DEFAULT_SETTINGS.incomeCategories).find((category) => category.id === selectedIncomeCategoryId)
+    || DEFAULT_SETTINGS.incomeCategories.find((category) => category.id === 'income_other')
+    || { id: 'income_other', name: 'Прочий доход', budgetGroupId: 'income' };
 }
 
 function selectedDetailCategory() {
@@ -713,6 +767,11 @@ function formatTransactionDate(value) {
   return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+function formatTransactionAmount(transaction) {
+  const amount = toMoney(transaction.amount);
+  return transaction.type === 'income' ? `+${amount}` : amount;
+}
+
 function formatTime(value) {
   const date = value instanceof Date ? value : new Date(value);
   return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
@@ -722,12 +781,12 @@ function userSyncError(error) {
   return `Ошибка синхронизации: ${error?.message || 'не удалось получить данные'}`;
 }
 
-function userSaveError(error) {
-  return `Не удалось сохранить расход: ${error?.message || 'попробуйте еще раз'}`;
+function userSaveError(error, type = 'expense') {
+  return `Не удалось сохранить ${type === 'income' ? 'доход' : 'расход'}: ${error?.message || 'попробуйте еще раз'}`;
 }
 
-function userSavedButSyncError(error) {
-  return `Расход сохранен, но данные не обновились: ${error?.message || 'нажмите «Повторить»'}`;
+function userSavedButSyncError(error, type = 'expense') {
+  return `${type === 'income' ? 'Доход' : 'Расход'} сохранен, но данные не обновились: ${error?.message || 'нажмите «Повторить»'}`;
 }
 
 function loadingRows(count) {

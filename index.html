@@ -61,10 +61,14 @@
 
       <section class="panel quick-panel">
         <div class="section-title">
-          <h2>Расход</h2>
+          <h2 id="operationTitle">Расход</h2>
           <span id="quickSyncHint">готово</span>
         </div>
         <form id="transactionForm" class="quick-form">
+          <div class="operation-toggle" aria-label="Тип операции">
+            <button class="active" type="button" data-transaction-type="expense">Расход</button>
+            <button type="button" data-transaction-type="income">Доход</button>
+          </div>
           <label class="amount-field">
             <span>₽</span>
             <input id="amountInput" inputmode="decimal" autocomplete="off" placeholder="0" required />
