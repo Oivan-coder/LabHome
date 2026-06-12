@@ -18,6 +18,15 @@ export const DEFAULT_SETTINGS = {
     { id: 'people', name: 'Переводы людям', group: 'other', monthlyLimit: 5000 },
     { id: 'other', name: 'Прочее', group: 'other', monthlyLimit: 10000 }
   ],
+  incomeCategories: [
+    { id: 'income_salary', name: 'Зарплата', budgetGroupId: 'income' },
+    { id: 'income_advance', name: 'Аванс', budgetGroupId: 'income' },
+    { id: 'income_cashback', name: 'Кэшбэк', budgetGroupId: 'income' },
+    { id: 'income_gift', name: 'Подарок', budgetGroupId: 'income' },
+    { id: 'income_debt_return', name: 'Возврат долга', budgetGroupId: 'income' },
+    { id: 'income_side_job', name: 'Подработка', budgetGroupId: 'income' },
+    { id: 'income_other', name: 'Прочий доход', budgetGroupId: 'income' }
+  ],
   obligations: [
     { id: 'rent', name: 'Жилье/коммуналка', amount: 0, dueDay: 15, active: true },
     { id: 'phone', name: 'Связь и подписки', amount: 0, dueDay: 1, active: true }
@@ -110,7 +119,7 @@ export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, to
     const d = parseDate(t.date);
     return d >= cycle.start && d < cycle.end;
   });
-  const expenses = cycleTx.filter((t) => t.type !== 'income');
+  const expenses = cycleTx.filter((t) => !t.type || t.type === 'expense');
   const income = cycleTx.filter((t) => t.type === 'income');
   const totalSpent = expenses.reduce((sum, t) => sum + Number(t.amount || 0), 0);
   const totalIncome = income.reduce((sum, t) => sum + Number(t.amount || 0), 0);

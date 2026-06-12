@@ -152,13 +152,14 @@ function readTransactionsForApp_(tables) {
       const category = categoriesById[row.category_id] || {};
       const budgetGroup = budgetGroupsById[row.budget_group_id] || {};
       const account = accountsById[row.account_id] || {};
+      const isIncome = row.type === 'income';
       return {
         id: row.transaction_id,
         date: normalizeValue_(row.date),
         type: row.type || 'expense',
         account: account.name || row.account_id || '',
         accountId: row.account_id || '',
-        category: budgetGroup.name || category.name || row.category_id || 'Прочее',
+        category: budgetGroup.name || category.name || (isIncome ? row.original_category : row.category_id) || 'Прочее',
         categoryId: row.category_id || '',
         categoryDetail: category.name || '',
         budgetGroupId: row.budget_group_id || '',
@@ -179,6 +180,7 @@ function appendTransaction_(payload) {
   const headers = getHeaders_(sheet);
   const row = headers.map(function (header) { return tx[header] === undefined ? '' : tx[header]; });
   sheet.appendRow(row);
+  applyTransactionToAccountBalance_(tx);
   return { ok: true, transaction: readTransactionRowForApp_(tx) };
 }
 
@@ -264,6 +266,7 @@ function resolveCategory_(payload) {
   const categoryId = payload.category_id || payload.categoryId;
   const budgetGroupId = payload.budget_group_id || payload.budgetGroupId;
   const categoryName = payload.category || payload.categoryName || '';
+  const isIncome = payload.type === 'income';
 
   if (categoryId && findBy_(categories, 'category_id', categoryId)) {
     const category = findBy_(categories, 'category_id', categoryId);
@@ -282,7 +285,38 @@ function resolveCategory_(payload) {
     return { categoryId: defaultCategoryForGroup_(categories, groupByName.budget_group_id), budgetGroupId: groupByName.budget_group_id };
   }
 
+  if (isIncome) {
+    return { categoryId: categoryId || 'income_other', budgetGroupId: budgetGroupId || 'income' };
+  }
+
   return { categoryId: 'other', budgetGroupId: 'other' };
+}
+
+function applyTransactionToAccountBalance_(tx) {
+  const type = tx.type || 'expense';
+  if (type !== 'income' && type !== 'expense') return null;
+
+  const accountId = tx.account_id || resolveAccountId_();
+  const amount = Math.abs(toNumber_(tx.amount));
+  const delta = type === 'income' ? amount : -amount;
+  const sheet = getSheet_(SHEETS.accounts);
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0].map(function (header) { return String(header || '').trim(); });
+  const idIndex = headers.indexOf('account_id');
+  const balanceIndex = headers.indexOf('current_balance');
+  const dateIndex = headers.indexOf('as_of_date');
+  if (idIndex === -1 || balanceIndex === -1) throw new Error('Accounts sheet is missing balance columns');
+
+  for (let i = 1; i < values.length; i += 1) {
+    if (String(values[i][idIndex]) === String(accountId)) {
+      const nextBalance = toNumber_(values[i][balanceIndex]) + delta;
+      sheet.getRange(i + 1, balanceIndex + 1).setValue(nextBalance);
+      if (dateIndex !== -1) sheet.getRange(i + 1, dateIndex + 1).setValue(new Date());
+      return nextBalance;
+    }
+  }
+
+  throw new Error('Account not found: ' + accountId);
 }
 
 function defaultCategoryForGroup_(categories, groupId) {
