@@ -3,6 +3,7 @@ export const DEFAULT_SETTINGS = {
   salaryDay: 15,
   advanceDay: 30,
   paydayMoveRule: 'previous-business-day',
+  accountBalanceMode: 'current',
   accounts: [
     { id: 'main', name: 'Основной счет', balance: 0 },
     { id: 'cash', name: 'Наличные', balance: 0 }
@@ -113,16 +114,13 @@ export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, to
   const income = cycleTx.filter((t) => t.type === 'income');
   const totalSpent = expenses.reduce((sum, t) => sum + Number(t.amount || 0), 0);
   const totalIncome = income.reduce((sum, t) => sum + Number(t.amount || 0), 0);
-  const baseAccountBalance = settings.accounts
+  const accountBalance = (settings.accounts || [])
     .filter((a) => a.includeInCashflow !== false)
     .reduce((sum, a) => sum + Number(a.balance || 0), 0);
-  const accountBalance = settings.accountBalanceMode === 'current'
-    ? baseAccountBalance
-    : baseAccountBalance + totalIncome - totalSpent;
 
-  // Для дневного лимита считаем только деньги, которыми реально можно жить до ближайшей выплаты.
-  // Накопления не вычитаются из дневного лимита: это план после зарплаты, а не текущий долг.
-  // Обязательства учитываются только если они явно не оплачены и их дата попадает в остаток текущего цикла.
+  // balance в Accounts — это текущий остаток денег для жизни.
+  // Поэтому расходы текущего цикла НЕ вычитаются повторно из accountBalance.
+  // Они используются только для аналитики: сколько уже потрачено, темп и прогноз.
   const pendingObligations = unpaidObligationsInCycle(settings, cycle, today);
   const futureObligations = pendingObligations.reduce((sum, o) => sum + Number(o.amount || 0), 0);
   const plannedGoals = (settings.goals || []).reduce((sum, g) => sum + Number(g.monthlyPlan || 0), 0);
