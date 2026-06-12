@@ -53,7 +53,7 @@
           <strong id="burnRate">—</strong>
         </article>
         <article class="metric-card">
-          <span>Прогноз</span>
+          <span class="metric-label-with-action">Прогноз <button id="forecastInfoBtn" class="info-button" type="button" aria-label="Как считается прогноз">i</button></span>
           <strong id="forecastStatus">—</strong>
         </article>
       </section>
@@ -140,6 +140,16 @@
       </label>
       <button class="primary-button" type="submit">Сохранить</button>
     </form>
+  </dialog>
+
+  <dialog id="forecastDialog" class="info-dialog">
+    <div class="info-dialog-content">
+      <div class="dialog-head">
+        <h2>Как считается прогноз</h2>
+        <button id="closeForecastInfoBtn" class="icon-button small" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <div id="forecastInfoContent" class="info-dialog-body"></div>
+    </div>
   </dialog>
 
   <script type="module" src="/src/app.js"></script>
