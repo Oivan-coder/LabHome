@@ -1,7 +1,9 @@
-const CACHE_NAME = 'atlas-finance-v2';
+const CACHE_NAME = 'atlas-finance-v3';
 const ASSETS = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/icon.svg',
   '/src/app.js',
   '/src/styles.css',
   '/src/finance-model.js',
