@@ -8,6 +8,12 @@
   "theme_color": "#f5f5f7",
   "icons": [
     {
+      "src": "/LabHome/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/LabHome/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
