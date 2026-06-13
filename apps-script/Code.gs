@@ -28,9 +28,11 @@ const HEADERS = {
 
 function doGet(e) {
   return handle_(function () {
-    ensureSchema_();
     const action = (e && e.parameter && e.parameter.action) || 'health';
     if (action === 'health') return { ok: true, service: 'Atlas Finance API', version: API_VERSION };
+    if (!isAuthorized_(e && e.parameter && e.parameter.password)) return unauthorized_();
+
+    ensureSchema_();
     if (action === 'bootstrap') return buildBootstrap_();
     if (action === 'transactions') return readTransactionsForApp_();
     if (action === 'schema') return { ok: true, version: API_VERSION, sheets: SHEETS, headers: HEADERS };
@@ -40,9 +42,12 @@ function doGet(e) {
 
 function doPost(e) {
   return handle_(function () {
-    ensureSchema_();
     const body = parseBody_(e);
     const action = body.action || '';
+    if (action === 'health') return { ok: true, service: 'Atlas Finance API', version: API_VERSION };
+    if (!isAuthorized_(body.password)) return unauthorized_();
+
+    ensureSchema_();
     if (action === 'appendTransaction') return appendTransaction_(body.payload || {});
     if (action === 'updateTransaction') return updateTransaction_(body.payload || {});
     if (action === 'updateAccount') return updateAccount_(body.payload || {});
@@ -524,6 +529,15 @@ function objectFromRow_(headers, row) {
   const record = {};
   headers.forEach(function (header, index) { record[header] = normalizeValue_(row[index]); });
   return record;
+}
+
+function isAuthorized_(password) {
+  const expected = PropertiesService.getScriptProperties().getProperty('ATLAS_APP_PASSWORD');
+  return Boolean(expected) && String(password || '') === String(expected);
+}
+
+function unauthorized_() {
+  return { ok: false, error: 'Unauthorized' };
 }
 
 function handle_(callback) {
