@@ -47,7 +47,7 @@
     <section class="tab-panel active" data-panel="today">
       <section class="hero-card" aria-label="Дневной лимит">
         <div class="hero-copy">
-          <span class="label">Можно сегодня</span>
+          <span class="label metric-label-with-action">Можно сегодня <button id="dailyLimitInfoBtn" class="info-button" type="button" aria-label="Как считается дневной лимит">i</button></span>
           <strong id="dailyLimit">—</strong>
           <small id="daysLeft">—</small>
         </div>
@@ -166,7 +166,7 @@
   <dialog id="forecastDialog" class="info-dialog">
     <div class="info-dialog-content">
       <div class="dialog-head">
-        <h2>Как считается прогноз</h2>
+        <h2 id="infoDialogTitle">Как считается прогноз</h2>
         <button id="closeForecastInfoBtn" class="icon-button small" type="button" aria-label="Закрыть">×</button>
       </div>
       <div id="forecastInfoContent" class="info-dialog-body"></div>
