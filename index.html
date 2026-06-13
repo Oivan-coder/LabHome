@@ -10,14 +10,30 @@
   <link rel="stylesheet" href="/src/forecast-info.css" />
 </head>
 <body>
-  <main class="app-shell">
+  <section id="authScreen" class="auth-screen">
+    <form id="authForm" class="auth-card">
+      <p class="eyebrow">Atlas Finance</p>
+      <h1>Вход</h1>
+      <label>
+        <span>Пароль</span>
+        <input id="passwordInput" type="password" autocomplete="current-password" required />
+      </label>
+      <button id="loginBtn" class="primary-button" type="submit">Войти</button>
+      <p id="authError" class="auth-error" hidden></p>
+    </form>
+  </section>
+
+  <main id="appShell" class="app-shell" hidden>
     <header class="topbar">
       <div>
         <p class="eyebrow">Atlas Finance</p>
         <h1>Сегодня</h1>
         <p id="cycleCaption" class="muted">Финансовый цикл загружается</p>
       </div>
-      <button id="syncBtn" class="icon-button sync-button" type="button" aria-label="Синхронизация" title="Синхронизация">↻</button>
+      <div class="top-actions">
+        <button id="logoutBtn" class="text-button logout-button" type="button">Выйти</button>
+        <button id="syncBtn" class="icon-button sync-button" type="button" aria-label="Синхронизация" title="Синхронизация">↻</button>
+      </div>
     </header>
 
     <section id="syncStatus" class="sync-strip" hidden></section>
@@ -118,7 +134,7 @@
     </section>
   </main>
 
-  <nav class="bottom-nav" aria-label="Нижняя навигация">
+  <nav id="bottomNav" class="bottom-nav" aria-label="Нижняя навигация" hidden>
     <button class="bottom-nav-button active" type="button" data-tab="today"><span>⌂</span>Сегодня</button>
     <button class="bottom-nav-button" type="button" data-tab="review"><span>✓</span>Вопросы</button>
     <button class="bottom-nav-button" type="button" data-tab="activity"><span>≡</span>Операции</button>

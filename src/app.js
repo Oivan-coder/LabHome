@@ -3,22 +3,27 @@ import { DEFAULT_SETTINGS, calculateDashboard, toMoney } from './finance-model.j
 import {
   answerMonthlyReviewInSheets,
   appendTransactionToSheets,
+  clearApiPassword,
   fetchBootstrapFromSheets,
+  isUnauthorizedError,
+  setApiPassword,
   updateTransactionInSheets
 } from './sheets-api.js';
 
 const STORAGE_KEY = 'atlas-finance-state-v2';
 const LEGACY_STORAGE_KEY = 'atlas-finance-state-v1';
 const QUEUE_KEY = 'atlas-finance-sync-queue-v1';
+const PASSWORD_KEY = 'atlas-finance-password';
 const DEFAULT_TAB = 'today';
 const BUSY_SYNC_STATES = new Set(['loading', 'saving', 'refreshing']);
 
-let state = loadState();
+let state = emptyState();
 let selectedBudgetGroupId = state.settings.categories[0]?.id || state.settings.categories[0]?.name || 'other';
 let selectedCategoryId = null;
 let selectedIncomeCategoryId = DEFAULT_SETTINGS.incomeCategories[0].id;
 let transactionType = 'expense';
 let activeTab = DEFAULT_TAB;
+let isAuthenticated = false;
 let syncState = {
   status: 'idle',
   firstBootstrapLoaded: false,
@@ -28,9 +33,17 @@ let syncState = {
 let savingTransaction = false;
 
 const els = {
+  authScreen: document.getElementById('authScreen'),
+  authForm: document.getElementById('authForm'),
+  passwordInput: document.getElementById('passwordInput'),
+  loginBtn: document.getElementById('loginBtn'),
+  authError: document.getElementById('authError'),
+  appShell: document.getElementById('appShell'),
+  bottomNav: document.getElementById('bottomNav'),
   cycleCaption: document.getElementById('cycleCaption'),
   syncStatus: document.getElementById('syncStatus'),
   syncBtn: document.getElementById('syncBtn'),
+  logoutBtn: document.getElementById('logoutBtn'),
   dailyLimit: document.getElementById('dailyLimit'),
   daysLeft: document.getElementById('daysLeft'),
   limitRing: document.getElementById('limitRing'),
@@ -69,12 +82,14 @@ init();
 function init() {
   normalizeState();
   bindEvents();
-  render();
-  syncFromSheets({ mode: 'loading' });
+  showAuthScreen();
+  restoreSavedPassword();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`).catch(() => {});
 }
 
 function bindEvents() {
+  els.authForm.addEventListener('submit', onSubmitPassword);
+  els.logoutBtn.addEventListener('click', logout);
   els.form.addEventListener('submit', onSubmitTransaction);
   els.syncBtn.addEventListener('click', () => syncFromSheets({ mode: syncState.firstBootstrapLoaded ? 'refreshing' : 'loading' }));
   els.exportBtn.addEventListener('click', exportJson);
@@ -87,6 +102,106 @@ function bindEvents() {
   document.querySelectorAll('[data-transaction-type]').forEach((button) => {
     button.addEventListener('click', () => setTransactionType(button.dataset.transactionType));
   });
+}
+
+function emptyState() {
+  return { settings: DEFAULT_SETTINGS, transactions: [], tables: {} };
+}
+
+function restoreSavedPassword() {
+  const savedPassword = localStorage.getItem(PASSWORD_KEY);
+  if (!savedPassword) return;
+  authenticate(savedPassword, { fromStorage: true });
+}
+
+async function onSubmitPassword(event) {
+  event.preventDefault();
+  const password = els.passwordInput.value;
+  if (!password) return;
+  await authenticate(password);
+}
+
+async function authenticate(password, options = {}) {
+  setAuthLoading(true, options.fromStorage ? 'Проверяю доступ…' : 'Вхожу…');
+  setApiPassword(password);
+  state = loadState();
+  normalizeState();
+  setSyncState('loading', {
+    firstBootstrapLoaded: false,
+    message: 'Загружаю данные из Google Sheets…'
+  });
+
+  try {
+    await processSyncQueue({ allowBeforeAuth: true });
+    await reloadBootstrap();
+    localStorage.setItem(PASSWORD_KEY, password);
+    isAuthenticated = true;
+    showAppScreen();
+    setSyncState('success', {
+      firstBootstrapLoaded: true,
+      lastUpdatedAt: new Date(),
+      message: `Обновлено ${formatTime(new Date())}`
+    });
+    render();
+  } catch (error) {
+    console.warn('Authentication failed', error);
+    if (isUnauthorizedError(error)) {
+      handleUnauthorized();
+    } else {
+      clearApiPassword();
+      showAuthScreen('Не удалось проверить пароль. Попробуйте еще раз.');
+    }
+  } finally {
+    setAuthLoading(false);
+  }
+}
+
+function showAuthScreen(message = '') {
+  isAuthenticated = false;
+  state = emptyState();
+  normalizeState();
+  setSyncState('idle', {
+    firstBootstrapLoaded: false,
+    lastUpdatedAt: null,
+    message: 'Загружаю данные из Google Sheets…'
+  });
+  els.appShell.hidden = true;
+  els.bottomNav.hidden = true;
+  els.authScreen.hidden = false;
+  els.authError.hidden = !message;
+  els.authError.textContent = message;
+  els.passwordInput.value = '';
+  els.passwordInput.focus();
+}
+
+function showAppScreen() {
+  els.authScreen.hidden = true;
+  els.appShell.hidden = false;
+  els.bottomNav.hidden = false;
+}
+
+function setAuthLoading(isLoading, label = 'Войти') {
+  els.passwordInput.disabled = isLoading;
+  els.loginBtn.disabled = isLoading;
+  els.loginBtn.textContent = isLoading ? label : 'Войти';
+}
+
+function logout() {
+  clearStoredAccess();
+  showAuthScreen();
+}
+
+function handleUnauthorized() {
+  clearStoredAccess();
+  showAuthScreen('Неверный пароль');
+}
+
+function clearStoredAccess() {
+  localStorage.removeItem(PASSWORD_KEY);
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(LEGACY_STORAGE_KEY);
+  localStorage.removeItem(QUEUE_KEY);
+  clearApiPassword();
 }
 
 function loadState() {
@@ -141,7 +256,9 @@ function enqueue(item) {
   renderSyncStatus();
 }
 
-async function processSyncQueue() {
+async function processSyncQueue(options = {}) {
+  if (!isAuthenticated && !options.allowBeforeAuth) return;
+
   const items = queueItems();
   if (!items.length) {
     renderSyncStatus();
@@ -171,6 +288,7 @@ async function processSyncQueue() {
 }
 
 async function syncFromSheets(options = {}) {
+  if (!isAuthenticated) return;
   if (BUSY_SYNC_STATES.has(syncState.status)) return;
 
   const mode = options.mode || (syncState.firstBootstrapLoaded ? 'refreshing' : 'loading');
@@ -190,6 +308,10 @@ async function syncFromSheets(options = {}) {
     render();
   } catch (error) {
     console.error('Bootstrap sync failed', error);
+    if (isUnauthorizedError(error)) {
+      handleUnauthorized();
+      return;
+    }
     setSyncState('error', { message: userSyncError(error) });
     render();
   }
@@ -262,6 +384,10 @@ async function onSubmitTransaction(event) {
     });
   } catch (error) {
     console.error(savedToSheets ? 'Bootstrap after append failed' : 'Sheets append failed', error);
+    if (isUnauthorizedError(error)) {
+      handleUnauthorized();
+      return;
+    }
     setSyncState('error', { message: savedToSheets ? userSavedButSyncError(error, currentType) : userSaveError(error, currentType) });
   } finally {
     savingTransaction = false;
@@ -297,6 +423,10 @@ async function onSubmitEdit(event) {
     const result = await updateTransactionInSheets(patch);
     if (result?.transaction) replaceTransaction(id, result.transaction);
   } catch (error) {
+    if (isUnauthorizedError(error)) {
+      handleUnauthorized();
+      return;
+    }
     enqueue({ action: 'updateTransaction', payload: patch });
     console.warn('Sheets update failed', error);
     setSyncState('error', { message: `Не удалось сохранить правку: ${error?.message || 'попробуйте еще раз'}` });
@@ -323,6 +453,10 @@ async function answerReview(item, input) {
   try {
     await answerMonthlyReviewInSheets(payload);
   } catch (error) {
+    if (isUnauthorizedError(error)) {
+      handleUnauthorized();
+      return;
+    }
     enqueue({ action: 'answerMonthlyReview', payload });
     console.warn('Review sync failed', error);
     setSyncState('error', { message: `Не удалось сохранить ответ: ${error?.message || 'попробуйте еще раз'}` });
@@ -365,6 +499,7 @@ function replaceTransaction(oldId, next) {
 }
 
 function render() {
+  if (!isAuthenticated) return;
   normalizeState();
   if (!syncState.firstBootstrapLoaded) {
     renderLoadingState();
