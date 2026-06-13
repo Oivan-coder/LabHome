@@ -3,14 +3,21 @@ import { DEFAULT_SETTINGS, calculateDashboard, toMoney } from './finance-model.j
 const STORAGE_KEY = 'atlas-finance-state-v2';
 const LEGACY_STORAGE_KEY = 'atlas-finance-state-v1';
 
-const infoBtn = document.getElementById('forecastInfoBtn');
+const forecastBtn = document.getElementById('forecastInfoBtn');
+const dailyBtn = document.getElementById('dailyLimitInfoBtn');
 const dialog = document.getElementById('forecastDialog');
 const closeBtn = document.getElementById('closeForecastInfoBtn');
+const title = document.getElementById('infoDialogTitle');
 const content = document.getElementById('forecastInfoContent');
 
-if (infoBtn && dialog && closeBtn && content) {
-  infoBtn.addEventListener('click', () => {
+if (dialog && closeBtn && content) {
+  forecastBtn?.addEventListener('click', () => {
     renderForecastExplanation();
+    dialog.showModal();
+  });
+
+  dailyBtn?.addEventListener('click', () => {
+    renderDailyLimitExplanation();
     dialog.showModal();
   });
 
@@ -28,25 +35,30 @@ function loadState() {
   try {
     return JSON.parse(raw);
   } catch (error) {
-    console.warn('Forecast info state parse failed', error);
+    console.warn('Finance info state parse failed', error);
     return null;
   }
 }
 
-function renderForecastExplanation() {
+function getModel() {
   const state = loadState();
-  if (!state?.transactions || !state?.settings) {
-    content.innerHTML = `
-      <p>Данные еще загружаются из Google Sheets. Попробуй открыть подсказку после синхронизации.</p>
-    `;
+  if (!state?.transactions || !state?.settings) return null;
+  const settings = { ...DEFAULT_SETTINGS, ...state.settings };
+  return calculateDashboard(state.transactions, settings, new Date());
+}
+
+function renderEmptyState() {
+  content.innerHTML = '<p>Данные еще загружаются из Google Sheets. Попробуй открыть подсказку после синхронизации.</p>';
+}
+
+function renderForecastExplanation() {
+  if (title) title.textContent = 'Как считается прогноз';
+  const model = getModel();
+  if (!model) {
+    renderEmptyState();
     return;
   }
 
-  const settings = {
-    ...DEFAULT_SETTINGS,
-    ...state.settings
-  };
-  const model = calculateDashboard(state.transactions, settings, new Date());
   const projectedSpend = model.burnRate * model.cycle.daysLeft;
   const forecast = model.forecastBalance;
   const sign = forecast >= 0 ? '' : '−';
@@ -64,5 +76,29 @@ function renderForecastExplanation() {
     <p class="formula-line">Формула: ${toMoney(model.freeMoney)} − (${toMoney(model.burnRate)} × ${model.cycle.daysLeft}) = <strong>${sign}${toMoney(Math.abs(forecast))}</strong></p>
 
     <p class="info-note">Если значение отрицательное, это не текущий минус. Это предупреждение: при таком темпе расходов до выплаты может не хватить указанной суммы.</p>
+  `;
+}
+
+function renderDailyLimitExplanation() {
+  if (title) title.textContent = 'Как считается «Можно сегодня»';
+  const model = getModel();
+  if (!model) {
+    renderEmptyState();
+    return;
+  }
+
+  content.innerHTML = `
+    <p><strong>Можно сегодня</strong> — это безопасный дневной лимит до следующей выплаты.</p>
+
+    <div class="formula-card">
+      <div><span>Баланс счетов</span><b>${toMoney(model.accountBalance)}</b></div>
+      <div><span>Будущие обязательства</span><b>${toMoney(model.futureObligations)}</b></div>
+      <div><span>Свободно</span><b>${toMoney(model.freeMoney)}</b></div>
+      <div><span>Дней до выплаты</span><b>${model.cycle.daysLeft}</b></div>
+    </div>
+
+    <p class="formula-line">Формула: ${toMoney(model.freeMoney)} ÷ ${model.cycle.daysLeft} = <strong>${toMoney(model.dailyLimit)}/д</strong></p>
+
+    <p class="info-note">Если есть будущие обязательства в текущем цикле, они сначала вычитаются из баланса. Поэтому лимит показывает не весь остаток, а сумму, которую можно распределять по дням.</p>
   `;
 }
