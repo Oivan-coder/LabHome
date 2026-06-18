@@ -452,6 +452,13 @@ async function answerReview(item, input) {
 
   try {
     await answerMonthlyReviewInSheets(payload);
+    await reloadBootstrap();
+    setSyncState('success', {
+      firstBootstrapLoaded: true,
+      lastUpdatedAt: new Date(),
+      message: `Обновлено ${formatTime(new Date())}`
+    });
+    render();
   } catch (error) {
     if (isUnauthorizedError(error)) {
       handleUnauthorized();
@@ -650,13 +657,15 @@ function renderCategories(categories) {
   els.categoryList.innerHTML = categories.map((category) => {
     const percent = category.monthlyLimit ? Math.min(120, (category.spent / category.monthlyLimit) * 100) : 0;
     const over = category.monthlyLimit && category.spent > category.monthlyLimit;
+    const dailyBurn = `темп ${toMoney(category.dailyBurn || 0)}/д`;
+    const remaining = category.monthlyLimit ? `${toMoney(Math.max(0, category.monthlyLimit - category.spent))} осталось` : '';
     return `<div class="category-row">
       <div class="row-head">
         <strong>${escapeHtml(category.name)}</strong>
         <span>${toMoney(category.spent)}</span>
       </div>
       <div class="bar"><i class="${over ? 'over' : ''}" style="width:${Math.min(percent, 100)}%"></i></div>
-      <small>${category.monthlyLimit ? `${toMoney(Math.max(0, category.monthlyLimit - category.spent))} осталось из ${toMoney(category.monthlyLimit)}` : 'лимит не задан'}</small>
+      <small>${category.monthlyLimit ? `${dailyBurn} · ${remaining} из ${toMoney(category.monthlyLimit)}` : dailyBurn}</small>
     </div>`;
   }).join('');
 }
@@ -709,10 +718,11 @@ function renderTransactions() {
   els.transactionList.innerHTML = items.map((transaction) => {
     const pending = transaction.syncStatus === 'pending';
     const isIncome = transaction.type === 'income';
-    return `<article class="tx-row ${transaction.reviewNeeded ? 'needs-review' : ''} ${isIncome ? 'income' : ''}" data-id="${escapeHtml(transaction.id)}">
+    const isAllocation = transaction.type === 'allocation';
+    return `<article class="tx-row ${transaction.reviewNeeded ? 'needs-review' : ''} ${isIncome ? 'income' : ''} ${isAllocation ? 'allocation' : ''}" data-id="${escapeHtml(transaction.id)}">
       <div>
         <strong>${escapeHtml(transaction.description || transaction.category)}</strong>
-        <small>${formatTransactionDate(transaction.date)} · ${escapeHtml(transaction.category)}${isIncome ? ' · доход' : ''}${pending ? ' · очередь' : ''}</small>
+        <small>${formatTransactionDate(transaction.date)} · ${escapeHtml(transaction.category)}${isIncome ? ' · доход' : ''}${isAllocation ? ' · распределение' : ''}${pending ? ' · очередь' : ''}</small>
       </div>
       <div class="tx-side">
         <b>${formatTransactionAmount(transaction)}</b>
@@ -904,7 +914,9 @@ function formatTransactionDate(value) {
 
 function formatTransactionAmount(transaction) {
   const amount = toMoney(transaction.amount);
-  return transaction.type === 'income' ? `+${amount}` : amount;
+  if (transaction.type === 'income') return `+${amount}`;
+  if (transaction.type === 'allocation') return `−${amount}`;
+  return amount;
 }
 
 function formatTime(value) {

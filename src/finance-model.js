@@ -63,21 +63,20 @@ export function movePayday(date, rule = 'previous-business-day') {
 export function getCycleBoundaries(today = new Date(), settings = DEFAULT_SETTINGS) {
   const year = today.getFullYear();
   const month = today.getMonth();
-  const paydays = [];
+  const salaryDays = [];
   for (let m = month - 1; m <= month + 2; m += 1) {
     const y = new Date(year, m, 1).getFullYear();
     const mm = new Date(year, m, 1).getMonth();
-    paydays.push(movePayday(new Date(y, mm, settings.salaryDay), settings.paydayMoveRule));
-    paydays.push(movePayday(new Date(y, mm, settings.advanceDay), settings.paydayMoveRule));
+    salaryDays.push(movePayday(new Date(y, mm, settings.salaryDay), settings.paydayMoveRule));
   }
-  paydays.sort((a, b) => a - b);
+  salaryDays.sort((a, b) => a - b);
   const todayStart = startOfDay(today);
-  let start = paydays[0];
-  let next = paydays[paydays.length - 1];
-  for (let i = 0; i < paydays.length - 1; i += 1) {
-    if (startOfDay(paydays[i]) <= todayStart && todayStart < startOfDay(paydays[i + 1])) {
-      start = paydays[i];
-      next = paydays[i + 1];
+  let start = salaryDays[0];
+  let next = salaryDays[salaryDays.length - 1];
+  for (let i = 0; i < salaryDays.length - 1; i += 1) {
+    if (startOfDay(salaryDays[i]) <= todayStart && todayStart < startOfDay(salaryDays[i + 1])) {
+      start = salaryDays[i];
+      next = salaryDays[i + 1];
       break;
     }
   }
@@ -121,8 +120,10 @@ export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, to
   });
   const expenses = cycleTx.filter((t) => !t.type || t.type === 'expense');
   const income = cycleTx.filter((t) => t.type === 'income');
+  const allocations = cycleTx.filter((t) => t.type === 'allocation');
   const totalSpent = expenses.reduce((sum, t) => sum + Number(t.amount || 0), 0);
   const totalIncome = income.reduce((sum, t) => sum + Number(t.amount || 0), 0);
+  const totalAllocated = allocations.reduce((sum, t) => sum + Number(t.amount || 0), 0);
   const accountBalance = (settings.accounts || [])
     .filter((a) => a.includeInCashflow !== false)
     .reduce((sum, a) => sum + Number(a.balance || 0), 0);
@@ -139,11 +140,11 @@ export function calculateDashboard(transactions, settings = DEFAULT_SETTINGS, to
   const burnRate = totalSpent / elapsedDays;
   const forecastBalance = freeMoney - burnRate * cycle.daysLeft;
 
-  const byCategory = groupByCategory(expenses, settings.categories);
-  return { cycle, accountBalance, totalSpent, totalIncome, futureObligations, plannedGoals, freeMoney, dailyLimit, burnRate, forecastBalance, byCategory, pendingObligations };
+  const byCategory = groupByCategory(expenses, settings.categories, elapsedDays);
+  return { cycle, elapsedDays, accountBalance, totalSpent, totalIncome, totalAllocated, futureObligations, plannedGoals, freeMoney, dailyLimit, burnRate, forecastBalance, byCategory, pendingObligations };
 }
 
-function groupByCategory(expenses, categories) {
+function groupByCategory(expenses, categories, elapsedDays = 1) {
   const map = new Map(categories.map((c) => [c.name, { ...c, spent: 0 }]));
   for (const tx of expenses) {
     const name = tx.category || 'Прочее';
@@ -151,6 +152,7 @@ function groupByCategory(expenses, categories) {
     map.get(name).spent += Number(tx.amount || 0);
   }
   return Array.from(map.values())
+    .map((category) => ({ ...category, dailyBurn: category.spent / Math.max(1, elapsedDays) }))
     .filter((c) => c.spent > 0 || c.monthlyLimit > 0)
     .sort((a, b) => b.spent - a.spent);
 }

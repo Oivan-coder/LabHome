@@ -595,6 +595,15 @@ h2 {
   color: #1f7a3a;
 }
 
+.tx-row.allocation {
+  border-color: rgba(0, 122, 255, .22);
+  background: #f1f7ff;
+}
+
+.tx-row.allocation .tx-side b {
+  color: #365f91;
+}
+
 .tx-side {
   display: grid;
   justify-items: end;
