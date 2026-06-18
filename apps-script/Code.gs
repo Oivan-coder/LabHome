@@ -106,7 +106,8 @@ function buildAppSettings_(tables) {
   });
 
   const obligations = tables.obligations.map(function (obligation) {
-    const actual = reviewActual_(monthlyReview, obligation.obligation_id);
+    const review = reviewRow_(monthlyReview, obligation.obligation_id);
+    const actual = review ? toNumber_(review.actual_amount) : null;
     return {
       id: obligation.obligation_id,
       name: obligation.name,
@@ -114,12 +115,14 @@ function buildAppSettings_(tables) {
       baselineAmount: toNumber_(obligation.baseline_amount),
       dueDay: toNullableNumber_(obligation.due_day),
       active: actual !== null,
+      paid: review && review.status === 'done',
       askMonthly: toBool_(obligation.ask_monthly, true)
     };
   });
 
   const goals = tables.goals.map(function (goal) {
-    const actual = reviewActual_(monthlyReview, goal.goal_id);
+    const review = reviewRow_(monthlyReview, goal.goal_id);
+    const actual = review ? toNumber_(review.actual_amount) : null;
     return {
       id: goal.goal_id,
       name: goal.name,
@@ -158,13 +161,14 @@ function readTransactionsForApp_(tables) {
       const budgetGroup = budgetGroupsById[row.budget_group_id] || {};
       const account = accountsById[row.account_id] || {};
       const isIncome = row.type === 'income';
+      const isAllocation = row.type === 'allocation';
       return {
         id: row.transaction_id,
         date: normalizeValue_(row.date),
         type: row.type || 'expense',
         account: account.name || row.account_id || '',
         accountId: row.account_id || '',
-        category: budgetGroup.name || category.name || (isIncome ? row.original_category : row.category_id) || 'Прочее',
+        category: budgetGroup.name || category.name || (isIncome || isAllocation ? row.original_category : row.category_id) || 'Прочее',
         categoryId: row.category_id || '',
         categoryDetail: category.name || '',
         budgetGroupId: row.budget_group_id || '',
@@ -181,6 +185,9 @@ function readTransactionsForApp_(tables) {
 
 function appendTransaction_(payload) {
   const tx = normalizeIncomingTransaction_(payload);
+  const existing = findTransactionById_(tx.transaction_id);
+  if (existing) return { ok: true, duplicate: true, transaction: readTransactionRowForApp_(existing.row) };
+
   const sheet = getSheet_(SHEETS.transactions);
   const headers = getHeaders_(sheet);
   const row = headers.map(function (header) { return tx[header] === undefined ? '' : tx[header]; });
@@ -225,7 +232,8 @@ function answerMonthlyReview_(payload) {
   };
 
   const updated = updateMonthlyReviewRow_(period, itemId, patch);
-  return { ok: true, review: updated };
+  const allocation = upsertAllocationForMonthlyReview_(updated, payload);
+  return { ok: true, review: updated, allocation: allocation };
 }
 
 function syncBatch_(payload) {
@@ -299,11 +307,15 @@ function resolveCategory_(payload) {
 
 function applyTransactionToAccountBalance_(tx) {
   const type = tx.type || 'expense';
-  if (type !== 'income' && type !== 'expense') return null;
+  if (type !== 'income' && type !== 'expense' && type !== 'allocation') return null;
 
   const accountId = tx.account_id || resolveAccountId_();
   const amount = Math.abs(toNumber_(tx.amount));
   const delta = type === 'income' ? amount : -amount;
+  return applyTransactionDeltaToAccountBalance_(accountId, delta);
+}
+
+function applyTransactionDeltaToAccountBalance_(accountId, delta) {
   const sheet = getSheet_(SHEETS.accounts);
   const values = sheet.getDataRange().getValues();
   const headers = values[0].map(function (header) { return String(header || '').trim(); });
@@ -322,6 +334,112 @@ function applyTransactionToAccountBalance_(tx) {
   }
 
   throw new Error('Account not found: ' + accountId);
+}
+
+function upsertAllocationForMonthlyReview_(reviewRow, payload) {
+  const period = reviewRow.period || payload.period || currentPeriod_();
+  const itemId = reviewRow.item_id || payload.item_id || payload.id;
+  if (!itemId) throw new Error('item_id is required for allocation');
+
+  const transactionId = 'review-' + period + '-' + itemId;
+  const amount = Math.max(0, toNumber_(reviewRow.actual_amount !== undefined ? reviewRow.actual_amount : payload.actual_amount));
+  const accountId = payload.account_id || payload.accountId || resolveAccountId_(payload.account);
+  const category = resolveAllocationCategory_(reviewRow);
+  const now = new Date();
+  const patch = {
+    transaction_id: transactionId,
+    date: parseDate_(payload.date || now),
+    type: 'allocation',
+    account_id: accountId,
+    category_id: category.categoryId,
+    budget_group_id: category.budgetGroupId,
+    original_category: category.name || reviewRow.prompt || reviewRow.item_id || 'Распределение',
+    description: reviewRow.prompt || payload.notes || reviewRow.notes || 'Распределение',
+    amount: amount,
+    currency: payload.currency || 'RUB',
+    review_needed: false,
+    source: 'monthly-review',
+    source_row: itemId,
+    updated_at: now,
+    notes: reviewRow.notes || payload.notes || ''
+  };
+
+  const existing = findTransactionById_(transactionId);
+  if (!existing) {
+    patch.created_at = now;
+    appendTransactionRow_(patch);
+    applyTransactionDeltaToAccountBalance_(accountId, -amount);
+    return readTransactionRowForApp_(patch);
+  }
+
+  const oldAmount = Math.max(0, toNumber_(existing.row.amount));
+  const oldAccountId = existing.row.account_id || accountId;
+  updateRowById_(SHEETS.transactions, 'transaction_id', transactionId, patch);
+
+  if (String(oldAccountId) !== String(accountId)) {
+    applyTransactionDeltaToAccountBalance_(oldAccountId, oldAmount);
+    applyTransactionDeltaToAccountBalance_(accountId, -amount);
+  } else {
+    applyTransactionDeltaToAccountBalance_(accountId, oldAmount - amount);
+  }
+
+  return readTransactionRowForApp_(Object.assign({}, existing.row, patch));
+}
+
+function resolveAllocationCategory_(reviewRow) {
+  const tables = readAllTables_();
+  const itemType = reviewRow.item_type || '';
+  const targetId = reviewRow.target_id || '';
+  let categoryId = '';
+
+  if (itemType === 'obligation') {
+    const obligation = findBy_(tables.obligations, 'obligation_id', targetId);
+    categoryId = obligation && obligation.category_id;
+  }
+
+  if (itemType === 'goal' || itemType === 'investment') {
+    const goal = findBy_(tables.goals, 'goal_id', targetId);
+    categoryId = goal && goal.category_id;
+  }
+
+  if (categoryId) {
+    const category = findBy_(tables.categories, 'category_id', categoryId);
+    if (category) {
+      return {
+        categoryId: category.category_id,
+        budgetGroupId: category.budget_group_id || 'allocation',
+        name: category.name || reviewRow.prompt || 'Распределение'
+      };
+    }
+    return { categoryId: categoryId, budgetGroupId: 'allocation', name: reviewRow.prompt || 'Распределение' };
+  }
+
+  return { categoryId: 'allocation', budgetGroupId: 'allocation', name: reviewRow.prompt || 'Распределение' };
+}
+
+function appendTransactionRow_(tx) {
+  const sheet = getSheet_(SHEETS.transactions);
+  const headers = getHeaders_(sheet);
+  const row = headers.map(function (header) { return tx[header] === undefined ? '' : tx[header]; });
+  sheet.appendRow(row);
+  return objectFromRow_(headers, row);
+}
+
+function findTransactionById_(id) {
+  if (!id) return null;
+  const sheet = getSheet_(SHEETS.transactions);
+  const values = sheet.getDataRange().getValues();
+  if (values.length < 2) return null;
+  const headers = values[0].map(function (header) { return String(header || '').trim(); });
+  const idIndex = headers.indexOf('transaction_id');
+  if (idIndex === -1) throw new Error('Missing id column: transaction_id');
+
+  for (let i = 1; i < values.length; i += 1) {
+    if (String(values[i][idIndex]) === String(id)) {
+      return { rowNumber: i + 1, row: objectFromRow_(headers, values[i]) };
+    }
+  }
+  return null;
 }
 
 function defaultCategoryForGroup_(categories, groupId) {
@@ -495,11 +613,10 @@ function settingValue_(rows, key) {
   return row ? row.value : null;
 }
 
-function reviewActual_(rows, targetId) {
-  const row = rows.find(function (item) {
+function reviewRow_(rows, targetId) {
+  return rows.find(function (item) {
     return item.target_id === targetId && item.actual_amount !== null && item.actual_amount !== '';
   });
-  return row ? toNumber_(row.actual_amount) : null;
 }
 
 function resolveAccountId_(name) {
